@@ -3,6 +3,7 @@ package com.qigu.readword;
 import com.qigu.readword.config.ApplicationProperties;
 import com.qigu.readword.config.DefaultProfileUtil;
 
+import com.qigu.readword.mycode.wechat.config.BaiduAudioProperties;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class, BaiduAudioProperties.class})
 public class ReadWordApp {
 
     private static final Logger log = LoggerFactory.getLogger(ReadWordApp.class);

@@ -74,7 +74,7 @@ public class SocialService {
         mailService.sendSocialRegistrationValidationEmail(user, providerId);
     }
 
-    private User createUserIfNotExist(UserProfile userProfile, String langKey, String providerId, String imageUrl) {
+    public User createUserIfNotExist(UserProfile userProfile, String langKey, String providerId, String imageUrl) {
         String email = userProfile.getEmail();
         String userName = userProfile.getUsername();
         if (!StringUtils.isBlank(userName)) {
@@ -112,7 +112,7 @@ public class SocialService {
         newUser.setLangKey(langKey);
         newUser.setImageUrl(imageUrl);
 
-        userSearchRepository.save(newUser);
+//        userSearchRepository.save(newUser);
         return userRepository.save(newUser);
     }
 
@@ -122,10 +122,8 @@ public class SocialService {
      */
     private String getLoginDependingOnProviderId(UserProfile userProfile, String providerId) {
         switch (providerId) {
-            case "twitter":
-                return userProfile.getUsername().toLowerCase();
             default:
-                return userProfile.getFirstName().toLowerCase() + "_" + userProfile.getLastName().toLowerCase();
+                return userProfile.getUsername().toLowerCase();
         }
     }
 

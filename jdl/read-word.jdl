@@ -1,0 +1,77 @@
+entity Word{
+	name String required,
+    rank Double,
+    desctription TextBlob
+}
+entity Favorite{
+
+}
+
+entity WordGroup{
+	name String required,
+    rank Double
+}
+entity Image{
+	name String required,
+    url String required,
+    content ImageBlob
+}
+
+entity Audio{
+    url String,
+	name String required
+}
+
+entity Message{
+	name String required,
+    sendTime Instant required
+}
+entity MessageContent{
+    name String required,
+	content TextBlob required
+}
+entity MessageStatus{
+	status MessageStatusEnum required
+}
+enum MessageStatusEnum{
+	READ,DELETE
+}
+
+
+relationship ManyToOne {
+  Word{user(login)} to User,
+  WordGroup{user(login)} to User,
+  Word{WordGroup(name)}  to WordGroup
+}
+
+relationship ManyToMany{
+  Favorite{words(name)} to Word{favorites(id)}
+}
+
+relationship OneToOne {
+  Word{img(name)}  to Image,
+  Word{audio(name)}  to Audio,
+  WordGroup{img(name)} to Image,
+  Message{img(name)} to Image,
+  MessageStatus{msg(name)} to Message,
+  MessageStatus{user(login)} to User,
+  Favorite{user(login)} to User,
+  Message{content(name)} to MessageContent
+
+}
+
+
+
+// Set pagination options
+paginate * with pagination
+
+dto * with mapstruct
+
+//filter
+filter *
+
+// Set service options to all except few
+service all with serviceImpl
+// Set an angular suffix
+
+

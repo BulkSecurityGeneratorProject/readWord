@@ -7,6 +7,14 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entities",
+                "word": "Word",
+                "favorite": "Favorite",
+                "wordGroup": "Word Group",
+                "image": "Image",
+                "audio": "Audio",
+                "message": "Message",
+                "messageContent": "Message Content",
+                "messageStatus": "Message Status",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -29,6 +37,7 @@
                 "audits": "Audits",
                 "apidocs": "API",
                 "database": "Database",
+                "elasticsearch-reindex": "Reindex Elasticsearch",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
             "language": "Language"
