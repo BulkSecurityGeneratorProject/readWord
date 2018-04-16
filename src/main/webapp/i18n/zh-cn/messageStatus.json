@@ -1,0 +1,25 @@
+
+{
+    "readWordApp": {
+        "messageStatus" : {
+            "home": {
+                "title": "Message Statuses",
+                "createLabel": "创建新 Message Status",
+                "createOrEditLabel": "创建或编辑 Message Status",
+                "search": "查找 Message Status"
+            },
+            "created": "Message Status {{ param }} 创建成功",
+            "updated": "Message Status {{ param }} 更新成功",
+            "deleted": "Message Status {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Message Status {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Message Status"
+            },
+            "status": "Status",
+            "msg": "Msg",
+            "user": "User"
+        }
+    }
+}

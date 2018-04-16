@@ -1,0 +1,30 @@
+
+{
+    "readWordApp": {
+        "word" : {
+            "home": {
+                "title": "Words",
+                "createLabel": "创建新 Word",
+                "createOrEditLabel": "创建或编辑 Word",
+                "search": "查找 Word"
+            },
+            "created": "Word {{ param }} 创建成功",
+            "updated": "Word {{ param }} 更新成功",
+            "deleted": "Word {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Word {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Word"
+            },
+            "name": "Name",
+            "rank": "Rank",
+            "desctription": "Desctription",
+            "img": "Img",
+            "audio": "Audio",
+            "user": "User",
+            "wordGroup": "Word Group",
+            "favorites": "Favorites"
+        }
+    }
+}

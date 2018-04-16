@@ -1,0 +1,24 @@
+
+{
+    "readWordApp": {
+        "audio" : {
+            "home": {
+                "title": "Audio",
+                "createLabel": "Create a new Audio",
+                "createOrEditLabel": "Create or edit a Audio",
+                "search": "Search for Audio"
+            },
+            "created": "A new Audio is created with identifier {{ param }}",
+            "updated": "A Audio is updated with identifier {{ param }}",
+            "deleted": "A Audio is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Audio {{ id }}?"
+            },
+            "detail": {
+                "title": "Audio"
+            },
+            "url": "Url",
+            "name": "Name"
+        }
+    }
+}

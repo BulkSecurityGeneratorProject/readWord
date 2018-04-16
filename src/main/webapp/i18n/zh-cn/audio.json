@@ -1,0 +1,24 @@
+
+{
+    "readWordApp": {
+        "audio" : {
+            "home": {
+                "title": "Audio",
+                "createLabel": "创建新 Audio",
+                "createOrEditLabel": "创建或编辑 Audio",
+                "search": "查找 Audio"
+            },
+            "created": "Audio {{ param }} 创建成功",
+            "updated": "Audio {{ param }} 更新成功",
+            "deleted": "Audio {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Audio {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Audio"
+            },
+            "url": "Url",
+            "name": "Name"
+        }
+    }
+}

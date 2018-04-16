@@ -1,0 +1,30 @@
+
+<div *ngIf="audio">
+    <h2><span jhiTranslate="readWordApp.audio.detail.title">Audio</span> {{audio.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="readWordApp.audio.url">Url</span></dt>
+        <dd>
+            <span>{{audio.url}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.audio.name">Name</span></dt>
+        <dd>
+            <span>{{audio.name}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'audio/'+ audio.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

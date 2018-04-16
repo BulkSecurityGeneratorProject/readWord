@@ -1,0 +1,32 @@
+
+<div *ngIf="favorite">
+    <h2><span jhiTranslate="readWordApp.favorite.detail.title">Favorite</span> {{favorite.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="readWordApp.favorite.user">User</span></dt>
+        <dd>
+            {{favorite.userLogin}}
+        </dd>
+        <dt><span jhiTranslate="readWordApp.favorite.words">Words</span></dt>
+        <dd>
+            <span *ngFor="let words of favorite.words; let last = last">
+                <a [routerLink]="['/word', words?.id ]">{{words.name}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'favorite/'+ favorite.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

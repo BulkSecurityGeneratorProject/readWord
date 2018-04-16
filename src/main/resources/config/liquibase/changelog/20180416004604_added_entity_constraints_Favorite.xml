@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Favorite.
+    -->
+    <changeSet id="20180416004604-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="favorite"
+                                 constraintName="fk_favorite_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="favorites_id"
+                                 baseTableName="favorite_words"
+                                 constraintName="fk_favorite_words_favorites_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="favorite"/>
+        <addForeignKeyConstraint baseColumnNames="words_id"
+                                 baseTableName="favorite_words"
+                                 constraintName="fk_favorite_words_words_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="word"/>
+        
+    </changeSet>
+</databaseChangeLog>

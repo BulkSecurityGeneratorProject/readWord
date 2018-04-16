@@ -1,0 +1,9 @@
+{
+    "readWordApp": {
+        "MessageStatusEnum" : {
+            "null": "",
+            "READ": "READ",
+            "DELETE": "DELETE"
+        }
+    }
+}

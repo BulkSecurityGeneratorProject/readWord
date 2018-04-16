@@ -1,0 +1,24 @@
+
+{
+    "readWordApp": {
+        "messageContent" : {
+            "home": {
+                "title": "Message Contents",
+                "createLabel": "Create a new Message Content",
+                "createOrEditLabel": "Create or edit a Message Content",
+                "search": "Search for Message Content"
+            },
+            "created": "A new Message Content is created with identifier {{ param }}",
+            "updated": "A Message Content is updated with identifier {{ param }}",
+            "deleted": "A Message Content is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Message Content {{ id }}?"
+            },
+            "detail": {
+                "title": "Message Content"
+            },
+            "name": "Name",
+            "content": "Content"
+        }
+    }
+}

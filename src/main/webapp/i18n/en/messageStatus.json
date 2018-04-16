@@ -1,0 +1,25 @@
+
+{
+    "readWordApp": {
+        "messageStatus" : {
+            "home": {
+                "title": "Message Statuses",
+                "createLabel": "Create a new Message Status",
+                "createOrEditLabel": "Create or edit a Message Status",
+                "search": "Search for Message Status"
+            },
+            "created": "A new Message Status is created with identifier {{ param }}",
+            "updated": "A Message Status is updated with identifier {{ param }}",
+            "deleted": "A Message Status is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Message Status {{ id }}?"
+            },
+            "detail": {
+                "title": "Message Status"
+            },
+            "status": "Status",
+            "msg": "Msg",
+            "user": "User"
+        }
+    }
+}

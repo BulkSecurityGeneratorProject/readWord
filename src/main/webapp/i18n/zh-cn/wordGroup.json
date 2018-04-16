@@ -1,0 +1,26 @@
+
+{
+    "readWordApp": {
+        "wordGroup" : {
+            "home": {
+                "title": "Word Groups",
+                "createLabel": "创建新 Word Group",
+                "createOrEditLabel": "创建或编辑 Word Group",
+                "search": "查找 Word Group"
+            },
+            "created": "Word Group {{ param }} 创建成功",
+            "updated": "Word Group {{ param }} 更新成功",
+            "deleted": "Word Group {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Word Group {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Word Group"
+            },
+            "name": "Name",
+            "rank": "Rank",
+            "img": "Img",
+            "user": "User"
+        }
+    }
+}

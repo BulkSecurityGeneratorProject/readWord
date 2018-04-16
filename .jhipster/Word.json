@@ -1,0 +1,64 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "img",
+            "otherEntityName": "image",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "word"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "audio",
+            "otherEntityName": "audio",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "word"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "wordGroup",
+            "otherEntityName": "wordGroup",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "favorites",
+            "otherEntityName": "favorite",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "words"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "rank",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "desctription",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "changelogDate": "20180416004603",
+    "entityTableName": "word",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true
+}

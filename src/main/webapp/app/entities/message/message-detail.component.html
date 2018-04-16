@@ -1,0 +1,42 @@
+
+<div *ngIf="message">
+    <h2><span jhiTranslate="readWordApp.message.detail.title">Message</span> {{message.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="readWordApp.message.name">Name</span></dt>
+        <dd>
+            <span>{{message.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.message.sendTime">Send Time</span></dt>
+        <dd>
+            <span>{{message.sendTime | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.message.img">Img</span></dt>
+        <dd>
+            <div *ngIf="message.imgId">
+                <a [routerLink]="['/image', message.imgId]">{{message.imgName}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.message.content">Content</span></dt>
+        <dd>
+            <div *ngIf="message.contentId">
+                <a [routerLink]="['/message-content', message.contentId]">{{message.contentName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'message/'+ message.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,26 @@
+
+{
+    "readWordApp": {
+        "wordGroup" : {
+            "home": {
+                "title": "Word Groups",
+                "createLabel": "Create a new Word Group",
+                "createOrEditLabel": "Create or edit a Word Group",
+                "search": "Search for Word Group"
+            },
+            "created": "A new Word Group is created with identifier {{ param }}",
+            "updated": "A Word Group is updated with identifier {{ param }}",
+            "deleted": "A Word Group is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Word Group {{ id }}?"
+            },
+            "detail": {
+                "title": "Word Group"
+            },
+            "name": "Name",
+            "rank": "Rank",
+            "img": "Img",
+            "user": "User"
+        }
+    }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Word.
+    -->
+    <changeSet id="20180416004603-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="img_id"
+                                 baseTableName="word"
+                                 constraintName="fk_word_img_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
+
+        <addForeignKeyConstraint baseColumnNames="audio_id"
+                                 baseTableName="word"
+                                 constraintName="fk_word_audio_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="audio"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="word"
+                                 constraintName="fk_word_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="word_group_id"
+                                 baseTableName="word"
+                                 constraintName="fk_word_word_group_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="word_group"/>
+
+    </changeSet>
+</databaseChangeLog>

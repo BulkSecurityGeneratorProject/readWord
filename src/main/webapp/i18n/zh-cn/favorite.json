@@ -1,0 +1,24 @@
+
+{
+    "readWordApp": {
+        "favorite" : {
+            "home": {
+                "title": "Favorites",
+                "createLabel": "创建新 Favorite",
+                "createOrEditLabel": "创建或编辑 Favorite",
+                "search": "查找 Favorite"
+            },
+            "created": "Favorite {{ param }} 创建成功",
+            "updated": "Favorite {{ param }} 更新成功",
+            "deleted": "Favorite {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Favorite {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Favorite"
+            },
+            "user": "User",
+            "words": "Words"
+        }
+    }
+}
