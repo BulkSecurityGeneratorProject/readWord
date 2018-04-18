@@ -73,9 +73,11 @@ public class WxMaUserController {
             WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
             String openid = session.getOpenid();
             String sessionKey = session.getSessionKey();
+            String unionid = session.getUnionid();
 //            String expiresIn = session.getExpiresin().toString();
-            this.logger.info(openid);
-            this.logger.info(sessionKey);
+            this.logger.info("opeind->{}", openid);
+            this.logger.info("sessionKey->{}", sessionKey);
+            this.logger.info("unionid->{}", unionid);
 //            this.logger.info(expiresIn);
             return loginJhipster(openid, sessionKey, "", request);
         } catch (WxErrorException e) {
@@ -165,6 +167,7 @@ public class WxMaUserController {
             user.setFirstName(userInfo.getNickName());
             user.setLastName(userInfo.getNickName());
             user.setImageUrl(userInfo.getAvatarUrl());
+            user.setHasUpdateInfo(true);
             userRepository.save(user);
             List<SocialUserConnection> socialUserConnections = socialUserConnectionRepository.findAllByUserIdAndProviderIdOrderByRankAsc(user.getLogin(), ReadWordConstants.Wxma);
             if (socialUserConnections.size() > 0) {

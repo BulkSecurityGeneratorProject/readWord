@@ -13,6 +13,7 @@ public interface WordMapper extends EntityMapper<WordDTO, Word> {
 
     @Mapping(source = "img.id", target = "imgId")
     @Mapping(source = "img.name", target = "imgName")
+    @Mapping(source = "img.url", target = "imgUrl")
     @Mapping(source = "audio.id", target = "audioId")
     @Mapping(source = "audio.name", target = "audioName")
     @Mapping(source = "user.id", target = "userId")

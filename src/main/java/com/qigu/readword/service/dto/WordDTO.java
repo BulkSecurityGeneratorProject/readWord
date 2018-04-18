@@ -27,6 +27,8 @@ public class WordDTO implements Serializable {
 
     private String imgName;
 
+    private String imgUrl;
+
     private Long audioId;
 
     private String audioName;
@@ -38,6 +40,8 @@ public class WordDTO implements Serializable {
     private Long wordGroupId;
 
     private String wordGroupName;
+
+    private Boolean isFavorite;
 
     public Long getId() {
         return id;
@@ -133,6 +137,22 @@ public class WordDTO implements Serializable {
 
     public void setWordGroupName(String wordGroupName) {
         this.wordGroupName = wordGroupName;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Boolean getFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override

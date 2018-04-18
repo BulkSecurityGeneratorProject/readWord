@@ -53,6 +53,9 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private Boolean hasUpdateInfo;
+
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -66,6 +69,7 @@ public class UserDTO {
         this.activated = user.getActivated();
         this.imageUrl = user.getImageUrl();
         this.langKey = user.getLangKey();
+        this.hasUpdateInfo = user.getHasUpdateInfo();
         this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
@@ -179,6 +183,14 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
+    public Boolean getHasUpdateInfo() {
+        return hasUpdateInfo;
+    }
+
+    public void setHasUpdateInfo(Boolean hasUpdateInfo) {
+        this.hasUpdateInfo = hasUpdateInfo;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -194,6 +206,7 @@ public class UserDTO {
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
+            ", hasUpdateInfo='" + hasUpdateInfo + '\'' +
             "}";
     }
 }

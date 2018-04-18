@@ -83,6 +83,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @Column(name = "has_update_info")
+    private Boolean hasUpdateInfo = false;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -198,6 +201,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.authorities = authorities;
     }
 
+    public Boolean getHasUpdateInfo() {
+        return hasUpdateInfo;
+    }
+
+    public void setHasUpdateInfo(Boolean hasUpdateInfo) {
+        this.hasUpdateInfo = hasUpdateInfo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -227,6 +238,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
+            ", hasUpdateInfo='" + hasUpdateInfo + '\'' +
             "}";
     }
+
 }

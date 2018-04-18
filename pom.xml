@@ -535,7 +535,7 @@
                     <url>jdbc:mysql://localhost:3306/readWord</url>
                     <defaultSchemaName>readWord</defaultSchemaName>
                     <username>root</username>
-                    <password></password>
+                    <password>wxroot</password>
                     <referenceUrl>
                         hibernate:spring:com.qigu.readword.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
                     </referenceUrl>
