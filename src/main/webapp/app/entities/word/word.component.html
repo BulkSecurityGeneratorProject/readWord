@@ -33,6 +33,7 @@
             <th jhiSortBy="name"><span jhiTranslate="readWordApp.word.name">Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="rank"><span jhiTranslate="readWordApp.word.rank">Rank</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="desctription"><span jhiTranslate="readWordApp.word.desctription">Desctription</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lifeStatus"><span jhiTranslate="readWordApp.word.lifeStatus">Life Status</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="imgName"><span jhiTranslate="readWordApp.word.img">Img</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="audioName"><span jhiTranslate="readWordApp.word.audio">Audio</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="userLogin"><span jhiTranslate="readWordApp.word.user">User</span> <span class="fa fa-sort"></span></th>
@@ -46,6 +47,7 @@
                 <td>{{word.name}}</td>
                 <td>{{word.rank}}</td>
                 <td>{{word.desctription}}</td>
+                <td jhiTranslate="{{'readWordApp.LifeStatus.' + word.lifeStatus}}">{{word.lifeStatus}}</td>
                 <td>
                     <div *ngIf="word.imgId">
                         <a [routerLink]="['../image', word.imgId  ]" >{{word.imgName}}</a>

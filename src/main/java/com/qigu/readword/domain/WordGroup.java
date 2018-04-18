@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.qigu.readword.domain.enumeration.LifeStatus;
+
 /**
  * A WordGroup.
  */
@@ -28,6 +30,10 @@ public class WordGroup implements Serializable {
 
     @Column(name = "rank")
     private Double rank;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "life_status")
+    private LifeStatus lifeStatus;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -69,6 +75,19 @@ public class WordGroup implements Serializable {
 
     public void setRank(Double rank) {
         this.rank = rank;
+    }
+
+    public LifeStatus getLifeStatus() {
+        return lifeStatus;
+    }
+
+    public WordGroup lifeStatus(LifeStatus lifeStatus) {
+        this.lifeStatus = lifeStatus;
+        return this;
+    }
+
+    public void setLifeStatus(LifeStatus lifeStatus) {
+        this.lifeStatus = lifeStatus;
     }
 
     public Image getImg() {
@@ -124,6 +143,7 @@ public class WordGroup implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", rank=" + getRank() +
+            ", lifeStatus='" + getLifeStatus() + "'" +
             "}";
     }
 }

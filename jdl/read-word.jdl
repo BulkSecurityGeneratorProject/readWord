@@ -1,7 +1,17 @@
+enum LifeStatus{
+ DELETE,AVAILABLE
+}
+entity Slide{
+	name String required,
+    rank Double,
+    lifeStatus LifeStatus
+}
+
 entity Word{
 	name String required,
     rank Double,
-    desctription TextBlob
+    desctription TextBlob,
+    lifeStatus LifeStatus
 }
 entity Favorite{
 
@@ -9,7 +19,8 @@ entity Favorite{
 
 entity WordGroup{
 	name String required,
-    rank Double
+    rank Double,
+    lifeStatus LifeStatus
 }
 entity Image{
 	name String required,
@@ -56,7 +67,8 @@ relationship OneToOne {
   MessageStatus{msg(name)} to Message,
   MessageStatus{user(login)} to User,
   Favorite{user(login)} to User,
-  Message{content(name)} to MessageContent
+  Message{content(name)} to MessageContent,
+  Slide{img(name)}  to Image
 
 }
 

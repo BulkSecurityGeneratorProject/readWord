@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import com.qigu.readword.domain.enumeration.LifeStatus;
 
 /**
  * A DTO for the WordGroup entity.
@@ -18,6 +19,8 @@ public class WordGroupDTO implements Serializable {
     private String name;
 
     private Double rank;
+
+    private LifeStatus lifeStatus;
 
     private Long imgId;
 
@@ -52,6 +55,14 @@ public class WordGroupDTO implements Serializable {
 
     public void setRank(Double rank) {
         this.rank = rank;
+    }
+
+    public LifeStatus getLifeStatus() {
+        return lifeStatus;
+    }
+
+    public void setLifeStatus(LifeStatus lifeStatus) {
+        this.lifeStatus = lifeStatus;
     }
 
     public Long getImgId() {
@@ -104,7 +115,7 @@ public class WordGroupDTO implements Serializable {
         }
 
         WordGroupDTO wordGroupDTO = (WordGroupDTO) o;
-        if (wordGroupDTO.getId() == null || getId() == null) {
+        if(wordGroupDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), wordGroupDTO.getId());
@@ -122,6 +133,7 @@ public class WordGroupDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", rank=" + getRank() +
             ", imgUrl=" + getImgUrl() +
+            ", lifeStatus='" + getLifeStatus() + "'" +
             "}";
     }
 }

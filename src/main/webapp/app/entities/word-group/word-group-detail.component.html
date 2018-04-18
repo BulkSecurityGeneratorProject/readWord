@@ -12,6 +12,10 @@
         <dd>
             <span>{{wordGroup.rank}}</span>
         </dd>
+        <dt><span jhiTranslate="readWordApp.wordGroup.lifeStatus">Life Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'readWordApp.LifeStatus.' + wordGroup.lifeStatus}}">{{wordGroup.lifeStatus}}</span>
+        </dd>
         <dt><span jhiTranslate="readWordApp.wordGroup.img">Img</span></dt>
         <dd>
             <div *ngIf="wordGroup.imgId">

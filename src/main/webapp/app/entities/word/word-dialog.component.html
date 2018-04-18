@@ -33,6 +33,13 @@
             <textarea class="form-control" name="desctription" id="field_desctription"
                 [(ngModel)]="word.desctription" ></textarea>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.word.lifeStatus" for="field_lifeStatus">Life Status</label>
+            <select class="form-control" name="lifeStatus" [(ngModel)]="word.lifeStatus" id="field_lifeStatus" >
+                <option value="DELETE">{{'readWordApp.LifeStatus.DELETE' | translate}}</option>
+                <option value="AVAILABLE">{{'readWordApp.LifeStatus.AVAILABLE' | translate}}</option>
+            </select>
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="readWordApp.word.img" for="field_img">Img</label>

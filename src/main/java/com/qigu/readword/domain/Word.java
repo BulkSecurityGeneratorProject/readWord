@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import com.qigu.readword.domain.enumeration.LifeStatus;
+
 /**
  * A Word.
  */
@@ -35,6 +37,10 @@ public class Word implements Serializable {
     @Lob
     @Column(name = "desctription")
     private String desctription;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "life_status")
+    private LifeStatus lifeStatus;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -100,6 +106,19 @@ public class Word implements Serializable {
 
     public void setDesctription(String desctription) {
         this.desctription = desctription;
+    }
+
+    public LifeStatus getLifeStatus() {
+        return lifeStatus;
+    }
+
+    public Word lifeStatus(LifeStatus lifeStatus) {
+        this.lifeStatus = lifeStatus;
+        return this;
+    }
+
+    public void setLifeStatus(LifeStatus lifeStatus) {
+        this.lifeStatus = lifeStatus;
     }
 
     public Image getImg() {
@@ -207,6 +226,7 @@ public class Word implements Serializable {
             ", name='" + getName() + "'" +
             ", rank=" + getRank() +
             ", desctription='" + getDesctription() + "'" +
+            ", lifeStatus='" + getLifeStatus() + "'" +
             "}";
     }
 }

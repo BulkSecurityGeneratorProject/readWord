@@ -1,6 +1,7 @@
 package com.qigu.readword.service.dto;
 
 import java.io.Serializable;
+import com.qigu.readword.domain.enumeration.LifeStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -23,6 +24,12 @@ import io.github.jhipster.service.filter.StringFilter;
  * fix type specific filters.
  */
 public class WordGroupCriteria implements Serializable {
+    /**
+     * Class for filtering LifeStatus
+     */
+    public static class LifeStatusFilter extends Filter<LifeStatus> {
+    }
+
     private static final long serialVersionUID = 1L;
 
 
@@ -31,6 +38,8 @@ public class WordGroupCriteria implements Serializable {
     private StringFilter name;
 
     private DoubleFilter rank;
+
+    private LifeStatusFilter lifeStatus;
 
     private LongFilter imgId;
 
@@ -63,6 +72,14 @@ public class WordGroupCriteria implements Serializable {
         this.rank = rank;
     }
 
+    public LifeStatusFilter getLifeStatus() {
+        return lifeStatus;
+    }
+
+    public void setLifeStatus(LifeStatusFilter lifeStatus) {
+        this.lifeStatus = lifeStatus;
+    }
+
     public LongFilter getImgId() {
         return imgId;
     }
@@ -85,6 +102,7 @@ public class WordGroupCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
                 (rank != null ? "rank=" + rank + ", " : "") +
+                (lifeStatus != null ? "lifeStatus=" + lifeStatus + ", " : "") +
                 (imgId != null ? "imgId=" + imgId + ", " : "") +
                 (userId != null ? "userId=" + userId + ", " : "") +
             "}";

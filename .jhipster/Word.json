@@ -53,6 +53,11 @@
             "fieldName": "desctription",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "lifeStatus",
+            "fieldType": "LifeStatus",
+            "fieldValues": "DELETE,AVAILABLE"
         }
     ],
     "changelogDate": "20180416004603",

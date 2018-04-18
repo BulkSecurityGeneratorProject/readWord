@@ -16,6 +16,10 @@
         <dd>
             <span>{{word.desctription}}</span>
         </dd>
+        <dt><span jhiTranslate="readWordApp.word.lifeStatus">Life Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'readWordApp.LifeStatus.' + word.lifeStatus}}">{{word.lifeStatus}}</span>
+        </dd>
         <dt><span jhiTranslate="readWordApp.word.img">Img</span></dt>
         <dd>
             <div *ngIf="word.imgId">

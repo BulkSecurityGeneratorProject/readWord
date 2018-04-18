@@ -28,6 +28,13 @@
             <input type="number" class="form-control" name="rank" id="field_rank"
                 [(ngModel)]="wordGroup.rank" />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.wordGroup.lifeStatus" for="field_lifeStatus">Life Status</label>
+            <select class="form-control" name="lifeStatus" [(ngModel)]="wordGroup.lifeStatus" id="field_lifeStatus" >
+                <option value="DELETE">{{'readWordApp.LifeStatus.DELETE' | translate}}</option>
+                <option value="AVAILABLE">{{'readWordApp.LifeStatus.AVAILABLE' | translate}}</option>
+            </select>
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="readWordApp.wordGroup.img" for="field_img">Img</label>

@@ -21,6 +21,7 @@ import com.qigu.readword.service.dto.WordCriteria;
 
 import com.qigu.readword.service.dto.WordDTO;
 import com.qigu.readword.service.mapper.WordMapper;
+import com.qigu.readword.domain.enumeration.LifeStatus;
 
 /**
  * Service for executing complex queries for Word entities in the database.
@@ -87,6 +88,9 @@ public class WordQueryService extends QueryService<Word> {
             }
             if (criteria.getRank() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRank(), Word_.rank));
+            }
+            if (criteria.getLifeStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getLifeStatus(), Word_.lifeStatus));
             }
             if (criteria.getImgId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getImgId(), Word_.img, Image_.id));

@@ -27,6 +27,11 @@
         {
             "fieldName": "rank",
             "fieldType": "Double"
+        },
+        {
+            "fieldName": "lifeStatus",
+            "fieldType": "LifeStatus",
+            "fieldValues": "DELETE,AVAILABLE"
         }
     ],
     "changelogDate": "20180416004605",

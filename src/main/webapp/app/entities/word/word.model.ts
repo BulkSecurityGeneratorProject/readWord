@@ -1,11 +1,17 @@
 import { BaseEntity } from './../../shared';
 
+export const enum LifeStatus {
+    'DELETE',
+    'AVAILABLE'
+}
+
 export class Word implements BaseEntity {
     constructor(
         public id?: number,
         public name?: string,
         public rank?: number,
         public desctription?: any,
+        public lifeStatus?: LifeStatus,
         public imgName?: string,
         public imgId?: number,
         public audioName?: string,

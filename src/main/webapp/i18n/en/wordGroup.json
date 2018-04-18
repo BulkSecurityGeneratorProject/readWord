@@ -19,6 +19,7 @@
             },
             "name": "Name",
             "rank": "Rank",
+            "lifeStatus": "Life Status",
             "img": "Img",
             "user": "User"
         }

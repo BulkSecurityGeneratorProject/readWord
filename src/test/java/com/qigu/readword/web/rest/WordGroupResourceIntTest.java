@@ -37,6 +37,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.qigu.readword.domain.enumeration.LifeStatus;
 /**
  * Test class for the WordGroupResource REST controller.
  *
@@ -51,6 +52,9 @@ public class WordGroupResourceIntTest {
 
     private static final Double DEFAULT_RANK = 1D;
     private static final Double UPDATED_RANK = 2D;
+
+    private static final LifeStatus DEFAULT_LIFE_STATUS = LifeStatus.DELETE;
+    private static final LifeStatus UPDATED_LIFE_STATUS = LifeStatus.AVAILABLE;
 
     @Autowired
     private WordGroupRepository wordGroupRepository;
@@ -103,7 +107,8 @@ public class WordGroupResourceIntTest {
     public static WordGroup createEntity(EntityManager em) {
         WordGroup wordGroup = new WordGroup()
             .name(DEFAULT_NAME)
-            .rank(DEFAULT_RANK);
+            .rank(DEFAULT_RANK)
+            .lifeStatus(DEFAULT_LIFE_STATUS);
         return wordGroup;
     }
 
@@ -131,6 +136,7 @@ public class WordGroupResourceIntTest {
         WordGroup testWordGroup = wordGroupList.get(wordGroupList.size() - 1);
         assertThat(testWordGroup.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testWordGroup.getRank()).isEqualTo(DEFAULT_RANK);
+        assertThat(testWordGroup.getLifeStatus()).isEqualTo(DEFAULT_LIFE_STATUS);
 
         // Validate the WordGroup in Elasticsearch
         WordGroup wordGroupEs = wordGroupSearchRepository.findOne(testWordGroup.getId());
@@ -188,7 +194,8 @@ public class WordGroupResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(wordGroup.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].rank").value(hasItem(DEFAULT_RANK.doubleValue())));
+            .andExpect(jsonPath("$.[*].rank").value(hasItem(DEFAULT_RANK.doubleValue())))
+            .andExpect(jsonPath("$.[*].lifeStatus").value(hasItem(DEFAULT_LIFE_STATUS.toString())));
     }
 
     @Test
@@ -203,7 +210,8 @@ public class WordGroupResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(wordGroup.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.rank").value(DEFAULT_RANK.doubleValue()));
+            .andExpect(jsonPath("$.rank").value(DEFAULT_RANK.doubleValue()))
+            .andExpect(jsonPath("$.lifeStatus").value(DEFAULT_LIFE_STATUS.toString()));
     }
 
     @Test
@@ -286,6 +294,45 @@ public class WordGroupResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllWordGroupsByLifeStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        wordGroupRepository.saveAndFlush(wordGroup);
+
+        // Get all the wordGroupList where lifeStatus equals to DEFAULT_LIFE_STATUS
+        defaultWordGroupShouldBeFound("lifeStatus.equals=" + DEFAULT_LIFE_STATUS);
+
+        // Get all the wordGroupList where lifeStatus equals to UPDATED_LIFE_STATUS
+        defaultWordGroupShouldNotBeFound("lifeStatus.equals=" + UPDATED_LIFE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllWordGroupsByLifeStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        wordGroupRepository.saveAndFlush(wordGroup);
+
+        // Get all the wordGroupList where lifeStatus in DEFAULT_LIFE_STATUS or UPDATED_LIFE_STATUS
+        defaultWordGroupShouldBeFound("lifeStatus.in=" + DEFAULT_LIFE_STATUS + "," + UPDATED_LIFE_STATUS);
+
+        // Get all the wordGroupList where lifeStatus equals to UPDATED_LIFE_STATUS
+        defaultWordGroupShouldNotBeFound("lifeStatus.in=" + UPDATED_LIFE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllWordGroupsByLifeStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        wordGroupRepository.saveAndFlush(wordGroup);
+
+        // Get all the wordGroupList where lifeStatus is not null
+        defaultWordGroupShouldBeFound("lifeStatus.specified=true");
+
+        // Get all the wordGroupList where lifeStatus is null
+        defaultWordGroupShouldNotBeFound("lifeStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllWordGroupsByImgIsEqualToSomething() throws Exception {
         // Initialize the database
         Image img = ImageResourceIntTest.createEntity(em);
@@ -330,7 +377,8 @@ public class WordGroupResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(wordGroup.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].rank").value(hasItem(DEFAULT_RANK.doubleValue())));
+            .andExpect(jsonPath("$.[*].rank").value(hasItem(DEFAULT_RANK.doubleValue())))
+            .andExpect(jsonPath("$.[*].lifeStatus").value(hasItem(DEFAULT_LIFE_STATUS.toString())));
     }
 
     /**
@@ -367,7 +415,8 @@ public class WordGroupResourceIntTest {
         em.detach(updatedWordGroup);
         updatedWordGroup
             .name(UPDATED_NAME)
-            .rank(UPDATED_RANK);
+            .rank(UPDATED_RANK)
+            .lifeStatus(UPDATED_LIFE_STATUS);
         WordGroupDTO wordGroupDTO = wordGroupMapper.toDto(updatedWordGroup);
 
         restWordGroupMockMvc.perform(put("/api/word-groups")
@@ -381,6 +430,7 @@ public class WordGroupResourceIntTest {
         WordGroup testWordGroup = wordGroupList.get(wordGroupList.size() - 1);
         assertThat(testWordGroup.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testWordGroup.getRank()).isEqualTo(UPDATED_RANK);
+        assertThat(testWordGroup.getLifeStatus()).isEqualTo(UPDATED_LIFE_STATUS);
 
         // Validate the WordGroup in Elasticsearch
         WordGroup wordGroupEs = wordGroupSearchRepository.findOne(testWordGroup.getId());
@@ -441,7 +491,8 @@ public class WordGroupResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(wordGroup.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].rank").value(hasItem(DEFAULT_RANK.doubleValue())));
+            .andExpect(jsonPath("$.[*].rank").value(hasItem(DEFAULT_RANK.doubleValue())))
+            .andExpect(jsonPath("$.[*].lifeStatus").value(hasItem(DEFAULT_LIFE_STATUS.toString())));
     }
 
     @Test

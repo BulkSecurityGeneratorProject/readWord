@@ -20,6 +20,7 @@
             "name": "Name",
             "rank": "Rank",
             "desctription": "Desctription",
+            "lifeStatus": "Life Status",
             "img": "Img",
             "audio": "Audio",
             "user": "User",

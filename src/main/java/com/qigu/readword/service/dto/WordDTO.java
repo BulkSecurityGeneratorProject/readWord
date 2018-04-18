@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Lob;
+import com.qigu.readword.domain.enumeration.LifeStatus;
 
 /**
  * A DTO for the Word entity.
@@ -22,6 +23,8 @@ public class WordDTO implements Serializable {
 
     @Lob
     private String desctription;
+
+    private LifeStatus lifeStatus;
 
     private Long imgId;
 
@@ -73,6 +76,14 @@ public class WordDTO implements Serializable {
 
     public void setDesctription(String desctription) {
         this.desctription = desctription;
+    }
+
+    public LifeStatus getLifeStatus() {
+        return lifeStatus;
+    }
+
+    public void setLifeStatus(LifeStatus lifeStatus) {
+        this.lifeStatus = lifeStatus;
     }
 
     public Long getImgId() {
@@ -183,6 +194,7 @@ public class WordDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", rank=" + getRank() +
             ", desctription='" + getDesctription() + "'" +
+            ", lifeStatus='" + getLifeStatus() + "'" +
             "}";
     }
 }

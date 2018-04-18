@@ -8,6 +8,7 @@ import { ReadWordAudioModule } from './audio/audio.module';
 import { ReadWordMessageModule } from './message/message.module';
 import { ReadWordMessageContentModule } from './message-content/message-content.module';
 import { ReadWordMessageStatusModule } from './message-status/message-status.module';
+import { ReadWordSlideModule } from './slide/slide.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ReadWordMessageStatusModule } from './message-status/message-status.mod
         ReadWordMessageModule,
         ReadWordMessageContentModule,
         ReadWordMessageStatusModule,
+        ReadWordSlideModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

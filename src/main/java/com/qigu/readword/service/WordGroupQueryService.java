@@ -21,6 +21,7 @@ import com.qigu.readword.service.dto.WordGroupCriteria;
 
 import com.qigu.readword.service.dto.WordGroupDTO;
 import com.qigu.readword.service.mapper.WordGroupMapper;
+import com.qigu.readword.domain.enumeration.LifeStatus;
 
 /**
  * Service for executing complex queries for WordGroup entities in the database.
@@ -87,6 +88,9 @@ public class WordGroupQueryService extends QueryService<WordGroup> {
             }
             if (criteria.getRank() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRank(), WordGroup_.rank));
+            }
+            if (criteria.getLifeStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getLifeStatus(), WordGroup_.lifeStatus));
             }
             if (criteria.getImgId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getImgId(), WordGroup_.img, Image_.id));
