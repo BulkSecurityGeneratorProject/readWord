@@ -1,0 +1,37 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "img",
+            "otherEntityName": "image",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "slide"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "rank",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "lifeStatus",
+            "fieldType": "LifeStatus",
+            "fieldValues": "DELETE,AVAILABLE"
+        }
+    ],
+    "changelogDate": "20180418014512",
+    "entityTableName": "slide",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true
+}

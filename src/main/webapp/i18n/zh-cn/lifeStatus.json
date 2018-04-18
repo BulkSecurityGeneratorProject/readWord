@@ -1,0 +1,9 @@
+{
+    "readWordApp": {
+        "LifeStatus" : {
+            "null": "",
+            "DELETE": "DELETE",
+            "AVAILABLE": "AVAILABLE"
+        }
+    }
+}
