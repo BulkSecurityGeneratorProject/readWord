@@ -20,6 +20,9 @@ logging:
         io.github.jhipster: INFO
 
 spring:
+    profiles:
+        active: prod
+        include: swagger
     devtools:
         restart:
             enabled: false
@@ -29,7 +32,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/readWord?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password:
+        password: ec.root
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -47,7 +50,7 @@ spring:
             hibernate.generate_statistics: false
     data:
         elasticsearch:
-            cluster-name:
+            cluster-name: elasticsearch
             cluster-nodes: localhost:9300
     mail:
         host: localhost

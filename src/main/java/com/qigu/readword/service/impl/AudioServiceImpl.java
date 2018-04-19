@@ -1,5 +1,6 @@
 package com.qigu.readword.service.impl;
 
+import com.qigu.readword.mycode.baidu.service.BaiduAudioService;
 import com.qigu.readword.service.AudioService;
 import com.qigu.readword.domain.Audio;
 import com.qigu.readword.repository.AudioRepository;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -31,10 +34,13 @@ public class AudioServiceImpl implements AudioService {
 
     private final AudioSearchRepository audioSearchRepository;
 
-    public AudioServiceImpl(AudioRepository audioRepository, AudioMapper audioMapper, AudioSearchRepository audioSearchRepository) {
+    private final BaiduAudioService baiduAudioService;
+
+    public AudioServiceImpl(AudioRepository audioRepository, AudioMapper audioMapper, AudioSearchRepository audioSearchRepository, BaiduAudioService baiduAudioService) {
         this.audioRepository = audioRepository;
         this.audioMapper = audioMapper;
         this.audioSearchRepository = audioSearchRepository;
+        this.baiduAudioService = baiduAudioService;
     }
 
     /**
@@ -48,6 +54,11 @@ public class AudioServiceImpl implements AudioService {
         log.debug("Request to save Audio : {}", audioDTO);
         Audio audio = audioMapper.toEntity(audioDTO);
         audio = audioRepository.save(audio);
+        Optional<String> audioPath = baiduAudioService.createAudio(audio.getId().toString(), audio.getName());
+        if (audioPath.isPresent()) {
+            audio.setUrl(audioPath.get());
+            audio = audioRepository.save(audio);
+        }
         AudioDTO result = audioMapper.toDto(audio);
         audioSearchRepository.save(audio);
         return result;
@@ -96,7 +107,7 @@ public class AudioServiceImpl implements AudioService {
     /**
      * Search for the audio corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */

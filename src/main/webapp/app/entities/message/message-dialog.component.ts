@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {Observable} from 'rxjs/Observable';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
 
-import { Message } from './message.model';
-import { MessagePopupService } from './message-popup.service';
-import { MessageService } from './message.service';
-import { Image, ImageService } from '../image';
-import { MessageContent, MessageContentService } from '../message-content';
+import {Message} from './message.model';
+import {MessagePopupService} from './message-popup.service';
+import {MessageService} from './message.service';
+import {Image, ImageService} from '../image';
+import {MessageContent, MessageContentService} from '../message-content';
 
 @Component({
     selector: 'jhi-message-dialog',
@@ -25,20 +25,18 @@ export class MessageDialogComponent implements OnInit {
 
     contents: MessageContent[];
 
-    constructor(
-        public activeModal: NgbActiveModal,
-        private jhiAlertService: JhiAlertService,
-        private messageService: MessageService,
-        private imageService: ImageService,
-        private messageContentService: MessageContentService,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(public activeModal: NgbActiveModal,
+                private jhiAlertService: JhiAlertService,
+                private messageService: MessageService,
+                private imageService: ImageService,
+                private messageContentService: MessageContentService,
+                private eventManager: JhiEventManager) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.imageService
-            .query({filter: 'message-is-null'})
+            .query({filter: 'message-is-null', sort: ['id,desc']})
             .subscribe((res: HttpResponse<Image[]>) => {
                 if (!this.message.imgId) {
                     this.imgs = res.body;
@@ -86,7 +84,7 @@ export class MessageDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: Message) {
-        this.eventManager.broadcast({ name: 'messageListModification', content: 'OK'});
+        this.eventManager.broadcast({name: 'messageListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -116,14 +114,13 @@ export class MessagePopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
-    constructor(
-        private route: ActivatedRoute,
-        private messagePopupService: MessagePopupService
-    ) {}
+    constructor(private route: ActivatedRoute,
+                private messagePopupService: MessagePopupService) {
+    }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
+            if (params['id']) {
                 this.messagePopupService
                     .open(MessageDialogComponent as Component, params['id']);
             } else {

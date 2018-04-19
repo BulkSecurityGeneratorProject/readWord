@@ -36,6 +36,8 @@ public class WordDTO implements Serializable {
 
     private String audioName;
 
+    private String audioUrl;
+
     private Long userId;
 
     private String userLogin;
@@ -164,6 +166,14 @@ public class WordDTO implements Serializable {
 
     public void setFavorite(Boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public String getAudioUrl() {
+        return audioUrl;
+    }
+
+    public void setAudioUrl(String audioUrl) {
+        this.audioUrl = audioUrl;
     }
 
     @Override

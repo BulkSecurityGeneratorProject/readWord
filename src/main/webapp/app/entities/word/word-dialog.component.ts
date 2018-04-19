@@ -1,19 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import {Observable} from 'rxjs/Observable';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager, JhiAlertService, JhiDataUtils} from 'ng-jhipster';
 
-import { Word } from './word.model';
-import { WordPopupService } from './word-popup.service';
-import { WordService } from './word.service';
-import { Image, ImageService } from '../image';
-import { Audio, AudioService } from '../audio';
-import { User, UserService } from '../../shared';
-import { WordGroup, WordGroupService } from '../word-group';
-import { Favorite, FavoriteService } from '../favorite';
+import {Word} from './word.model';
+import {WordPopupService} from './word-popup.service';
+import {WordService} from './word.service';
+import {Image, ImageService} from '../image';
+import {Audio, AudioService} from '../audio';
+import {User, UserService} from '../../shared';
+import {WordGroup, WordGroupService} from '../word-group';
+import {Favorite, FavoriteService} from '../favorite';
 
 @Component({
     selector: 'jhi-word-dialog',
@@ -34,24 +34,22 @@ export class WordDialogComponent implements OnInit {
 
     favorites: Favorite[];
 
-    constructor(
-        public activeModal: NgbActiveModal,
-        private dataUtils: JhiDataUtils,
-        private jhiAlertService: JhiAlertService,
-        private wordService: WordService,
-        private imageService: ImageService,
-        private audioService: AudioService,
-        private userService: UserService,
-        private wordGroupService: WordGroupService,
-        private favoriteService: FavoriteService,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(public activeModal: NgbActiveModal,
+                private dataUtils: JhiDataUtils,
+                private jhiAlertService: JhiAlertService,
+                private wordService: WordService,
+                private imageService: ImageService,
+                private audioService: AudioService,
+                private userService: UserService,
+                private wordGroupService: WordGroupService,
+                private favoriteService: FavoriteService,
+                private eventManager: JhiEventManager) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.imageService
-            .query({filter: 'word-is-null'})
+            .query({filter: 'word-is-null', sort: ['id,desc']})
             .subscribe((res: HttpResponse<Image[]>) => {
                 if (!this.word.imgId) {
                     this.imgs = res.body;
@@ -77,11 +75,17 @@ export class WordDialogComponent implements OnInit {
                 }
             }, (res: HttpErrorResponse) => this.onError(res.message));
         this.userService.query()
-            .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: HttpResponse<User[]>) => {
+                this.users = res.body;
+            }, (res: HttpErrorResponse) => this.onError(res.message));
         this.wordGroupService.query()
-            .subscribe((res: HttpResponse<WordGroup[]>) => { this.wordgroups = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: HttpResponse<WordGroup[]>) => {
+                this.wordgroups = res.body;
+            }, (res: HttpErrorResponse) => this.onError(res.message));
         this.favoriteService.query()
-            .subscribe((res: HttpResponse<Favorite[]>) => { this.favorites = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: HttpResponse<Favorite[]>) => {
+                this.favorites = res.body;
+            }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -117,7 +121,7 @@ export class WordDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: Word) {
-        this.eventManager.broadcast({ name: 'wordListModification', content: 'OK'});
+        this.eventManager.broadcast({name: 'wordListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -170,14 +174,13 @@ export class WordPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
-    constructor(
-        private route: ActivatedRoute,
-        private wordPopupService: WordPopupService
-    ) {}
+    constructor(private route: ActivatedRoute,
+                private wordPopupService: WordPopupService) {
+    }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
+            if (params['id']) {
                 this.wordPopupService
                     .open(WordDialogComponent as Component, params['id']);
             } else {

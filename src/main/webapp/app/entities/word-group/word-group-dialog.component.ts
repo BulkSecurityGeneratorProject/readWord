@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {Observable} from 'rxjs/Observable';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
 
-import { WordGroup } from './word-group.model';
-import { WordGroupPopupService } from './word-group-popup.service';
-import { WordGroupService } from './word-group.service';
-import { Image, ImageService } from '../image';
-import { User, UserService } from '../../shared';
+import {WordGroup} from './word-group.model';
+import {WordGroupPopupService} from './word-group-popup.service';
+import {WordGroupService} from './word-group.service';
+import {Image, ImageService} from '../image';
+import {User, UserService} from '../../shared';
 
 @Component({
     selector: 'jhi-word-group-dialog',
@@ -25,20 +25,18 @@ export class WordGroupDialogComponent implements OnInit {
 
     users: User[];
 
-    constructor(
-        public activeModal: NgbActiveModal,
-        private jhiAlertService: JhiAlertService,
-        private wordGroupService: WordGroupService,
-        private imageService: ImageService,
-        private userService: UserService,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(public activeModal: NgbActiveModal,
+                private jhiAlertService: JhiAlertService,
+                private wordGroupService: WordGroupService,
+                private imageService: ImageService,
+                private userService: UserService,
+                private eventManager: JhiEventManager) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.imageService
-            .query({filter: 'wordgroup-is-null'})
+            .query({filter: 'wordgroup-is-null', sort: ['id,desc']})
             .subscribe((res: HttpResponse<Image[]>) => {
                 if (!this.wordGroup.imgId) {
                     this.imgs = res.body;
@@ -51,7 +49,9 @@ export class WordGroupDialogComponent implements OnInit {
                 }
             }, (res: HttpErrorResponse) => this.onError(res.message));
         this.userService.query()
-            .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: HttpResponse<User[]>) => {
+                this.users = res.body;
+            }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -75,7 +75,7 @@ export class WordGroupDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: WordGroup) {
-        this.eventManager.broadcast({ name: 'wordGroupListModification', content: 'OK'});
+        this.eventManager.broadcast({name: 'wordGroupListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -105,14 +105,13 @@ export class WordGroupPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
-    constructor(
-        private route: ActivatedRoute,
-        private wordGroupPopupService: WordGroupPopupService
-    ) {}
+    constructor(private route: ActivatedRoute,
+                private wordGroupPopupService: WordGroupPopupService) {
+    }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
+            if (params['id']) {
                 this.wordGroupPopupService
                     .open(WordGroupDialogComponent as Component, params['id']);
             } else {

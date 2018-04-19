@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {Observable} from 'rxjs/Observable';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
 
-import { Slide } from './slide.model';
-import { SlidePopupService } from './slide-popup.service';
-import { SlideService } from './slide.service';
-import { Image, ImageService } from '../image';
+import {Slide} from './slide.model';
+import {SlidePopupService} from './slide-popup.service';
+import {SlideService} from './slide.service';
+import {Image, ImageService} from '../image';
 
 @Component({
     selector: 'jhi-slide-dialog',
@@ -22,19 +22,17 @@ export class SlideDialogComponent implements OnInit {
 
     imgs: Image[];
 
-    constructor(
-        public activeModal: NgbActiveModal,
-        private jhiAlertService: JhiAlertService,
-        private slideService: SlideService,
-        private imageService: ImageService,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(public activeModal: NgbActiveModal,
+                private jhiAlertService: JhiAlertService,
+                private slideService: SlideService,
+                private imageService: ImageService,
+                private eventManager: JhiEventManager) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.imageService
-            .query({filter: 'slide-is-null'})
+            .query({filter: 'slide-is-null', sort: ['id,desc']})
             .subscribe((res: HttpResponse<Image[]>) => {
                 if (!this.slide.imgId) {
                     this.imgs = res.body;
@@ -69,7 +67,7 @@ export class SlideDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: Slide) {
-        this.eventManager.broadcast({ name: 'slideListModification', content: 'OK'});
+        this.eventManager.broadcast({name: 'slideListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -95,14 +93,13 @@ export class SlidePopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
-    constructor(
-        private route: ActivatedRoute,
-        private slidePopupService: SlidePopupService
-    ) {}
+    constructor(private route: ActivatedRoute,
+                private slidePopupService: SlidePopupService) {
+    }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
+            if (params['id']) {
                 this.slidePopupService
                     .open(SlideDialogComponent as Component, params['id']);
             } else {
