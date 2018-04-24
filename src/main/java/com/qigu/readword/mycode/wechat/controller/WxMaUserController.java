@@ -129,7 +129,14 @@ public class WxMaUserController {
         httpHeaders.add(ReadWordConstants.WX_SESSION_KEY, sessionKey);
         httpHeaders.add(ReadWordConstants.WX_EXPIRES_IN, expiresIn);
         if (user == null) {
-            user = createUserByOpenId(openid);
+            Long sharedUserId = null;
+            try {
+                sharedUserId = Long.valueOf(request.getParameter("sharedUserId"));
+                logger.info("###########openId -> sharedUserId -> " + sharedUserId);
+            } catch (Exception e) {
+                logger.info(e.getMessage());
+            }
+            user = createUserByOpenId(openid, sharedUserId);
         }
 
         String jwt;
@@ -180,7 +187,7 @@ public class WxMaUserController {
 
     }
 
-    private UserDetails createUserByOpenId(String openId) {
+    private UserDetails createUserByOpenId(String openId, Long sharedUserId) {
         try {
             String nickName = ReadWordConstants.DEFAULT_NICKNAME_PRE + org.apache.commons.lang3.RandomStringUtils.random(5, true, true);
             UserProfile userProfile = new UserProfile(openId, nickName, nickName, nickName, openId + "@qq.com", openId);
@@ -194,6 +201,11 @@ public class WxMaUserController {
             wxMaConnection.setUserId(user.getLogin());
             wxMaConnection.setAccessToken(openId);
             socialUserConnectionRepository.save(wxMaConnection);
+            if (sharedUserId != null) {
+                User sharedUser = userRepository.findOne(sharedUserId);
+                user.setSharedUser(sharedUser);
+                userRepository.save(user);
+            }
             return userDetailsService.loadUserByUsername(openId);
         } catch (Exception e) {
             logger.info(e.getMessage());

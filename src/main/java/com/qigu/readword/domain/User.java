@@ -86,6 +86,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "has_update_info")
     private Boolean hasUpdateInfo = false;
 
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -95,6 +96,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+
+    private User sharedUser;
 
     public Long getId() {
         return id;
@@ -207,6 +211,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setHasUpdateInfo(Boolean hasUpdateInfo) {
         this.hasUpdateInfo = hasUpdateInfo;
+    }
+
+    public User getSharedUser() {
+        return sharedUser;
+    }
+
+    public void setSharedUser(User sharedUser) {
+        this.sharedUser = sharedUser;
     }
 
     @Override
