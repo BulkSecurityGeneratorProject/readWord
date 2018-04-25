@@ -1,0 +1,97 @@
+@import "../../iconfont/iconfont.wxss";
+
+image {
+    width: 100%;
+}
+
+page {
+    background-color: #fff;
+}
+
+.desctription {
+    padding: 5px
+}
+
+swiper {
+    height: 100vh;
+    text-align: center;
+}
+
+.button-wrap {
+    margin-top: 20rpx;
+}
+
+button.left,
+button.right
+{
+    display: inline-block;
+    width: 90rpx;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-radius: 50%;
+    background-color: #cecece;
+    color: #fff;
+    padding: 0;
+}
+button.left.active,button.right.active
+{
+    background-color: #08d20d;
+}
+
+
+button.middle {
+    display: inline-block;
+    width: 100rpx;
+    height: 100rpx;
+    line-height: 106rpx;
+    border-radius: 50%;
+    background-color: #08d20d;
+    margin: 0 100rpx;
+    padding: 0;
+}
+
+button .iconfont {
+    font-size: 60rpx;
+}
+
+.name {
+    text-align: center;
+    font-size: 60rpx;
+    font-weight: bold;
+    margin: 30rpx 0;
+}
+
+.page-count {
+    position: relative;
+    margin-top: 40rpx;
+    color: #cccccc;
+}
+
+.page-count .active-page{
+    color: #08d20d;
+}
+
+.page-count:after,
+.page-count:before
+{
+    content:'';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-width: 20rpx;
+    border-style: solid;
+    border-radius: 10rpx;
+}
+
+.page-count:after
+{
+    right: 250rpx;
+    border-color: transparent transparent transparent #08d20d;
+}
+
+.page-count:before {
+    left: 250rpx;
+    border-color: transparent #08d20d transparent transparent ;
+}

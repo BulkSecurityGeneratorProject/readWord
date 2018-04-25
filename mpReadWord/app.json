@@ -1,0 +1,55 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/list/list",
+    "pages/grid/grid",
+    "pages/favoriteGrid/favoriteGrid",
+    "pages/searchGrid/searchGrid",
+    "pages/gridDetail/gridDetail",
+    "pages/localList/localList",
+    "pages/localDetail/localDetail",
+    "pages/detail/detail",
+    "pages/operation/operation",
+    "pages/messages/messages",
+    "pages/messageDetail/messageDetail",
+    "pages/profile/profile",
+    "pages/about/about",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#3a4861",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "新新看图识字",
+    "backgroundColor": "#bcc0c9",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#444",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/home.png",
+        "selectedIconPath": "assets/home-active.png"
+      },
+      {
+        "pagePath": "pages/favoriteGrid/favoriteGrid",
+        "text": "收藏",
+        "iconPath": "assets/message.png",
+        "selectedIconPath": "assets/message-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/profile.png",
+        "selectedIconPath": "assets/profile-active.png"
+      }
+    ],
+    "position": "bottom"
+  }
+}

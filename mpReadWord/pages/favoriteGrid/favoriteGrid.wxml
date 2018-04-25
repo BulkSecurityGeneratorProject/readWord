@@ -1,0 +1,9 @@
+<include src="/includes/search-bar.wxml"/>
+<view class="grids">
+  <navigator class="item" wx:for="{{pageData}}" wx:key="id"  wx:key="index"
+             url="/pages/gridDetail/gridDetail?title={{title}}&index={{index}}&pageData={{pageDataJson}}">
+    <image src="{{item.imgUrl}}" mode='aspectFit'/>
+  </navigator>
+</view>
+
+

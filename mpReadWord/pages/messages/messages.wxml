@@ -1,0 +1,10 @@
+<view class="messages">
+    <view class="item" wx:for="{{messages}}" wx:key="id">
+        <text class="title">{{item.name}}</text>
+        <text class="date">{{item.sendTime}}</text>
+        <navigator url="/pages/messageDetail/messageDetail?message={{item.json}}">
+            <image src="{{item.imgUrl}}"/>
+        </navigator>
+    </view>
+</view>
+<view id="bottom"></view>

@@ -1,0 +1,15 @@
+<!--pages/operation/operation.wxml-->
+<view class='container'>
+    <form bindsubmit='formSubmit' bindreset='formReset'>
+        <input name="index" type="hidden" value="{{index}}" hidden />
+        <view class='row'>
+            <text>生字：</text>
+            <input type='text' name="content" placeholder='请输入生字' value='{{content}}'/>
+        </view>
+
+        <view class='row'>
+            <button type='primary' form-type='submit'>提交</button>
+            <button type='primary' form-type='reset'>清空</button>
+        </view>
+    </form>
+</view>

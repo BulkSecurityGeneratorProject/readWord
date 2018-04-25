@@ -1,0 +1,7 @@
+<view class="cells">
+    <view class="item">
+        <text>自动播放</text>
+        <switch checked="{{autoPlay}}" bindchange="autoPlayChange"/>
+    </view>
+
+</view>

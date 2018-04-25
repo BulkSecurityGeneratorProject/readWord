@@ -1,0 +1,15 @@
+<view class="messages">
+    <view class="item">
+        <text class="title">产品介绍:</text>
+        <text class="summary">新新看图识字是一款有声的看图认字软件,适合1-10岁儿童快速认字</text>
+    </view>
+
+    <view class="item">
+        <text class="title">技术介绍:</text>
+        <text class="summary">1.后台使用jhipster框架</text>
+        <text class="summary">2.读音使用百度的api合成</text>
+    </view>
+
+
+</view>
+<view id="bottom"></view>

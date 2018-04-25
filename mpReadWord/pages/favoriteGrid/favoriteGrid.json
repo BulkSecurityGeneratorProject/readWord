@@ -1,0 +1,5 @@
+{
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 5,
+  "navigationBarTitleText": "我的收藏"
+}

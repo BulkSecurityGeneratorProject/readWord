@@ -1,0 +1,5 @@
+{
+  "navigationBarTitleText": "最新消息",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 5
+}

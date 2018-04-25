@@ -1,0 +1,22 @@
+<include src="/includes/search-bar.wxml"/>
+<swiper class="slides" autoplay="{{slides.length > 1}}" indicator-dots="{{slides.length > 1}}" indicator-color="#bcc0c9"
+        indicator-active-color="#3a4861">
+    <swiper-item wx:for="{{slides}}" wx:key="id">
+        <navigator wx:if="{{item.link}}" url="{{item.link}}">
+            <image src="{{item.imgUrl}}" mode="aspectFill"/>
+        </navigator>
+        <image wx:else src="{{item.imgUrl}}" bindtap="rewardMe" mode="aspectFill"/>
+    </swiper-item>
+</swiper>
+<view class="grids">
+    <navigator class="item" wx:for="{{categories}}" wx:key="id"
+               url="/pages/grid/grid?groupId={{item.id}}&&title={{item.name}}">
+        <image src="{{item.imgUrl}}" mode='aspectFit'/>
+        <text>{{item.name}}</text>
+    </navigator>
+</view>
+
+
+
+
+

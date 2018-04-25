@@ -1,0 +1,40 @@
+/* pages/list/list.wxss */
+
+.widget {
+    position: relative;
+    margin-top: 5 rpx;
+    margin-bottom: 5 rpx;
+    padding-top: 10 rpx;
+    padding-bottom: 10 rpx;
+    padding-left: 40 rpx;
+    padding-right: 40 rpx;
+    border: #ddd 1px solid;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: table;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding-top: 10 rpx;
+    padding-bottom: 10 rpx;
+    text-align: center;
+}
+
+.column {
+    font-size: 30 rpx;
+    width: 14rem;
+    display: table-cell;
+}
+
+.link-column {
+    width: 6rem;
+    display: table-cell;
+}
+
+.link {
+    color: blue;
+    display: inline-table;
+}

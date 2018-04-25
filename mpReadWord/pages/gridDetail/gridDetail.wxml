@@ -1,0 +1,59 @@
+<swiper current="{{currentIndex}}" bindchange="bindchange">
+    <block wx:for="{{pageData}}"
+           wx:key="index">
+        <swiper-item>
+            <image src="{{item.imgUrl}}" bindtap="audioPlay"
+                   mode='aspectFit'/>
+
+            <audio src="{{src}}"
+                   id="myAudio"></audio>
+
+            <!-- <button class="left"
+                    type="primary"
+                    disabled="true">
+                <text class="iconfont icon-lianmengcheliang"></text>
+            </button> -->
+
+
+            <view class="page-count">
+                <text class="active-page">{{index + 1}}</text>
+                /
+                <text class="total-page">{{pageData.length}}</text>
+            </view>
+
+            <view class="name">
+                {{item.name}}
+            </view>
+            <view class="button-wrap">
+
+                <button class="right {{isFavorite?'active':''}}"
+                        type="left"
+                        bindtap="addOrCancelFavorite">
+                    <text class="iconfont icon-star__easyico"></text>
+                </button>
+
+                <button class="middle"
+                        type="primary"
+                        bindtap="audioPlay">
+                    <text class="iconfont icon-shengyin"></text>
+                </button>
+                <button class="right"
+                        type="primary"
+                        disabled="true">
+                    <text class="iconfont icon-weixin"></text>
+                </button>
+
+            </view>
+            <view class='desctription'
+                  wx:if="{{item.desctription}}">
+                <text>{{item.desctription}}</text>
+            </view>
+
+        </swiper-item>
+    </block>
+
+</swiper>
+
+
+
+
