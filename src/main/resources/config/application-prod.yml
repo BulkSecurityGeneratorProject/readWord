@@ -141,3 +141,7 @@ jhipster:
 # ===================================================================
 
 application:
+
+baidu:
+    audio:
+        save-pre-path: E:\\audio\\
