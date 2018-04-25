@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 微信小程序用户接口
@@ -128,17 +129,31 @@ public class WxMaUserController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(ReadWordConstants.WX_SESSION_KEY, sessionKey);
         httpHeaders.add(ReadWordConstants.WX_EXPIRES_IN, expiresIn);
-        if (user == null) {
-            Long sharedUserId = null;
-            try {
-                sharedUserId = Long.valueOf(request.getParameter("sharedUserId"));
-                logger.info("###########openId -> sharedUserId -> " + sharedUserId);
-            } catch (Exception e) {
-                logger.info(e.getMessage());
-            }
-            user = createUserByOpenId(openid, sharedUserId);
+        Long sharedUserId = null;
+        try {
+            sharedUserId = Long.valueOf(request.getParameter("sharedUserId"));
+            logger.info("###########openId -> sharedUserId -> " + sharedUserId);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
         }
+        if (user == null) {
+            user = createUserByOpenId(openid, sharedUserId);
+        } else {
+            if (sharedUserId != null) {
+                Optional<User> oneByLogin = userRepository.findOneByLogin(user.getUsername());
+                if (oneByLogin.isPresent()) {
+                    User jhiUser = oneByLogin.get();
+                    if (jhiUser.getSharedUser() == null) {
+                        logger.info("###########openId -> sharedUserId -> start#####" + sharedUserId);
+                        User sharedUser = userRepository.findOne(sharedUserId);
+                        jhiUser.setSharedUser(sharedUser);
+                        userRepository.save(jhiUser);
+                        logger.info("###########openId -> sharedUserId -> end#####" + sharedUserId);
+                    }
+                }
+            }
 
+        }
         String jwt;
         try {
             assert user != null;
