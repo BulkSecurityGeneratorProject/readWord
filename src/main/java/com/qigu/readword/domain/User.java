@@ -99,7 +99,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn()
     private User sharedUser;
 
 
