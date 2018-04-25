@@ -13,7 +13,7 @@ module.exports.obj = (key, childKey) => {
     let storageSync = wx.getStorageSync(key) || {};
     let childData = storageSync[childKey];
     if (childData === undefined) {
-        return true;
+        return false;
     } else {
         return childData;
     }

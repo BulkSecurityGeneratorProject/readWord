@@ -8,7 +8,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-        autoPlay: true
+        autoPlay: false,
+        notObeyMuteSwitch: true
     },
 
     /**
@@ -17,7 +18,8 @@ Page({
     onLoad: function (options) {
         let profile = wx.getStorageSync(app.config.profile);
         let autoPlay = fetchStorage.obj(app.config.profile, "autoPlay");
-        this.setData({autoPlay});
+        let notObeyMuteSwitch = fetchStorage.obj(app.config.profile, "notObeyMuteSwitch");
+        this.setData({autoPlay, notObeyMuteSwitch});
 
     },
 
@@ -69,13 +71,22 @@ Page({
     onShareAppMessage: function () {
 
     },
-
-    autoPlayChange: function (e) {
+    getProfile() {
         let profile = wx.getStorageSync(app.config.profile);
         if (!profile) {
             profile = {};
         }
+        return profile;
+    },
+
+    autoPlayChange: function (e) {
+        let profile = this.getProfile();
         profile['autoPlay'] = e.detail.value;
+        wx.setStorageSync(app.config.profile, profile);
+    },
+    notObeyMuteSwitchChange: function (e) {
+        let profile = this.getProfile();
+        profile['notObeyMuteSwitch'] = !(e.detail.value);
         wx.setStorageSync(app.config.profile, profile);
     }
 });

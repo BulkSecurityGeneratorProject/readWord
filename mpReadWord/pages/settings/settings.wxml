@@ -3,5 +3,8 @@
         <text>自动播放</text>
         <switch checked="{{autoPlay}}" bindchange="autoPlayChange"/>
     </view>
-
+    <view class="item">
+        <text>遵循系统静音开关</text>
+        <switch checked="{{!notObeyMuteSwitch}}" bindchange="notObeyMuteSwitchChange"/>
+    </view>
 </view>

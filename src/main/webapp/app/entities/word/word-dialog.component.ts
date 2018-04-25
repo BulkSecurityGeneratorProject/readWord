@@ -62,7 +62,7 @@ export class WordDialogComponent implements OnInit {
                 }
             }, (res: HttpErrorResponse) => this.onError(res.message));
         this.audioService
-            .query({filter: 'word-is-null'})
+            .query({filter: 'word-is-null', sort: ['id,desc']})
             .subscribe((res: HttpResponse<Audio[]>) => {
                 if (!this.word.audioId) {
                     this.audio = res.body;
