@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="hupanpan (generated)" id="1524574466789-1">
+        <addColumn tableName="jhi_user">
+            <column name="shared_user_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="hupanpan (generated)" id="1524574466789-2">
+        <addUniqueConstraint columnNames="shared_user_id" constraintName="UC_JHI_USERSHARED_USER_ID_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="hupanpan (generated)" id="1524574466789-3">
+        <addForeignKeyConstraint baseColumnNames="shared_user_id" baseTableName="jhi_user" constraintName="FKjudifkmjgvubbghl4l6ax828l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="hupanpan (generated)" id="1524574466789-4">
+        <dropUniqueConstraint constraintName="user_id" tableName="jhi_social_user_connection"/>
+    </changeSet>
+    <changeSet author="hupanpan (generated)" id="1524574466789-5">
+        <dropUniqueConstraint constraintName="user_id_2" tableName="jhi_social_user_connection"/>
+    </changeSet>
+    <changeSet author="hupanpan (generated)" id="1524574466789-6">
+        <dropDefaultValue columnDataType="blob" columnName="send_time" tableName="message"/>
+    </changeSet>
+</databaseChangeLog>
