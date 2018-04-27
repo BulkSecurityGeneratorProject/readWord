@@ -56,8 +56,9 @@ public class BaiduAudioServiceImpl implements BaiduAudioService {
                     boolean mkdirs = parentFile.mkdirs();
                     log.info("###############" + parent + " " + mkdirs);
                 }
-                String savePath = parent + "\\" + id + ".mp3";
-                String urlPath = baiduAudioProperties.getUrlPrePath() + nowStr + "/" + id + ".mp3 ";
+
+                String savePath = parent + File.pathSeparator + id + ".mp3";
+                String urlPath = baiduAudioProperties.getUrlPrePath() + nowStr + File.pathSeparator + id + ".mp3 ";
                 Util.writeBytesToFileSystem(data, savePath);
                 return Optional.of(urlPath);
             } catch (IOException e) {

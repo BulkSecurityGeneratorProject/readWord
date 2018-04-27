@@ -16,6 +16,10 @@ Page({
         isFavorite: false,
         innerAudioContext: null
     },
+
+    onReady(options) {
+        console.log(options);
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -37,18 +41,12 @@ Page({
                 currentIndex,
                 isFavorite
             });
-            const innerAudioContext = wx.createInnerAudioContext();
-            innerAudioContext.autoplay = fetchStorage.obj(app.config.profile, "autoPlay");
-            innerAudioContext.obeyMuteSwitch = !fetchStorage.obj(app.config.profile, "notObeyMuteSwitch");
-            innerAudioContext.src = gridData.audioUrl;
-            // console.log(res.data.url);
-            innerAudioContext.onPlay(() => {
-                console.log('开始播放')
-            });
-            innerAudioContext.onError((res) => {
-                console.log(res.errMsg);
-                console.log(res.errCode)
-            });
+            const innerAudioContext = wx.createAudioContext('myAudio');
+            innerAudioContext.setSrc(gridData.audioUrl);
+            let autoplay = fetchStorage.obj(app.config.profile, "autoPlay");
+            if (autoplay) {
+                innerAudioContext.play();
+            }
             that.setData({innerAudioContext: innerAudioContext});
 
         });
@@ -63,8 +61,9 @@ Page({
     },
 
     audioPlay: function () {
+        console.log("audioPlay....");
+        console.log("this.data.innerAudioContext:" + this.data.innerAudioContext);
         if (this.data.innerAudioContext) {
-            this.data.innerAudioContext.volume = 1;
             this.data.innerAudioContext.play();
         }
     },
@@ -80,9 +79,8 @@ Page({
             let gridData = this.data.pageData[e.detail.current];
             let isFavorite = favorite.isFavorite(this.data.title, gridData);
             this.setData({gridData, isFavorite});
-            this.data.innerAudioContext.src = gridData.audioUrl;
+            this.data.innerAudioContext.setSrc(gridData.audioUrl);
             if (fetchStorage.obj(app.config.profile, "autoPlay")) {
-                this.data.innerAudioContext.volume = 1;
                 this.data.innerAudioContext.play();
             }
 

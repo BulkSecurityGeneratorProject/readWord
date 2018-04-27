@@ -20,7 +20,7 @@ Page({
             title: '新新看图识字',
             path: 'pages/index/index?sharedUserId=' + id,
             success: function (res) {
-                // 转发成功
+
             },
             fail: function (res) {
                 // 转发失败
