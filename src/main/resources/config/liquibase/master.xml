@@ -26,4 +26,5 @@
     <include file="config/liquibase/changelog/20180418015128_add_life_status.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180424125334_addUser_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180425030504_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180428080432_add_one_speed_url.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

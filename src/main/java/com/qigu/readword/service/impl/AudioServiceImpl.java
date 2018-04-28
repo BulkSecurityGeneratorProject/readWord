@@ -1,6 +1,7 @@
 package com.qigu.readword.service.impl;
 
 import com.qigu.readword.mycode.baidu.service.BaiduAudioService;
+import com.qigu.readword.mycode.util.ReadWordConstants;
 import com.qigu.readword.service.AudioService;
 import com.qigu.readword.domain.Audio;
 import com.qigu.readword.repository.AudioRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -55,8 +57,15 @@ public class AudioServiceImpl implements AudioService {
         Audio audio = audioMapper.toEntity(audioDTO);
         audio = audioRepository.save(audio);
         Optional<String> audioPath = baiduAudioService.createAudio(audio.getId().toString(), audio.getName());
+        HashMap<String, Object> options = new HashMap<>();
+        options.put(ReadWordConstants.BAIDU_VOICE_SPEED_KEY, 1);
+        Optional<String> audioSpeedOnePath = baiduAudioService.createAudioByOptions(audio.getId().toString(), audio.getName(), options);
         if (audioPath.isPresent()) {
             audio.setUrl(audioPath.get());
+            audio = audioRepository.save(audio);
+        }
+        if (audioSpeedOnePath.isPresent()) {
+            audio.setOneSpeedUrl(audioSpeedOnePath.get());
             audio = audioRepository.save(audio);
         }
         AudioDTO result = audioMapper.toDto(audio);

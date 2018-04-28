@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -33,6 +35,12 @@ public class BaiduAudioServiceImpl implements BaiduAudioService {
 
     @Override
     public Optional<String> createAudio(String id, String content) {
+        return createAudioByOptions(id, content, null);
+    }
+
+
+    @Override
+    public Optional<String> createAudioByOptions(String id, String content, HashMap<String, Object> options) {
 
         // 可选：设置网络连接参数
         client.setConnectionTimeoutInMillis(2000);
@@ -43,7 +51,7 @@ public class BaiduAudioServiceImpl implements BaiduAudioService {
 //        client.setSocketProxy("proxy_host", proxy_port);  // 设置socket代理
 
         // 调用接口
-        TtsResponse res = client.synthesis(content, "zh", 1, null);
+        TtsResponse res = client.synthesis(content, "zh", 1, options);
         byte[] data = res.getData();
         JSONObject res1 = res.getResult();
         if (data != null) {
@@ -56,9 +64,16 @@ public class BaiduAudioServiceImpl implements BaiduAudioService {
                     boolean mkdirs = parentFile.mkdirs();
                     log.info("###############" + parent + " " + mkdirs);
                 }
+                final StringBuilder optionNames = new StringBuilder();
+                if (options != null && !options.isEmpty()) {
+                    optionNames.append("-");
+                    options.keySet().stream().sorted().forEach(key -> {
+                        optionNames.append(key).append(options.get(key));
+                    });
 
-                String savePath = parent + File.pathSeparator + id + ".mp3";
-                String urlPath = baiduAudioProperties.getUrlPrePath() + nowStr + File.pathSeparator + id + ".mp3 ";
+                }
+                String savePath = parent + File.pathSeparator + id + optionNames.toString() + ".mp3";
+                String urlPath = baiduAudioProperties.getUrlPrePath() + nowStr + File.pathSeparator + id + optionNames.toString() + ".mp3 ";
                 Util.writeBytesToFileSystem(data, savePath);
                 return Optional.of(urlPath);
             } catch (IOException e) {
@@ -75,4 +90,5 @@ public class BaiduAudioServiceImpl implements BaiduAudioService {
 
         return Optional.empty();
     }
+
 }

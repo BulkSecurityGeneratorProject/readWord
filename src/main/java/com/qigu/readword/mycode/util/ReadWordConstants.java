@@ -9,4 +9,5 @@ public interface ReadWordConstants {
     public static final String DEFAULT_PROFILE_IMAGE = "https://tva1.sinaimg.cn/crop.0.0.100.100.180/006anqYkjw8etyvc3eh8uj302s02sglj.jpg";
     public static final String DEFAULT_NICKNAME_PRE = "启新熊";
     public static final String CREATE_BY = "启新熊";
+    public static final String BAIDU_VOICE_SPEED_KEY = "spd";
 }
