@@ -30,6 +30,7 @@ entity Image{
 
 entity Audio{
     url String,
+    oneSpeedUrl String,
 	name String required
 }
 

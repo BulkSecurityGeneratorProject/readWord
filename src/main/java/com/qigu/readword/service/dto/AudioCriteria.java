@@ -30,6 +30,8 @@ public class AudioCriteria implements Serializable {
 
     private StringFilter url;
 
+    private StringFilter oneSpeedUrl;
+
     private StringFilter name;
 
     public AudioCriteria() {
@@ -51,6 +53,14 @@ public class AudioCriteria implements Serializable {
         this.url = url;
     }
 
+    public StringFilter getOneSpeedUrl() {
+        return oneSpeedUrl;
+    }
+
+    public void setOneSpeedUrl(StringFilter oneSpeedUrl) {
+        this.oneSpeedUrl = oneSpeedUrl;
+    }
+
     public StringFilter getName() {
         return name;
     }
@@ -64,6 +74,7 @@ public class AudioCriteria implements Serializable {
         return "AudioCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (url != null ? "url=" + url + ", " : "") +
+                (oneSpeedUrl != null ? "oneSpeedUrl=" + oneSpeedUrl + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
             "}";
     }

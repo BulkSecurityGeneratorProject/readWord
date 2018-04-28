@@ -25,6 +25,9 @@ public class Audio implements Serializable {
     @Column(name = "url")
     private String url;
 
+    @Column(name = "one_speed_url")
+    private String oneSpeedUrl;
+
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
@@ -49,6 +52,19 @@ public class Audio implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getOneSpeedUrl() {
+        return oneSpeedUrl;
+    }
+
+    public Audio oneSpeedUrl(String oneSpeedUrl) {
+        this.oneSpeedUrl = oneSpeedUrl;
+        return this;
+    }
+
+    public void setOneSpeedUrl(String oneSpeedUrl) {
+        this.oneSpeedUrl = oneSpeedUrl;
     }
 
     public String getName() {
@@ -90,6 +106,7 @@ public class Audio implements Serializable {
         return "Audio{" +
             "id=" + getId() +
             ", url='" + getUrl() + "'" +
+            ", oneSpeedUrl='" + getOneSpeedUrl() + "'" +
             ", name='" + getName() + "'" +
             "}";
     }

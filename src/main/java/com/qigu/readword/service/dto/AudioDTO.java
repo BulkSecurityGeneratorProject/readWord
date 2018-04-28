@@ -14,6 +14,8 @@ public class AudioDTO implements Serializable {
 
     private String url;
 
+    private String oneSpeedUrl;
+
     @NotNull
     private String name;
 
@@ -31,6 +33,14 @@ public class AudioDTO implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getOneSpeedUrl() {
+        return oneSpeedUrl;
+    }
+
+    public void setOneSpeedUrl(String oneSpeedUrl) {
+        this.oneSpeedUrl = oneSpeedUrl;
     }
 
     public String getName() {
@@ -67,6 +77,7 @@ public class AudioDTO implements Serializable {
         return "AudioDTO{" +
             "id=" + getId() +
             ", url='" + getUrl() + "'" +
+            ", oneSpeedUrl='" + getOneSpeedUrl() + "'" +
             ", name='" + getName() + "'" +
             "}";
     }

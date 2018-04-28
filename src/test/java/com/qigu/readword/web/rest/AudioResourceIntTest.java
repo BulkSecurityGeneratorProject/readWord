@@ -47,6 +47,9 @@ public class AudioResourceIntTest {
     private static final String DEFAULT_URL = "AAAAAAAAAA";
     private static final String UPDATED_URL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ONE_SPEED_URL = "AAAAAAAAAA";
+    private static final String UPDATED_ONE_SPEED_URL = "BBBBBBBBBB";
+
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -101,6 +104,7 @@ public class AudioResourceIntTest {
     public static Audio createEntity(EntityManager em) {
         Audio audio = new Audio()
             .url(DEFAULT_URL)
+            .oneSpeedUrl(DEFAULT_ONE_SPEED_URL)
             .name(DEFAULT_NAME);
         return audio;
     }
@@ -128,6 +132,7 @@ public class AudioResourceIntTest {
         assertThat(audioList).hasSize(databaseSizeBeforeCreate + 1);
         Audio testAudio = audioList.get(audioList.size() - 1);
         assertThat(testAudio.getUrl()).isEqualTo(DEFAULT_URL);
+        assertThat(testAudio.getOneSpeedUrl()).isEqualTo(DEFAULT_ONE_SPEED_URL);
         assertThat(testAudio.getName()).isEqualTo(DEFAULT_NAME);
 
         // Validate the Audio in Elasticsearch
@@ -186,6 +191,7 @@ public class AudioResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(audio.getId().intValue())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
+            .andExpect(jsonPath("$.[*].oneSpeedUrl").value(hasItem(DEFAULT_ONE_SPEED_URL.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
@@ -201,6 +207,7 @@ public class AudioResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(audio.getId().intValue()))
             .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
+            .andExpect(jsonPath("$.oneSpeedUrl").value(DEFAULT_ONE_SPEED_URL.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
@@ -241,6 +248,45 @@ public class AudioResourceIntTest {
 
         // Get all the audioList where url is null
         defaultAudioShouldNotBeFound("url.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAudioByOneSpeedUrlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        audioRepository.saveAndFlush(audio);
+
+        // Get all the audioList where oneSpeedUrl equals to DEFAULT_ONE_SPEED_URL
+        defaultAudioShouldBeFound("oneSpeedUrl.equals=" + DEFAULT_ONE_SPEED_URL);
+
+        // Get all the audioList where oneSpeedUrl equals to UPDATED_ONE_SPEED_URL
+        defaultAudioShouldNotBeFound("oneSpeedUrl.equals=" + UPDATED_ONE_SPEED_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAudioByOneSpeedUrlIsInShouldWork() throws Exception {
+        // Initialize the database
+        audioRepository.saveAndFlush(audio);
+
+        // Get all the audioList where oneSpeedUrl in DEFAULT_ONE_SPEED_URL or UPDATED_ONE_SPEED_URL
+        defaultAudioShouldBeFound("oneSpeedUrl.in=" + DEFAULT_ONE_SPEED_URL + "," + UPDATED_ONE_SPEED_URL);
+
+        // Get all the audioList where oneSpeedUrl equals to UPDATED_ONE_SPEED_URL
+        defaultAudioShouldNotBeFound("oneSpeedUrl.in=" + UPDATED_ONE_SPEED_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAudioByOneSpeedUrlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        audioRepository.saveAndFlush(audio);
+
+        // Get all the audioList where oneSpeedUrl is not null
+        defaultAudioShouldBeFound("oneSpeedUrl.specified=true");
+
+        // Get all the audioList where oneSpeedUrl is null
+        defaultAudioShouldNotBeFound("oneSpeedUrl.specified=false");
     }
 
     @Test
@@ -290,6 +336,7 @@ public class AudioResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(audio.getId().intValue())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
+            .andExpect(jsonPath("$.[*].oneSpeedUrl").value(hasItem(DEFAULT_ONE_SPEED_URL.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
@@ -327,6 +374,7 @@ public class AudioResourceIntTest {
         em.detach(updatedAudio);
         updatedAudio
             .url(UPDATED_URL)
+            .oneSpeedUrl(UPDATED_ONE_SPEED_URL)
             .name(UPDATED_NAME);
         AudioDTO audioDTO = audioMapper.toDto(updatedAudio);
 
@@ -340,6 +388,7 @@ public class AudioResourceIntTest {
         assertThat(audioList).hasSize(databaseSizeBeforeUpdate);
         Audio testAudio = audioList.get(audioList.size() - 1);
         assertThat(testAudio.getUrl()).isEqualTo(UPDATED_URL);
+        assertThat(testAudio.getOneSpeedUrl()).isEqualTo(UPDATED_ONE_SPEED_URL);
         assertThat(testAudio.getName()).isEqualTo(UPDATED_NAME);
 
         // Validate the Audio in Elasticsearch
@@ -401,6 +450,7 @@ public class AudioResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(audio.getId().intValue())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
+            .andExpect(jsonPath("$.[*].oneSpeedUrl").value(hasItem(DEFAULT_ONE_SPEED_URL.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 

@@ -85,6 +85,9 @@ public class AudioQueryService extends QueryService<Audio> {
             if (criteria.getUrl() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getUrl(), Audio_.url));
             }
+            if (criteria.getOneSpeedUrl() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getOneSpeedUrl(), Audio_.oneSpeedUrl));
+            }
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), Audio_.name));
             }

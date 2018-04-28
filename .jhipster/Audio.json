@@ -7,6 +7,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "oneSpeedUrl",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "name",
             "fieldType": "String",
             "fieldValidateRules": [

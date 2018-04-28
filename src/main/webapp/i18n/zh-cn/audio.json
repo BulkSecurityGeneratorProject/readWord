@@ -18,6 +18,7 @@
                 "title": "Audio"
             },
             "url": "Url",
+            "oneSpeedUrl": "One Speed Url",
             "name": "Name"
         }
     }
