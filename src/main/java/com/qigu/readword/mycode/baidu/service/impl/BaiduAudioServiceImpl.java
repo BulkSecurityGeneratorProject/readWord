@@ -72,8 +72,8 @@ public class BaiduAudioServiceImpl implements BaiduAudioService {
                     });
 
                 }
-                String savePath = parent + File.pathSeparator + id + optionNames.toString() + ".mp3";
-                String urlPath = baiduAudioProperties.getUrlPrePath() + nowStr + File.pathSeparator + id + optionNames.toString() + ".mp3 ";
+                String savePath = parent + File.separator + id + optionNames.toString() + ".mp3";
+                String urlPath = baiduAudioProperties.getUrlPrePath() + nowStr + "/" + id + optionNames.toString() + ".mp3 ";
                 Util.writeBytesToFileSystem(data, savePath);
                 return Optional.of(urlPath);
             } catch (IOException e) {
