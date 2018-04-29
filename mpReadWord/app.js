@@ -1,4 +1,4 @@
-const apiBaseStr = 'https://ectest.nipponpaint.com.cn';
+const apiBaseStr = 'https://pandabear.cn';
 App({
     config: {
         apiBase: apiBaseStr,
