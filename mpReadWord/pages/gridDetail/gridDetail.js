@@ -60,11 +60,16 @@ Page({
 */
     },
 
-    audioPlay: function (options) {
-        console.log(options);
+    audioPlay: function (e) {
         console.log("audioPlay....");
         console.log("this.data.innerAudioContext:" + this.data.innerAudioContext);
         if (this.data.innerAudioContext) {
+            let gridData = this.data['gridData'];
+            if (e.target.id === "1") {
+                this.data.innerAudioContext.setSrc(gridData.audio1Url);
+            } else if (e.target.id === "5") {
+                this.data.innerAudioContext.setSrc(gridData.audioUrl);
+            }
             this.data.innerAudioContext.play();
         }
     },
