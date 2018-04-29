@@ -54,13 +54,14 @@ Page({
 
     },
     onUnload: function () {
-        if (this.data.innerAudioContext) {
+        /*if (this.data.innerAudioContext) {
             this.data.innerAudioContext.destroy();
         }
-
+*/
     },
 
-    audioPlay: function () {
+    audioPlay: function (options) {
+        console.log(options);
         console.log("audioPlay....");
         console.log("this.data.innerAudioContext:" + this.data.innerAudioContext);
         if (this.data.innerAudioContext) {

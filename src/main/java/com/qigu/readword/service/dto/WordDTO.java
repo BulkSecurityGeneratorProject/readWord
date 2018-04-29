@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Lob;
+
 import com.qigu.readword.domain.enumeration.LifeStatus;
 
 /**
@@ -37,6 +38,8 @@ public class WordDTO implements Serializable {
     private String audioName;
 
     private String audioUrl;
+
+    private String audio1Url;
 
     private Long userId;
 
@@ -176,6 +179,14 @@ public class WordDTO implements Serializable {
         this.audioUrl = audioUrl;
     }
 
+    public String getAudio1Url() {
+        return audio1Url;
+    }
+
+    public void setAudio1Url(String audio1Url) {
+        this.audio1Url = audio1Url;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -186,7 +197,7 @@ public class WordDTO implements Serializable {
         }
 
         WordDTO wordDTO = (WordDTO) o;
-        if(wordDTO.getId() == null || getId() == null) {
+        if (wordDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), wordDTO.getId());

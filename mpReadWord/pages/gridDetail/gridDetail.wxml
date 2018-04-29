@@ -34,13 +34,15 @@
 
                 <button class="middle"
                         type="primary"
+                        id="5"
                         bindtap="audioPlay">
                     <text class="iconfont icon-shengyin"></text>
                 </button>
-                <button class="right"
+                <button class="right active"
                         type="primary"
-                        disabled="true">
-                    <text class="iconfont icon-weixin"></text>
+                        id="1"
+                        bindtap="audioPlay">
+                    <text class="iconfont icon-shengyin"></text>
                 </button>
 
             </view>
