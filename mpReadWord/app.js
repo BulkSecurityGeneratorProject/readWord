@@ -1,14 +1,17 @@
-const apiBaseStr = 'https://pandabear.cn';
+const apiBaseStr = 'https://ectest.nipponpaint.com.cn';
 App({
     config: {
         apiBase: apiBaseStr,
         apiBaseApi: apiBaseStr + '/api',
         apiLogin: apiBaseStr + '/wechat/user/login',
         apiUserInfo: apiBaseStr + '/wechat/user/info',
-        apiObjectWord: '/words',
+        apiObjectWord: '/words-mini',
+        apiObjectWordDetail: '/words/',
         jhpsterHeader: "jhpsterHeader",
         profile: "profile",
         favorite: "favorite",
+        words: "words",
+        gridList: "gridList",
         version: "1.2.4"
     },
     message: {

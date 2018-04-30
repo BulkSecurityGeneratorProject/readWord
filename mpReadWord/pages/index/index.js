@@ -43,7 +43,7 @@ Page({
                 return fetch.fetchAvailable('/slides').then(res => {
                     this.setData({slides: res.data})
                 }).then(res => {
-                    return fetch.fetchAvailable('/word-groups', {sort: 'rank,asc'}).then(res => {
+                    return fetch.fetchAvailable('/word-groups-mini', {sort: 'rank,asc'}).then(res => {
                         if (res) this.setData({categories: res.data})
                     });
                 }).then(res => {
@@ -56,7 +56,7 @@ Page({
             fetch.fetchAvailable('/slides').then(res => {
                 this.setData({slides: res.data})
             }).then(res => {
-                return fetch.fetchAvailable('/word-groups', {sort: 'rank,asc'}).then(res => {
+                return fetch.fetchAvailable('/word-groups-mini', {sort: 'rank,asc'}).then(res => {
                     if (res) this.setData({categories: res.data})
                 });
             }).then(res => {

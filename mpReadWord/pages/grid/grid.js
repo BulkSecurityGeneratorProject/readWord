@@ -9,7 +9,6 @@ Page({
         apiUrl: app.config.apiObjectWord,
         title: "",
         pageData: [],
-        pageDataJson: "[]",
         pageIndex: 0,
         pageSize: 20,
         totalCount: 0,
@@ -30,16 +29,8 @@ Page({
                 if (hasMore) {
                     pageData = this.data.pageData.concat(res.data);
                 }
-                // if (pageData.length > this.data.maxSize) {
-                //     pageData = pageData.splice(pageData.length - this.data.maxSize)
-                // }
-                let ids = [];
-                for (let data of pageData) {
-                    ids.push(data.id);
-                    data["json"] = JSON.stringify(data);
-                }
-                let pageDataJson = JSON.stringify(ids);
-                this.setData({pageData, totalCount, pageIndex, hasMore, pageDataJson})
+                wx.setStorageSync(app.config.gridList, pageData);
+                this.setData({pageData, totalCount, pageIndex, hasMore})
             })
     },
 
@@ -86,25 +77,5 @@ Page({
     },
     searchChangeHandle(e) {
         this.setData({searchText: e.detail.value})
-    },
-    favorites: function () {
-        let title = this.data.title;
-        let index = 0;
-        fetchStorage.array(app.config.favorite, title).then(res => {
-            if (res.length > 0) {
-                let dataJson = JSON.stringify(res[0]);
-                let pageDataJson = JSON.stringify(res);
-                let url = `/pages/gridDetail/gridDetail?title=${title}&data=${dataJson}&index=${index}&pageData=${pageDataJson}`;
-                wx.redirectTo({
-                    url
-                })
-            } else {
-                wx.showToast({
-                    title: '您还没有收藏',
-                    icon: 'success',
-                    duration: 2000
-                })
-            }
-        });
     }
 });

@@ -28,29 +28,28 @@ Page({
         this.setData({title});
         wx.setNavigationBarTitle({title: title});
         let that = this;
-        let pageData = JSON.parse(options.pageData);
-        const params = {page: 0, size: 100, 'id.in': pageData.toString(), sort: 'rank,asc'};
-        fetch.fetchAvailable(app.config.apiObjectWord, params).then(res => {
-            let currentIndex = options.index;
-            pageData = res.data;
-            let gridData = pageData[currentIndex];
-            let isFavorite = favorite.isFavorite("words", gridData);
-            that.setData({
-                gridData,
-                pageData,
-                currentIndex,
-                isFavorite
-            });
+        let currentIndex = options.index;
+        let pageData = wx.getStorageSync(app.config.gridList);
+        let gridData = pageData[currentIndex];
+        let isFavorite = favorite.isFavorite("words", gridData);
+        that.setData({
+            pageData,
+            currentIndex,
+            isFavorite
+        });
+        fetchStorage.getWordById(gridData.id).then(res => {
+            let gridData = res;
             const innerAudioContext = wx.createAudioContext('myAudio');
             innerAudioContext.setSrc(gridData.audioUrl);
             let autoplay = fetchStorage.obj(app.config.profile, "autoPlay");
             if (autoplay) {
                 innerAudioContext.play();
             }
-            that.setData({innerAudioContext: innerAudioContext});
+            that.setData({innerAudioContext, gridData});
 
         });
-
+        /*
+*/
 
     },
     onUnload: function () {
@@ -74,21 +73,20 @@ Page({
         }
     },
 
-    previewHandle(e) {
-        wx.previewImage({
-            current: e.target.dataset.src,
-            urls: this.data.gridData.sinaUrl
-        })
-    },
+
     bindchange: function (e) {
         if (this.data.innerAudioContext) {
             let gridData = this.data.pageData[e.detail.current];
-            let isFavorite = favorite.isFavorite(this.data.title, gridData);
-            this.setData({gridData, isFavorite});
-            this.data.innerAudioContext.setSrc(gridData.audioUrl);
-            if (fetchStorage.obj(app.config.profile, "autoPlay")) {
-                this.data.innerAudioContext.play();
-            }
+            fetchStorage.getWordById(gridData.id).then(res => {
+                let gridData = res;
+                let isFavorite = favorite.isFavorite(this.data.title, gridData);
+                this.setData({gridData, isFavorite});
+                this.data.innerAudioContext.setSrc(gridData.audioUrl);
+                if (fetchStorage.obj(app.config.profile, "autoPlay")) {
+                    this.data.innerAudioContext.play();
+                }
+            });
+
 
         }
     },

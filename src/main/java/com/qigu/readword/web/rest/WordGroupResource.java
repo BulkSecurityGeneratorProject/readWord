@@ -1,6 +1,7 @@
 package com.qigu.readword.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.qigu.readword.mycode.minidto.MiniGroupDto;
 import com.qigu.readword.service.WordGroupService;
 import com.qigu.readword.web.rest.errors.BadRequestAlertException;
 import com.qigu.readword.web.rest.util.HeaderUtil;
@@ -106,6 +107,30 @@ public class WordGroupResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+
+    /**
+     * GET  /word-groups-mini : get all the wordGroups.
+     *
+     * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
+     * @return the ResponseEntity with status 200 (OK) and the list of wordGroups in body
+     */
+    @GetMapping("/word-groups-mini")
+    @Timed
+    public ResponseEntity<List<MiniGroupDto>> getAllMiniWordGroups(WordGroupCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get WordGroups by criteria: {}", criteria);
+        Page<WordGroupDTO> page = wordGroupQueryService.findByCriteria(criteria, pageable);
+        Page<MiniGroupDto> miniGroupDtos = page.map(wordGroupDTO -> {
+            MiniGroupDto miniGroupDto = new MiniGroupDto();
+            miniGroupDto.setId(wordGroupDTO.getId());
+            miniGroupDto.setName(wordGroupDTO.getName());
+            miniGroupDto.setImgUrl(wordGroupDTO.getImgUrl());
+            return miniGroupDto;
+        });
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/word-groups-mini");
+        return new ResponseEntity<>(miniGroupDtos.getContent(), headers, HttpStatus.OK);
+    }
+
     /**
      * GET  /word-groups/:id : get the "id" wordGroup.
      *
@@ -138,7 +163,7 @@ public class WordGroupResource {
      * SEARCH  /_search/word-groups?query=:query : search for the wordGroup corresponding
      * to the query.
      *
-     * @param query the query of the wordGroup search
+     * @param query    the query of the wordGroup search
      * @param pageable the pagination information
      * @return the result of the search
      */

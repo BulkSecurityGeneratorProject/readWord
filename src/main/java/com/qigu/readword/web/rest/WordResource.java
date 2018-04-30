@@ -1,6 +1,7 @@
 package com.qigu.readword.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.qigu.readword.mycode.minidto.MiniWordDto;
 import com.qigu.readword.service.WordService;
 import com.qigu.readword.web.rest.errors.BadRequestAlertException;
 import com.qigu.readword.web.rest.util.HeaderUtil;
@@ -106,6 +107,29 @@ public class WordResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+
+    /**
+     * GET  /words-mini : get all the words.
+     *
+     * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
+     * @return the ResponseEntity with status 200 (OK) and the list of words in body
+     */
+    @GetMapping("/words-mini")
+    @Timed
+    public ResponseEntity<List<MiniWordDto>> getAllMiniWords(WordCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Words by criteria: {}", criteria);
+        Page<WordDTO> page = wordQueryService.findByCriteria(criteria, pageable);
+        Page<MiniWordDto> miniWordDtos = page.map(wordDTO -> {
+            MiniWordDto miniWordDto = new MiniWordDto();
+            miniWordDto.setId(wordDTO.getId());
+            miniWordDto.setImgUrl(wordDTO.getImgUrl());
+            return miniWordDto;
+        });
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/words-mini");
+        return new ResponseEntity<>(miniWordDtos.getContent(), headers, HttpStatus.OK);
+    }
+
     /**
      * GET  /words/:id : get the "id" word.
      *
@@ -138,7 +162,7 @@ public class WordResource {
      * SEARCH  /_search/words?query=:query : search for the word corresponding
      * to the query.
      *
-     * @param query the query of the word search
+     * @param query    the query of the word search
      * @param pageable the pagination information
      * @return the result of the search
      */
