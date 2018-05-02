@@ -22,7 +22,7 @@
             </view>
 
             <view class="name">
-                {{item.name}}
+                {{gridData.name}}
             </view>
             <view class="button-wrap">
 
@@ -47,8 +47,8 @@
 
             </view>
             <view class='desctription'
-                  wx:if="{{item.desctription}}">
-                <text>{{item.desctription}}</text>
+                  wx:if="{{gridData.desctription}}">
+                <text>{{gridData.desctription}}</text>
             </view>
 
         </swiper-item>
