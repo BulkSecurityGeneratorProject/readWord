@@ -1,5 +1,8 @@
 package com.qigu.readword.service.impl;
 
+import com.qigu.readword.domain.User;
+import com.qigu.readword.repository.UserRepository;
+import com.qigu.readword.security.SecurityUtils;
 import com.qigu.readword.service.QuestionService;
 import com.qigu.readword.domain.Question;
 import com.qigu.readword.repository.QuestionRepository;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Optional;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -26,13 +31,15 @@ public class QuestionServiceImpl implements QuestionService {
     private final Logger log = LoggerFactory.getLogger(QuestionServiceImpl.class);
 
     private final QuestionRepository questionRepository;
+    private final UserRepository userRepository;
 
     private final QuestionMapper questionMapper;
 
     private final QuestionSearchRepository questionSearchRepository;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionMapper questionMapper, QuestionSearchRepository questionSearchRepository) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, UserRepository userRepository, QuestionMapper questionMapper, QuestionSearchRepository questionSearchRepository) {
         this.questionRepository = questionRepository;
+        this.userRepository = userRepository;
         this.questionMapper = questionMapper;
         this.questionSearchRepository = questionSearchRepository;
     }
@@ -96,7 +103,7 @@ public class QuestionServiceImpl implements QuestionService {
     /**
      * Search for the question corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */
@@ -107,4 +114,23 @@ public class QuestionServiceImpl implements QuestionService {
         Page<Question> result = questionSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(questionMapper::toDto);
     }
+
+    @Override
+    public QuestionDTO findByLogin() {
+
+        Question question = questionRepository.findByCurrentUser();
+        if (question == null) {
+            question = new Question();
+            Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
+            if (currentUserLogin.isPresent()) {
+                Optional<User> currentUser = userRepository.findOneByLogin(currentUserLogin.get());
+                if (currentUser.isPresent()) {
+                    question.setUser(currentUser.get());
+                    questionRepository.save(question);
+                }
+            }
+        }
+        return questionMapper.toDto(question);
+    }
+
 }

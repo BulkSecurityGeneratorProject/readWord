@@ -9,7 +9,7 @@
 
     <navigator class="item" url="/pages/settings/settings">设置</navigator>
     <navigator class="item" url="/pages/about/about">关于</navigator>
-    <navigator class="item" url="/pages/operation/operation">意见反馈</navigator>
+    <navigator class="item" url="/pages/question/question">意见反馈</navigator>
 
 </view>
 

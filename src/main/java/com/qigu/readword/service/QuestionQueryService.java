@@ -2,7 +2,10 @@ package com.qigu.readword.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
+import com.qigu.readword.repository.UserRepository;
+import com.qigu.readword.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,18 +40,22 @@ public class QuestionQueryService extends QueryService<Question> {
 
     private final QuestionRepository questionRepository;
 
+    private final UserRepository userRepository;
+
     private final QuestionMapper questionMapper;
 
     private final QuestionSearchRepository questionSearchRepository;
 
-    public QuestionQueryService(QuestionRepository questionRepository, QuestionMapper questionMapper, QuestionSearchRepository questionSearchRepository) {
+    public QuestionQueryService(QuestionRepository questionRepository, UserRepository userRepository, QuestionMapper questionMapper, QuestionSearchRepository questionSearchRepository) {
         this.questionRepository = questionRepository;
+        this.userRepository = userRepository;
         this.questionMapper = questionMapper;
         this.questionSearchRepository = questionSearchRepository;
     }
 
     /**
      * Return a {@link List} of {@link QuestionDTO} which matches the criteria from the database
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -61,8 +68,9 @@ public class QuestionQueryService extends QueryService<Question> {
 
     /**
      * Return a {@link Page} of {@link QuestionDTO} which matches the criteria from the database
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
+     * @param page     The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
@@ -72,6 +80,7 @@ public class QuestionQueryService extends QueryService<Question> {
         final Page<Question> result = questionRepository.findAll(specification, page);
         return result.map(questionMapper::toDto);
     }
+
 
     /**
      * Function to convert QuestionCriteria to a {@link Specifications}

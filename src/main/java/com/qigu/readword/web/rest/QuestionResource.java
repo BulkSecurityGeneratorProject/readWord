@@ -1,6 +1,9 @@
 package com.qigu.readword.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.qigu.readword.domain.Question;
+import com.qigu.readword.domain.User;
+import com.qigu.readword.security.SecurityUtils;
 import com.qigu.readword.service.QuestionService;
 import com.qigu.readword.web.rest.errors.BadRequestAlertException;
 import com.qigu.readword.web.rest.util.HeaderUtil;
@@ -106,6 +109,21 @@ public class QuestionResource {
     }
 
     /**
+     * GET  /questions : get all the questions.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of questions in body
+     */
+    @GetMapping("/questions/me")
+    @Timed
+    public ResponseEntity<QuestionDTO> getMyQuestion() {
+        log.debug("REST request to get Questions by login");
+        QuestionDTO questionDTO = questionService.findByLogin();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(questionDTO));
+    }
+
+
+
+    /**
      * GET  /questions/:id : get the "id" question.
      *
      * @param id the id of the questionDTO to retrieve
@@ -137,7 +155,7 @@ public class QuestionResource {
      * SEARCH  /_search/questions?query=:query : search for the question corresponding
      * to the query.
      *
-     * @param query the query of the question search
+     * @param query    the query of the question search
      * @param pageable the pagination information
      * @return the result of the search
      */

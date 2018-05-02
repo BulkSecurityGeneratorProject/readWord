@@ -12,5 +12,6 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSpecificationExecutor<Question> {
-
+    @Query("select question from Question question where question.user.login = ?#{principal.username}")
+    Question findByCurrentUser();
 }
