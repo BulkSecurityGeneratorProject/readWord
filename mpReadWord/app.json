@@ -1,17 +1,10 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/list/list",
     "pages/grid/grid",
     "pages/favoriteGrid/favoriteGrid",
     "pages/searchGrid/searchGrid",
     "pages/gridDetail/gridDetail",
-    "pages/localList/localList",
-    "pages/localDetail/localDetail",
-    "pages/detail/detail",
-    "pages/operation/operation",
-    "pages/messages/messages",
-    "pages/messageDetail/messageDetail",
     "pages/profile/profile",
     "pages/about/about",
     "pages/settings/settings"

@@ -16,6 +16,7 @@
                 "messageContent": "Message Content",
                 "messageStatus": "Message Status",
                 "slide": "Slide",
+                "question": "Question",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

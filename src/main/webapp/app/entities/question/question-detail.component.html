@@ -1,0 +1,34 @@
+
+<div *ngIf="question">
+    <h2><span jhiTranslate="readWordApp.question.detail.title">Question</span> {{question.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="readWordApp.question.contact">Contact</span></dt>
+        <dd>
+            <span>{{question.contact}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.question.desctription">Desctription</span></dt>
+        <dd>
+            <span>{{question.desctription}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.question.user">User</span></dt>
+        <dd>
+            {{question.userLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'question/'+ question.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

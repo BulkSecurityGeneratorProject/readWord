@@ -16,6 +16,10 @@ entity Word{
 entity Favorite{
 
 }
+entity Question{
+	contact String,
+	desctription TextBlob
+}
 
 entity WordGroup{
 	name String required,
@@ -68,6 +72,7 @@ relationship OneToOne {
   MessageStatus{msg(name)} to Message,
   MessageStatus{user(login)} to User,
   Favorite{user(login)} to User,
+  Question{user(login)} to User,
   Message{content(name)} to MessageContent,
   Slide{img(name)}  to Image
 

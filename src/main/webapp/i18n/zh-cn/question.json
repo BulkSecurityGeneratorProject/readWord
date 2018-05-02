@@ -1,0 +1,25 @@
+
+{
+    "readWordApp": {
+        "question" : {
+            "home": {
+                "title": "Questions",
+                "createLabel": "创建新 Question",
+                "createOrEditLabel": "创建或编辑 Question",
+                "search": "查找 Question"
+            },
+            "created": "Question {{ param }} 创建成功",
+            "updated": "Question {{ param }} 更新成功",
+            "deleted": "Question {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Question {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Question"
+            },
+            "contact": "Contact",
+            "desctription": "Desctription",
+            "user": "User"
+        }
+    }
+}
