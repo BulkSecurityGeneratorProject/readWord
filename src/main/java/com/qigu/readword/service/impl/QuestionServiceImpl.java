@@ -35,13 +35,12 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionMapper questionMapper;
 
-    private final QuestionSearchRepository questionSearchRepository;
+//    private final QuestionSearchRepository questionSearchRepository;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository, UserRepository userRepository, QuestionMapper questionMapper, QuestionSearchRepository questionSearchRepository) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, UserRepository userRepository, QuestionMapper questionMapper) {
         this.questionRepository = questionRepository;
         this.userRepository = userRepository;
         this.questionMapper = questionMapper;
-        this.questionSearchRepository = questionSearchRepository;
     }
 
     /**
@@ -56,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionMapper.toEntity(questionDTO);
         question = questionRepository.save(question);
         QuestionDTO result = questionMapper.toDto(question);
-        questionSearchRepository.save(question);
+//        questionSearchRepository.save(question);
         return result;
     }
 
@@ -97,23 +96,9 @@ public class QuestionServiceImpl implements QuestionService {
     public void delete(Long id) {
         log.debug("Request to delete Question : {}", id);
         questionRepository.delete(id);
-        questionSearchRepository.delete(id);
+//        questionSearchRepository.delete(id);
     }
 
-    /**
-     * Search for the question corresponding to the query.
-     *
-     * @param query    the query of the search
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Page<QuestionDTO> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Questions for query {}", query);
-        Page<Question> result = questionSearchRepository.search(queryStringQuery(query), pageable);
-        return result.map(questionMapper::toDto);
-    }
 
     @Override
     public QuestionDTO findByLogin() {

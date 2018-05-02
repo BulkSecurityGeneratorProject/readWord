@@ -78,12 +78,12 @@ Page({
         }
         fetch.loginAndFetch("/questions", formValues, method).then(res => {
             if (res.statusCode === 200) {
-                wx.navigateBack();
                 wx.showToast({
                     title: '提交成功,谢谢!',
                     icon: 'success',
                     duration: 2000
                 });
+                wx.navigateBack();
 
             }
         })

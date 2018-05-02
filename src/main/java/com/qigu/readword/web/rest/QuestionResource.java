@@ -122,7 +122,6 @@ public class QuestionResource {
     }
 
 
-
     /**
      * GET  /questions/:id : get the "id" question.
      *
@@ -151,21 +150,5 @@ public class QuestionResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/questions?query=:query : search for the question corresponding
-     * to the query.
-     *
-     * @param query    the query of the question search
-     * @param pageable the pagination information
-     * @return the result of the search
-     */
-    @GetMapping("/_search/questions")
-    @Timed
-    public ResponseEntity<List<QuestionDTO>> searchQuestions(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Questions for query {}", query);
-        Page<QuestionDTO> page = questionService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/questions");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
 
 }
