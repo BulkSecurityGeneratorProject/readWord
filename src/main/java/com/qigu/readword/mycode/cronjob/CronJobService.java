@@ -24,7 +24,7 @@ public class CronJobService {
         this.baiduAudioService = baiduAudioService;
     }
 
-    @Scheduled(cron = "0 10 13 29 4 ?")//只执行一次
+    @Scheduled(cron = "0 10 16 2 5 ?")//只执行一次
     void addAudioOneSpeedUrl() {
         log.info("****************addAudioOneSpeedUrl****************START****************");
         List<Audio> allByOneSpeedUrlIsNull = audioRepository.findAllByOneSpeedUrlIsNull();
