@@ -28,15 +28,32 @@ Page({
         this.setData({title});
         wx.setNavigationBarTitle({title: title});
         let that = this;
-        let currentIndex = options.index;
-        let pageData = wx.getStorageSync(app.config.gridList);
-        let gridData = pageData[currentIndex];
-        let isFavorite = favorite.isFavorite("words", gridData);
+        let currentIndex = options.index * 1.0;
+        let storageSync = wx.getStorageSync(app.config.gridList);
+        let pageData = storageSync;
+        let gridData = storageSync[currentIndex];
+        if (storageSync.length > 20) {
+            if (storageSync.length - currentIndex > 10) {
+                if (currentIndex >= 10) {
+                    pageData = storageSync.slice(currentIndex - 10, currentIndex + 10);
+                    console.log("pageData.length=" + pageData.length);
+                    currentIndex = 10;
+                } else {
+                    pageData = storageSync.slice(0, 20);
+                }
+
+            } else {
+                pageData = storageSync.slice(storageSync.length - 20, storageSync.length);
+                currentIndex = currentIndex - storageSync.length + 20;
+                console.log("pageData.length=" + pageData.length);
+            }
+        }
         that.setData({
             pageData,
-            currentIndex,
-            isFavorite
+            currentIndex
         });
+        let isFavorite = favorite.isFavorite("words", gridData);
+        this.setData({isFavorite});
         fetchStorage.getWordById(gridData.id).then(res => {
             let gridData = res;
             const innerAudioContext = wx.createAudioContext('myAudio');
@@ -75,20 +92,20 @@ Page({
 
 
     bindchange: function (e) {
-        if (this.data.innerAudioContext) {
-            let gridData = this.data.pageData[e.detail.current];
-            fetchStorage.getWordById(gridData.id).then(res => {
-                let gridData = res;
-                let isFavorite = favorite.isFavorite(this.data.title, gridData);
-                this.setData({gridData, isFavorite});
+
+        let gridData = this.data.pageData[e.detail.current];
+        fetchStorage.getWordById(gridData.id).then(res => {
+            let gridData = res;
+            let isFavorite = favorite.isFavorite("words", gridData);
+            this.setData({gridData, isFavorite});
+            if (this.data.innerAudioContext) {
                 this.data.innerAudioContext.setSrc(gridData.audioUrl);
                 if (fetchStorage.obj(app.config.profile, "autoPlay")) {
                     this.data.innerAudioContext.play();
                 }
-            });
+            }
+        });
 
-
-        }
     },
     addOrCancelFavorite: function () {
         favorite.addOrCancel("words", this.data.gridData.id).then(res => {

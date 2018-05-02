@@ -43,9 +43,6 @@ Page({
      */
     onLoad(options) {
         // wx.setNavigationBarTitle({title: "我的收藏"});
-    },
-
-    onShow() {
         this.setData({pageData: [], pageIndex: 0, hasMore: true});
         let storageSync = wx.getStorageSync(app.config.favorite,) || {};
         let res = storageSync["words"] || [];
@@ -58,6 +55,9 @@ Page({
         } else {
             this.loadMore();
         }
+    },
+
+    onShow() {
 
 
     },
