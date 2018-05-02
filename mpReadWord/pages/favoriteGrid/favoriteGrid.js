@@ -31,16 +31,8 @@ Page({
                 if (hasMore) {
                     pageData = this.data.pageData.concat(res.data);
                 }
-                // if (pageData.length > this.data.maxSize) {
-                //     pageData = pageData.splice(pageData.length - this.data.maxSize)
-                // }
-                let ids = [];
-                for (let data of pageData) {
-                    ids.push(data.id);
-                    data["json"] = JSON.stringify(data);
-                }
-                let pageDataJson = JSON.stringify(ids);
-                this.setData({pageData, totalCount, pageIndex, hasMore, pageDataJson})
+                wx.setStorageSync(app.config.gridList, pageData);
+                this.setData({pageData, totalCount, pageIndex, hasMore})
             })
 
 
@@ -102,20 +94,5 @@ Page({
     },
     searchChangeHandle(e) {
         this.setData({searchText: e.detail.value})
-    },
-    favorites: function () {
-        let title = this.data.title;
-        let index = 0;
-        fetchStorage.array(app.config.favorite, title).then(res => {
-            if (res.length > 0) {
-
-            } else {
-                wx.showToast({
-                    title: '您还没有收藏',
-                    icon: 'success',
-                    duration: 2000
-                })
-            }
-        });
     }
 });
