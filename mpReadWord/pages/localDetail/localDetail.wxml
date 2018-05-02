@@ -1,7 +1,0 @@
-<swiper class="slides" indicator-dots="{{words.length > 1}}" indicator-color="#bcc0c9" indicator-active-color="#3a4861">
-    <swiper-item wx:for="{{words}}" wx:key="id">
-        <view style="text-align:center;font-size: 160rpx;font-weight: bold">
-            {{item}}
-        </view>
-    </swiper-item>
-</swiper>

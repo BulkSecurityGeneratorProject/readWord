@@ -1,9 +1,0 @@
-<view class="messages">
-    <view class="item">
-        <text class="title">{{message.name}}</text>
-        <text class="date">{{message.sendTime}}</text>
-        <image src="{{message.imgUrl}}"/>
-        <text class="summary">{{message.content}}</text>
-    </view>
-</view>
-<view id="bottom"></view>
