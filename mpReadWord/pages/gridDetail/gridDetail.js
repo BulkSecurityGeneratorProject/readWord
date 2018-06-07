@@ -2,6 +2,9 @@ const favorite = require('../../utils/favorite');
 const app = getApp();
 const fetchStorage = require('../../utils/fetchStorage');
 const fetch = require('../../utils/fetch');
+const plugin = requirePlugin("WechatSI");
+// 获取**全局唯一**的语音识别管理器**recordRecoManager**
+const manager = plugin.getRecordRecognitionManager();
 
 
 Page({
@@ -90,7 +93,79 @@ Page({
         }
     },
 
+    fanyi: function (e) {
+        console.log("fanyi....");
+        let me = this;
+        let gridData = me.data['gridData'];
+        if (gridData.hasTranslate) {
+            return;
+        }
+        plugin.translate({
+            lfrom: app.config.CN,
+            lto: app.config.EN,
+            content: gridData.name,
+            tts: true,
+            success: (resTrans) => {
 
+                let passRetcode = [
+                    0, // 翻译合成成功
+                    -10006, // 翻译成功，合成失败
+                    -10007, // 翻译成功，传入了不支持的语音合成语言
+                    -10008, // 翻译成功，语音合成达到频率限制
+                ];
+
+                if (passRetcode.indexOf(resTrans.retcode) >= 0) {
+                    console.log("resTrans->", resTrans);
+                    gridData.desctription = resTrans.result;
+                    gridData.hasTranslate = true;
+                    me.setData({gridData});
+                    fetchStorage.setWord(gridData);
+                    /*    let tmpDialogList = this.data.dialogList.slice(0);
+
+                        if (!isNaN(index)) {
+
+                            let tmpTranslate = Object.assign({}, item, {
+                                autoPlay: true, // 自动播放背景音乐
+                                translateText: resTrans.result,
+                                translateVoicePath: resTrans.filename || "",
+                                translateVoiceExpiredTime: resTrans.expired_time || 0
+                            });
+
+                            tmpDialogList[index] = tmpTranslate;
+
+
+                            this.setData({
+                                dialogList: tmpDialogList,
+                                bottomButtonDisabled: false,
+                                recording: false,
+                            });
+
+                            this.scrollToNew();
+
+                        } else {
+                            console.error("index error", resTrans, item)
+                        }*/
+                } else {
+                    console.warn("翻译失败", resTrans, item)
+                }
+
+            },
+            fail: function (resTrans) {
+                console.error("调用失败", resTrans, item);
+                this.setData({
+                    bottomButtonDisabled: false,
+                    recording: false,
+                })
+            },
+            complete: resTrans => {
+                this.setData({
+                    recordStatus: 1,
+                });
+                wx.hideLoading()
+            }
+        })
+
+    },
     bindchange: function (e) {
 
         let gridData = this.data.pageData[e.detail.current];

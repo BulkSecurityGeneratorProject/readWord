@@ -51,3 +51,22 @@ module.exports.getWordById = (id) => {
 
 };
 
+module.exports.setWord = (updateWord) => {
+    let retWord = {};
+    debugger;
+    let wordsStorage = wx.getStorageSync(app.config.words);
+    if (!wordsStorage) {
+        wordsStorage = [];
+        wx.setStorageSync(app.config.words, wordsStorage);
+    }
+    let index = 0;
+    for (let word of wordsStorage) {
+        if (updateWord.id === word.id) {
+            wordsStorage.splice(index, 1);
+        }
+        index++;
+    }
+    wordsStorage.push(updateWord);
+    wx.setStorageSync(app.config.words, wordsStorage);
+};
+

@@ -22,6 +22,7 @@ Page({
         const params = {page: pageIndex++, size: pageSize, sort: 'rank,asc'};
         if (searchText) params['name.contains'] = searchText;
 
+
         return fetch.fetchAvailable(this.data.apiUrl, params)
             .then(res => {
                 const totalCount = parseInt(res.header['X-Total-Count']);
@@ -30,17 +31,11 @@ Page({
                 if (hasMore) {
                     pageData = this.data.pageData.concat(res.data);
                 }
-                // if (pageData.length > this.data.maxSize) {
-                //     pageData = pageData.splice(pageData.length - this.data.maxSize)
-                // }
-                let ids = [];
-                for (let data of pageData) {
-                    ids.push(data.id);
-                    data["json"] = JSON.stringify(data);
-                }
-                let pageDataJson = JSON.stringify(ids);
-                this.setData({pageData, totalCount, pageIndex, hasMore, pageDataJson})
+                wx.setStorageSync(app.config.gridList, pageData);
+                this.setData({pageData, totalCount, pageIndex, hasMore})
             })
+
+
     },
 
     /**

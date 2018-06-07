@@ -36,6 +36,20 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+ /*       var plugin = requirePlugin("WechatSI");
+        let manager = plugin.getRecordRecognitionManager();
+        manager.onRecognize = function (res) {
+            console.log("current result", res.result)
+        };
+        manager.onStop = function (res) {
+            console.log("record file path", res.tempFilePath);
+            console.log("result", res.result)
+        };
+        manager.onError = function (res) {
+            console.error("error msg", res.msg)
+        };
+        manager.start({duration: 30000, lang: "zh_CN"});*/
+
         let sharedUserId = options.sharedUserId;
         console.log("####sharedUserId->" + sharedUserId);
         if (sharedUserId) {

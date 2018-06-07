@@ -41,8 +41,8 @@
                 <button class="right active"
                         type="primary"
                         id="1"
-                        bindtap="audioPlay">
-                    <text class="iconfont icon-shengyin"></text>
+                        bindtap="fanyi">
+                    <text class="iconfont icon-fanyi"></text>
                 </button>
 
             </view>

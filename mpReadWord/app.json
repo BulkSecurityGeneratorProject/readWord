@@ -1,49 +1,57 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/grid/grid",
-    "pages/favoriteGrid/favoriteGrid",
-    "pages/searchGrid/searchGrid",
-    "pages/gridDetail/gridDetail",
-    "pages/profile/profile",
-    "pages/about/about",
-    "pages/question/question",
-    "pages/settings/settings"
-  ],
-  "window": {
-    "navigationBarBackgroundColor": "#3a4861",
-    "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "新新看图识字",
-    "backgroundColor": "#bcc0c9",
-    "backgroundTextStyle": "light",
-    "enablePullDownRefresh": false,
-    "onReachBottomDistance": 50
-  },
-  "tabBar": {
-    "color": "#999",
-    "selectedColor": "#444",
-    "backgroundColor": "#fff",
-    "borderStyle": "black",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "assets/home.png",
-        "selectedIconPath": "assets/home-active.png"
-      },
-      {
-        "pagePath": "pages/favoriteGrid/favoriteGrid",
-        "text": "收藏",
-        "iconPath": "assets/message.png",
-        "selectedIconPath": "assets/message-active.png"
-      },
-      {
-        "pagePath": "pages/profile/profile",
-        "text": "我的",
-        "iconPath": "assets/profile.png",
-        "selectedIconPath": "assets/profile-active.png"
-      }
+    "pages": [
+        "pages/index/index",
+        "pages/grid/grid",
+        "pages/favoriteGrid/favoriteGrid",
+        "pages/searchGrid/searchGrid",
+        "pages/gridDetail/gridDetail",
+        "pages/profile/profile",
+        "pages/about/about",
+        "pages/question/question",
+        "pages/settings/settings",
+        "pages/translatorEdit/translatorEdit",
+        "pages/translatorIndex/translatorIndex"
     ],
-    "position": "bottom"
-  }
+    "window": {
+        "navigationBarBackgroundColor": "#3a4861",
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "新新看图识字",
+        "backgroundColor": "#bcc0c9",
+        "backgroundTextStyle": "light",
+        "enablePullDownRefresh": false,
+        "onReachBottomDistance": 50
+    },
+    "tabBar": {
+        "color": "#999",
+        "selectedColor": "#444",
+        "backgroundColor": "#fff",
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "assets/home.png",
+                "selectedIconPath": "assets/home-active.png"
+            },
+            {
+                "pagePath": "pages/translatorIndex/translatorIndex",
+                "text": "翻译",
+                "iconPath": "assets/message.png",
+                "selectedIconPath": "assets/message-active.png"
+            },
+            {
+                "pagePath": "pages/profile/profile",
+                "text": "我的",
+                "iconPath": "assets/profile.png",
+                "selectedIconPath": "assets/profile-active.png"
+            }
+        ],
+        "position": "bottom"
+    },
+    "plugins": {
+        "WechatSI": {
+            "version": "0.0.6",
+            "provider": "wx069ba97219f66d99"
+        }
+    }
 }
