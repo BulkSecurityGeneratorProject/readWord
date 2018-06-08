@@ -7,6 +7,7 @@
 
 <view class="cells">
 
+    <navigator class="item" url="/pages/pay/pay">购买时长</navigator>
     <navigator class="item" url="/pages/settings/settings">设置</navigator>
     <navigator class="item" url="/pages/favoriteGrid/favoriteGrid">收藏</navigator>
     <navigator class="item" url="/pages/question/question">意见反馈</navigator>

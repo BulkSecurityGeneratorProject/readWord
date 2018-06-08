@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Lob;
+import com.qigu.readword.domain.enumeration.OrderStatus;
 
 /**
  * A DTO for the VipOrder entity.
@@ -35,6 +36,12 @@ public class VipOrderDTO implements Serializable {
 
     @Lob
     private String paymentResult;
+
+    @NotNull
+    private OrderStatus status;
+
+    @NotNull
+    private String openId;
 
     private Long userId;
 
@@ -112,6 +119,22 @@ public class VipOrderDTO implements Serializable {
         this.paymentResult = paymentResult;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -161,6 +184,8 @@ public class VipOrderDTO implements Serializable {
             ", outTradeNo='" + getOutTradeNo() + "'" +
             ", tradeType='" + getTradeType() + "'" +
             ", paymentResult='" + getPaymentResult() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", openId='" + getOpenId() + "'" +
             "}";
     }
 }

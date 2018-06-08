@@ -25,6 +25,8 @@
             "outTradeNo": "Out Trade No",
             "tradeType": "Trade Type",
             "paymentResult": "Payment Result",
+            "status": "Status",
+            "openId": "Open Id",
             "user": "User"
         }
     }

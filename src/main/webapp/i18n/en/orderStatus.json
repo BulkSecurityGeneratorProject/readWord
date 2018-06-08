@@ -1,0 +1,9 @@
+{
+    "readWordApp": {
+        "OrderStatus" : {
+            "null": "",
+            "NOPAY": "NOPAY",
+            "PAYED": "PAYED"
+        }
+    }
+}

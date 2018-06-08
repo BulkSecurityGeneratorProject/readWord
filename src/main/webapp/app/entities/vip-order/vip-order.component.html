@@ -38,6 +38,8 @@
             <th jhiSortBy="outTradeNo"><span jhiTranslate="readWordApp.vipOrder.outTradeNo">Out Trade No</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="tradeType"><span jhiTranslate="readWordApp.vipOrder.tradeType">Trade Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="paymentResult"><span jhiTranslate="readWordApp.vipOrder.paymentResult">Payment Result</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="status"><span jhiTranslate="readWordApp.vipOrder.status">Status</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="openId"><span jhiTranslate="readWordApp.vipOrder.openId">Open Id</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="userLogin"><span jhiTranslate="readWordApp.vipOrder.user">User</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -53,6 +55,8 @@
                 <td>{{vipOrder.outTradeNo}}</td>
                 <td>{{vipOrder.tradeType}}</td>
                 <td>{{vipOrder.paymentResult}}</td>
+                <td jhiTranslate="{{'readWordApp.OrderStatus.' + vipOrder.status}}">{{vipOrder.status}}</td>
+                <td>{{vipOrder.openId}}</td>
                 <td>
                     {{vipOrder.userLogin}}
                 </td>

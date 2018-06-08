@@ -36,6 +36,14 @@
         <dd>
             <span>{{vipOrder.paymentResult}}</span>
         </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.status">Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'readWordApp.OrderStatus.' + vipOrder.status}}">{{vipOrder.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.openId">Open Id</span></dt>
+        <dd>
+            <span>{{vipOrder.openId}}</span>
+        </dd>
         <dt><span jhiTranslate="readWordApp.vipOrder.user">User</span></dt>
         <dd>
             {{vipOrder.userLogin}}

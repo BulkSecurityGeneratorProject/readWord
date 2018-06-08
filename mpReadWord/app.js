@@ -1,10 +1,11 @@
-const apiBaseStr = 'https://ectest.nipponpaint.com.cn';
+const apiBaseStr = 'https://ectest.nipponpaint.com.cn/wx-mp';
 App({
     config: {
         apiBase: apiBaseStr,
         apiBaseApi: apiBaseStr + '/api',
         apiLogin: apiBaseStr + '/wechat/user/login',
         apiUserInfo: apiBaseStr + '/wechat/user/info',
+        apiPay: apiBaseStr + '/wechat/pay/unifiedOrder',
         apiObjectWord: '/words-mini',
         apiObjectWordDetail: '/words/',
         jhpsterHeader: "jhpsterHeader",

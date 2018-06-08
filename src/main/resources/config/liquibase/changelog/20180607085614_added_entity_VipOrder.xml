@@ -62,7 +62,7 @@
         </createTable>
         <dropDefaultValue tableName="vip_order" columnName="create_time" columnDataType="datetime"/>
         <dropDefaultValue tableName="vip_order" columnName="payment_time" columnDataType="datetime"/>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

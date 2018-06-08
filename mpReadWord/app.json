@@ -9,6 +9,7 @@
         "pages/about/about",
         "pages/question/question",
         "pages/settings/settings",
+        "pages/pay/pay",
         "pages/translatorEdit/translatorEdit",
         "pages/translatorIndex/translatorIndex"
     ],

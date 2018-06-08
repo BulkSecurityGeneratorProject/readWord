@@ -1,5 +1,10 @@
 import { BaseEntity } from './../../shared';
 
+export const enum OrderStatus {
+    'NOPAY',
+    'PAYED'
+}
+
 export class VipOrder implements BaseEntity {
     constructor(
         public id?: number,
@@ -11,6 +16,8 @@ export class VipOrder implements BaseEntity {
         public outTradeNo?: string,
         public tradeType?: string,
         public paymentResult?: any,
+        public status?: OrderStatus,
+        public openId?: string,
         public userLogin?: string,
         public userId?: number,
     ) {

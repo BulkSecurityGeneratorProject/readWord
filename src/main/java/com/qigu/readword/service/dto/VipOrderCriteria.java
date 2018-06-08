@@ -1,6 +1,7 @@
 package com.qigu.readword.service.dto;
 
 import java.io.Serializable;
+import com.qigu.readword.domain.enumeration.OrderStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -23,6 +24,12 @@ import io.github.jhipster.service.filter.InstantFilter;
  * fix type specific filters.
  */
 public class VipOrderCriteria implements Serializable {
+    /**
+     * Class for filtering OrderStatus
+     */
+    public static class OrderStatusFilter extends Filter<OrderStatus> {
+    }
+
     private static final long serialVersionUID = 1L;
 
 
@@ -41,6 +48,10 @@ public class VipOrderCriteria implements Serializable {
     private StringFilter outTradeNo;
 
     private StringFilter tradeType;
+
+    private OrderStatusFilter status;
+
+    private StringFilter openId;
 
     private LongFilter userId;
 
@@ -111,6 +122,22 @@ public class VipOrderCriteria implements Serializable {
         this.tradeType = tradeType;
     }
 
+    public OrderStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatusFilter status) {
+        this.status = status;
+    }
+
+    public StringFilter getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(StringFilter openId) {
+        this.openId = openId;
+    }
+
     public LongFilter getUserId() {
         return userId;
     }
@@ -130,6 +157,8 @@ public class VipOrderCriteria implements Serializable {
                 (transactionId != null ? "transactionId=" + transactionId + ", " : "") +
                 (outTradeNo != null ? "outTradeNo=" + outTradeNo + ", " : "") +
                 (tradeType != null ? "tradeType=" + tradeType + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
+                (openId != null ? "openId=" + openId + ", " : "") +
                 (userId != null ? "userId=" + userId + ", " : "") +
             "}";
     }

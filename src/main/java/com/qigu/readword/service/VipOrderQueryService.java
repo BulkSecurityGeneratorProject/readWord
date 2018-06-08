@@ -21,6 +21,7 @@ import com.qigu.readword.service.dto.VipOrderCriteria;
 
 import com.qigu.readword.service.dto.VipOrderDTO;
 import com.qigu.readword.service.mapper.VipOrderMapper;
+import com.qigu.readword.domain.enumeration.OrderStatus;
 
 /**
  * Service for executing complex queries for VipOrder entities in the database.
@@ -102,6 +103,12 @@ public class VipOrderQueryService extends QueryService<VipOrder> {
             }
             if (criteria.getTradeType() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTradeType(), VipOrder_.tradeType));
+            }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), VipOrder_.status));
+            }
+            if (criteria.getOpenId() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getOpenId(), VipOrder_.openId));
             }
             if (criteria.getUserId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getUserId(), VipOrder_.user, User_.id));

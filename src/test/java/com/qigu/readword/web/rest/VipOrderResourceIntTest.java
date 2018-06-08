@@ -39,6 +39,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.qigu.readword.domain.enumeration.OrderStatus;
 /**
  * Test class for the VipOrderResource REST controller.
  *
@@ -71,6 +72,12 @@ public class VipOrderResourceIntTest {
 
     private static final String DEFAULT_PAYMENT_RESULT = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_RESULT = "BBBBBBBBBB";
+
+    private static final OrderStatus DEFAULT_STATUS = OrderStatus.NOPAY;
+    private static final OrderStatus UPDATED_STATUS = OrderStatus.PAYED;
+
+    private static final String DEFAULT_OPEN_ID = "AAAAAAAAAA";
+    private static final String UPDATED_OPEN_ID = "BBBBBBBBBB";
 
     @Autowired
     private VipOrderRepository vipOrderRepository;
@@ -129,7 +136,9 @@ public class VipOrderResourceIntTest {
             .transactionId(DEFAULT_TRANSACTION_ID)
             .outTradeNo(DEFAULT_OUT_TRADE_NO)
             .tradeType(DEFAULT_TRADE_TYPE)
-            .paymentResult(DEFAULT_PAYMENT_RESULT);
+            .paymentResult(DEFAULT_PAYMENT_RESULT)
+            .status(DEFAULT_STATUS)
+            .openId(DEFAULT_OPEN_ID);
         return vipOrder;
     }
 
@@ -163,6 +172,8 @@ public class VipOrderResourceIntTest {
         assertThat(testVipOrder.getOutTradeNo()).isEqualTo(DEFAULT_OUT_TRADE_NO);
         assertThat(testVipOrder.getTradeType()).isEqualTo(DEFAULT_TRADE_TYPE);
         assertThat(testVipOrder.getPaymentResult()).isEqualTo(DEFAULT_PAYMENT_RESULT);
+        assertThat(testVipOrder.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testVipOrder.getOpenId()).isEqualTo(DEFAULT_OPEN_ID);
 
         // Validate the VipOrder in Elasticsearch
         VipOrder vipOrderEs = vipOrderSearchRepository.findOne(testVipOrder.getId());
@@ -248,6 +259,44 @@ public class VipOrderResourceIntTest {
 
     @Test
     @Transactional
+    public void checkStatusIsRequired() throws Exception {
+        int databaseSizeBeforeTest = vipOrderRepository.findAll().size();
+        // set the field null
+        vipOrder.setStatus(null);
+
+        // Create the VipOrder, which fails.
+        VipOrderDTO vipOrderDTO = vipOrderMapper.toDto(vipOrder);
+
+        restVipOrderMockMvc.perform(post("/api/vip-orders")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(vipOrderDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<VipOrder> vipOrderList = vipOrderRepository.findAll();
+        assertThat(vipOrderList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkOpenIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = vipOrderRepository.findAll().size();
+        // set the field null
+        vipOrder.setOpenId(null);
+
+        // Create the VipOrder, which fails.
+        VipOrderDTO vipOrderDTO = vipOrderMapper.toDto(vipOrder);
+
+        restVipOrderMockMvc.perform(post("/api/vip-orders")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(vipOrderDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<VipOrder> vipOrderList = vipOrderRepository.findAll();
+        assertThat(vipOrderList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllVipOrders() throws Exception {
         // Initialize the database
         vipOrderRepository.saveAndFlush(vipOrder);
@@ -264,7 +313,9 @@ public class VipOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].transactionId").value(hasItem(DEFAULT_TRANSACTION_ID.toString())))
             .andExpect(jsonPath("$.[*].outTradeNo").value(hasItem(DEFAULT_OUT_TRADE_NO.toString())))
             .andExpect(jsonPath("$.[*].tradeType").value(hasItem(DEFAULT_TRADE_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].paymentResult").value(hasItem(DEFAULT_PAYMENT_RESULT.toString())));
+            .andExpect(jsonPath("$.[*].paymentResult").value(hasItem(DEFAULT_PAYMENT_RESULT.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].openId").value(hasItem(DEFAULT_OPEN_ID.toString())));
     }
 
     @Test
@@ -285,7 +336,9 @@ public class VipOrderResourceIntTest {
             .andExpect(jsonPath("$.transactionId").value(DEFAULT_TRANSACTION_ID.toString()))
             .andExpect(jsonPath("$.outTradeNo").value(DEFAULT_OUT_TRADE_NO.toString()))
             .andExpect(jsonPath("$.tradeType").value(DEFAULT_TRADE_TYPE.toString()))
-            .andExpect(jsonPath("$.paymentResult").value(DEFAULT_PAYMENT_RESULT.toString()));
+            .andExpect(jsonPath("$.paymentResult").value(DEFAULT_PAYMENT_RESULT.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.openId").value(DEFAULT_OPEN_ID.toString()));
     }
 
     @Test
@@ -590,6 +643,84 @@ public class VipOrderResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllVipOrdersByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        vipOrderRepository.saveAndFlush(vipOrder);
+
+        // Get all the vipOrderList where status equals to DEFAULT_STATUS
+        defaultVipOrderShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the vipOrderList where status equals to UPDATED_STATUS
+        defaultVipOrderShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVipOrdersByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        vipOrderRepository.saveAndFlush(vipOrder);
+
+        // Get all the vipOrderList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultVipOrderShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the vipOrderList where status equals to UPDATED_STATUS
+        defaultVipOrderShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVipOrdersByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        vipOrderRepository.saveAndFlush(vipOrder);
+
+        // Get all the vipOrderList where status is not null
+        defaultVipOrderShouldBeFound("status.specified=true");
+
+        // Get all the vipOrderList where status is null
+        defaultVipOrderShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllVipOrdersByOpenIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        vipOrderRepository.saveAndFlush(vipOrder);
+
+        // Get all the vipOrderList where openId equals to DEFAULT_OPEN_ID
+        defaultVipOrderShouldBeFound("openId.equals=" + DEFAULT_OPEN_ID);
+
+        // Get all the vipOrderList where openId equals to UPDATED_OPEN_ID
+        defaultVipOrderShouldNotBeFound("openId.equals=" + UPDATED_OPEN_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVipOrdersByOpenIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        vipOrderRepository.saveAndFlush(vipOrder);
+
+        // Get all the vipOrderList where openId in DEFAULT_OPEN_ID or UPDATED_OPEN_ID
+        defaultVipOrderShouldBeFound("openId.in=" + DEFAULT_OPEN_ID + "," + UPDATED_OPEN_ID);
+
+        // Get all the vipOrderList where openId equals to UPDATED_OPEN_ID
+        defaultVipOrderShouldNotBeFound("openId.in=" + UPDATED_OPEN_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVipOrdersByOpenIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        vipOrderRepository.saveAndFlush(vipOrder);
+
+        // Get all the vipOrderList where openId is not null
+        defaultVipOrderShouldBeFound("openId.specified=true");
+
+        // Get all the vipOrderList where openId is null
+        defaultVipOrderShouldNotBeFound("openId.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllVipOrdersByUserIsEqualToSomething() throws Exception {
         // Initialize the database
         User user = UserResourceIntTest.createEntity(em);
@@ -621,7 +752,9 @@ public class VipOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].transactionId").value(hasItem(DEFAULT_TRANSACTION_ID.toString())))
             .andExpect(jsonPath("$.[*].outTradeNo").value(hasItem(DEFAULT_OUT_TRADE_NO.toString())))
             .andExpect(jsonPath("$.[*].tradeType").value(hasItem(DEFAULT_TRADE_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].paymentResult").value(hasItem(DEFAULT_PAYMENT_RESULT.toString())));
+            .andExpect(jsonPath("$.[*].paymentResult").value(hasItem(DEFAULT_PAYMENT_RESULT.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].openId").value(hasItem(DEFAULT_OPEN_ID.toString())));
     }
 
     /**
@@ -664,7 +797,9 @@ public class VipOrderResourceIntTest {
             .transactionId(UPDATED_TRANSACTION_ID)
             .outTradeNo(UPDATED_OUT_TRADE_NO)
             .tradeType(UPDATED_TRADE_TYPE)
-            .paymentResult(UPDATED_PAYMENT_RESULT);
+            .paymentResult(UPDATED_PAYMENT_RESULT)
+            .status(UPDATED_STATUS)
+            .openId(UPDATED_OPEN_ID);
         VipOrderDTO vipOrderDTO = vipOrderMapper.toDto(updatedVipOrder);
 
         restVipOrderMockMvc.perform(put("/api/vip-orders")
@@ -684,6 +819,8 @@ public class VipOrderResourceIntTest {
         assertThat(testVipOrder.getOutTradeNo()).isEqualTo(UPDATED_OUT_TRADE_NO);
         assertThat(testVipOrder.getTradeType()).isEqualTo(UPDATED_TRADE_TYPE);
         assertThat(testVipOrder.getPaymentResult()).isEqualTo(UPDATED_PAYMENT_RESULT);
+        assertThat(testVipOrder.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testVipOrder.getOpenId()).isEqualTo(UPDATED_OPEN_ID);
 
         // Validate the VipOrder in Elasticsearch
         VipOrder vipOrderEs = vipOrderSearchRepository.findOne(testVipOrder.getId());
@@ -750,7 +887,9 @@ public class VipOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].transactionId").value(hasItem(DEFAULT_TRANSACTION_ID.toString())))
             .andExpect(jsonPath("$.[*].outTradeNo").value(hasItem(DEFAULT_OUT_TRADE_NO.toString())))
             .andExpect(jsonPath("$.[*].tradeType").value(hasItem(DEFAULT_TRADE_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].paymentResult").value(hasItem(DEFAULT_PAYMENT_RESULT.toString())));
+            .andExpect(jsonPath("$.[*].paymentResult").value(hasItem(DEFAULT_PAYMENT_RESULT.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].openId").value(hasItem(DEFAULT_OPEN_ID.toString())));
     }
 
     @Test

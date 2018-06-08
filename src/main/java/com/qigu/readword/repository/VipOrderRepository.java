@@ -16,6 +16,4 @@ public interface VipOrderRepository extends JpaRepository<VipOrder, Long>, JpaSp
     @Query("select vip_order from VipOrder vip_order where vip_order.user.login = ?#{principal.username}")
     List<VipOrder> findByUserIsCurrentUser();
 
-    VipOrder findByOutTradeNoEquals(String outTradeNo);
-
 }

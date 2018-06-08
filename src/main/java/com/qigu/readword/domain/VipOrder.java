@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.qigu.readword.domain.enumeration.OrderStatus;
+
 /**
  * A VipOrder.
  */
@@ -50,6 +52,15 @@ public class VipOrder implements Serializable {
     @Lob
     @Column(name = "payment_result")
     private String paymentResult;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private OrderStatus status;
+
+    @NotNull
+    @Column(name = "open_id", nullable = false)
+    private String openId;
 
     @ManyToOne
     private User user;
@@ -167,6 +178,32 @@ public class VipOrder implements Serializable {
         this.paymentResult = paymentResult;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public VipOrder status(OrderStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public VipOrder openId(String openId) {
+        this.openId = openId;
+        return this;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
     public User getUser() {
         return user;
     }
@@ -213,6 +250,8 @@ public class VipOrder implements Serializable {
             ", outTradeNo='" + getOutTradeNo() + "'" +
             ", tradeType='" + getTradeType() + "'" +
             ", paymentResult='" + getPaymentResult() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", openId='" + getOpenId() + "'" +
             "}";
     }
 }

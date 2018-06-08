@@ -61,7 +61,9 @@ entity VipOrder{
     transactionId String,
     outTradeNo String,
     tradeType String,
-    paymentResult TextBlob
+    paymentResult TextBlob,
+    status OrderStatus required,
+    openId String required
 }
 
 enum OrderStatus{
