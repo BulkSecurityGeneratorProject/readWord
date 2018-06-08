@@ -1,0 +1,58 @@
+
+<div *ngIf="vipOrder">
+    <h2><span jhiTranslate="readWordApp.vipOrder.detail.title">Vip Order</span> {{vipOrder.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="readWordApp.vipOrder.createTime">Create Time</span></dt>
+        <dd>
+            <span>{{vipOrder.createTime | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.paymentTime">Payment Time</span></dt>
+        <dd>
+            <span>{{vipOrder.paymentTime | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.totalPrice">Total Price</span></dt>
+        <dd>
+            <span>{{vipOrder.totalPrice}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.months">Months</span></dt>
+        <dd>
+            <span>{{vipOrder.months}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.transactionId">Transaction Id</span></dt>
+        <dd>
+            <span>{{vipOrder.transactionId}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.outTradeNo">Out Trade No</span></dt>
+        <dd>
+            <span>{{vipOrder.outTradeNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.tradeType">Trade Type</span></dt>
+        <dd>
+            <span>{{vipOrder.tradeType}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.paymentResult">Payment Result</span></dt>
+        <dd>
+            <span>{{vipOrder.paymentResult}}</span>
+        </dd>
+        <dt><span jhiTranslate="readWordApp.vipOrder.user">User</span></dt>
+        <dd>
+            {{vipOrder.userLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'vip-order/'+ vipOrder.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

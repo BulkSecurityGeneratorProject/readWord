@@ -17,6 +17,7 @@
                 "messageStatus": "Message Status",
                 "slide": "Slide",
                 "question": "Question",
+                "vipOrder": "Vip Order",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

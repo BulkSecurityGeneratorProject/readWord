@@ -1,0 +1,106 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myVipOrderLabel" jhiTranslate="readWordApp.vipOrder.home.createOrEditLabel">Create or edit a Vip Order</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!vipOrder.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="vipOrder.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.createTime" for="field_createTime">Create Time</label>
+            <div class="d-flex">
+                <input id="field_createTime" type="datetime-local" class="form-control" name="createTime" [(ngModel)]="vipOrder.createTime"
+                required/>
+            </div>
+            <div [hidden]="!(editForm.controls.createTime?.dirty && editForm.controls.createTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.createTime?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.createTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.paymentTime" for="field_paymentTime">Payment Time</label>
+            <div class="d-flex">
+                <input id="field_paymentTime" type="datetime-local" class="form-control" name="paymentTime" [(ngModel)]="vipOrder.paymentTime"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.totalPrice" for="field_totalPrice">Total Price</label>
+            <input type="number" class="form-control" name="totalPrice" id="field_totalPrice"
+                [(ngModel)]="vipOrder.totalPrice" required/>
+            <div [hidden]="!(editForm.controls.totalPrice?.dirty && editForm.controls.totalPrice?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.totalPrice?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.totalPrice?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.months" for="field_months">Months</label>
+            <input type="number" class="form-control" name="months" id="field_months"
+                [(ngModel)]="vipOrder.months" required/>
+            <div [hidden]="!(editForm.controls.months?.dirty && editForm.controls.months?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.months?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.months?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.transactionId" for="field_transactionId">Transaction Id</label>
+            <input type="text" class="form-control" name="transactionId" id="field_transactionId"
+                [(ngModel)]="vipOrder.transactionId" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.outTradeNo" for="field_outTradeNo">Out Trade No</label>
+            <input type="text" class="form-control" name="outTradeNo" id="field_outTradeNo"
+                [(ngModel)]="vipOrder.outTradeNo" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.tradeType" for="field_tradeType">Trade Type</label>
+            <input type="text" class="form-control" name="tradeType" id="field_tradeType"
+                [(ngModel)]="vipOrder.tradeType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.paymentResult" for="field_paymentResult">Payment Result</label>
+            <textarea class="form-control" name="paymentResult" id="field_paymentResult"
+                [(ngModel)]="vipOrder.paymentResult" ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="readWordApp.vipOrder.user" for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" [(ngModel)]="vipOrder.userId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

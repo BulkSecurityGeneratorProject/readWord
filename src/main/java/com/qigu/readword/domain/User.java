@@ -86,6 +86,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "has_update_info")
     private Boolean hasUpdateInfo = false;
 
+    @Column(name = "vip_end_date")
+    private Instant vipEndDate = null;
 
     @JsonIgnore
     @ManyToMany
@@ -224,6 +226,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.sharedUser = sharedUser;
     }
 
+    public Instant getVipEndDate() {
+        return vipEndDate;
+    }
+
+    public void setVipEndDate(Instant vipEndDate) {
+        this.vipEndDate = vipEndDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -254,6 +264,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
             ", hasUpdateInfo='" + hasUpdateInfo + '\'' +
+            ", vipEndDate='" + vipEndDate + '\'' +
             "}";
     }
 

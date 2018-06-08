@@ -53,11 +53,25 @@ enum MessageStatusEnum{
 	READ,DELETE
 }
 
+entity VipOrder{
+    createTime Instant required,
+    paymentTime Instant,
+    totalPrice Double required,
+    months Integer required,
+    transactionId String,
+    outTradeNo String,
+    tradeType String,
+    paymentResult TextBlob
+}
 
+enum OrderStatus{
+	NOPAY , PAYED
+}
 relationship ManyToOne {
   Word{user(login)} to User,
   WordGroup{user(login)} to User,
-  Word{WordGroup(name)}  to WordGroup
+  Word{WordGroup(name)}  to WordGroup,
+  VipOrder{user(login)} to User
 }
 
 relationship ManyToMany{

@@ -1,0 +1,31 @@
+
+{
+    "readWordApp": {
+        "vipOrder" : {
+            "home": {
+                "title": "Vip Orders",
+                "createLabel": "Create a new Vip Order",
+                "createOrEditLabel": "Create or edit a Vip Order",
+                "search": "Search for Vip Order"
+            },
+            "created": "A new Vip Order is created with identifier {{ param }}",
+            "updated": "A Vip Order is updated with identifier {{ param }}",
+            "deleted": "A Vip Order is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Vip Order {{ id }}?"
+            },
+            "detail": {
+                "title": "Vip Order"
+            },
+            "createTime": "Create Time",
+            "paymentTime": "Payment Time",
+            "totalPrice": "Total Price",
+            "months": "Months",
+            "transactionId": "Transaction Id",
+            "outTradeNo": "Out Trade No",
+            "tradeType": "Trade Type",
+            "paymentResult": "Payment Result",
+            "user": "User"
+        }
+    }
+}

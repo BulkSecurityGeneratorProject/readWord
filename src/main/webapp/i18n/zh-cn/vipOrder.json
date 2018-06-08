@@ -1,0 +1,31 @@
+
+{
+    "readWordApp": {
+        "vipOrder" : {
+            "home": {
+                "title": "Vip Orders",
+                "createLabel": "创建新 Vip Order",
+                "createOrEditLabel": "创建或编辑 Vip Order",
+                "search": "查找 Vip Order"
+            },
+            "created": "Vip Order {{ param }} 创建成功",
+            "updated": "Vip Order {{ param }} 更新成功",
+            "deleted": "Vip Order {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Vip Order {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Vip Order"
+            },
+            "createTime": "Create Time",
+            "paymentTime": "Payment Time",
+            "totalPrice": "Total Price",
+            "months": "Months",
+            "transactionId": "Transaction Id",
+            "outTradeNo": "Out Trade No",
+            "tradeType": "Trade Type",
+            "paymentResult": "Payment Result",
+            "user": "User"
+        }
+    }
+}
