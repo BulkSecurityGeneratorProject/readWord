@@ -3,6 +3,7 @@ package com.qigu.readword.web.rest;
 import com.qigu.readword.ReadWordApp;
 
 import com.qigu.readword.domain.VipOrder;
+import com.qigu.readword.domain.Product;
 import com.qigu.readword.domain.User;
 import com.qigu.readword.repository.VipOrderRepository;
 import com.qigu.readword.service.VipOrderService;
@@ -39,7 +40,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.qigu.readword.domain.enumeration.OrderStatus;
+import com.qigu.readword.domain.enumeration.VipOrderStatus;
 /**
  * Test class for the VipOrderResource REST controller.
  *
@@ -73,8 +74,8 @@ public class VipOrderResourceIntTest {
     private static final String DEFAULT_PAYMENT_RESULT = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_RESULT = "BBBBBBBBBB";
 
-    private static final OrderStatus DEFAULT_STATUS = OrderStatus.NOPAY;
-    private static final OrderStatus UPDATED_STATUS = OrderStatus.PAYED;
+    private static final VipOrderStatus DEFAULT_STATUS = VipOrderStatus.NOPAY;
+    private static final VipOrderStatus UPDATED_STATUS = VipOrderStatus.PAYED;
 
     private static final String DEFAULT_OPEN_ID = "AAAAAAAAAA";
     private static final String UPDATED_OPEN_ID = "BBBBBBBBBB";
@@ -718,6 +719,25 @@ public class VipOrderResourceIntTest {
         // Get all the vipOrderList where openId is null
         defaultVipOrderShouldNotBeFound("openId.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllVipOrdersByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        vipOrder.setProduct(product);
+        vipOrderRepository.saveAndFlush(vipOrder);
+        Long productId = product.getId();
+
+        // Get all the vipOrderList where product equals to productId
+        defaultVipOrderShouldBeFound("productId.equals=" + productId);
+
+        // Get all the vipOrderList where product equals to productId + 1
+        defaultVipOrderShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
 
     @Test
     @Transactional

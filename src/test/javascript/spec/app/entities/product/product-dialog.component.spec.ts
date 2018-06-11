@@ -6,39 +6,35 @@ import { Observable } from 'rxjs/Observable';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { ReadWordTestModule } from '../../../test.module';
-import { VipOrderDialogComponent } from '../../../../../../main/webapp/app/entities/vip-order/vip-order-dialog.component';
-import { VipOrderService } from '../../../../../../main/webapp/app/entities/vip-order/vip-order.service';
-import { VipOrder } from '../../../../../../main/webapp/app/entities/vip-order/vip-order.model';
-import { ProductService } from '../../../../../../main/webapp/app/entities/product';
-import { UserService } from '../../../../../../main/webapp/app/shared';
+import { ProductDialogComponent } from '../../../../../../main/webapp/app/entities/product/product-dialog.component';
+import { ProductService } from '../../../../../../main/webapp/app/entities/product/product.service';
+import { Product } from '../../../../../../main/webapp/app/entities/product/product.model';
 
 describe('Component Tests', () => {
 
-    describe('VipOrder Management Dialog Component', () => {
-        let comp: VipOrderDialogComponent;
-        let fixture: ComponentFixture<VipOrderDialogComponent>;
-        let service: VipOrderService;
+    describe('Product Management Dialog Component', () => {
+        let comp: ProductDialogComponent;
+        let fixture: ComponentFixture<ProductDialogComponent>;
+        let service: ProductService;
         let mockEventManager: any;
         let mockActiveModal: any;
 
         beforeEach(async(() => {
             TestBed.configureTestingModule({
                 imports: [ReadWordTestModule],
-                declarations: [VipOrderDialogComponent],
+                declarations: [ProductDialogComponent],
                 providers: [
-                    ProductService,
-                    UserService,
-                    VipOrderService
+                    ProductService
                 ]
             })
-            .overrideTemplate(VipOrderDialogComponent, '')
+            .overrideTemplate(ProductDialogComponent, '')
             .compileComponents();
         }));
 
         beforeEach(() => {
-            fixture = TestBed.createComponent(VipOrderDialogComponent);
+            fixture = TestBed.createComponent(ProductDialogComponent);
             comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(VipOrderService);
+            service = fixture.debugElement.injector.get(ProductService);
             mockEventManager = fixture.debugElement.injector.get(JhiEventManager);
             mockActiveModal = fixture.debugElement.injector.get(NgbActiveModal);
         });
@@ -48,9 +44,9 @@ describe('Component Tests', () => {
                 inject([],
                     fakeAsync(() => {
                         // GIVEN
-                        const entity = new VipOrder(123);
+                        const entity = new Product(123);
                         spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({body: entity})));
-                        comp.vipOrder = entity;
+                        comp.product = entity;
                         // WHEN
                         comp.save();
                         tick(); // simulate async
@@ -58,7 +54,7 @@ describe('Component Tests', () => {
                         // THEN
                         expect(service.update).toHaveBeenCalledWith(entity);
                         expect(comp.isSaving).toEqual(false);
-                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'vipOrderListModification', content: 'OK'});
+                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'productListModification', content: 'OK'});
                         expect(mockActiveModal.dismissSpy).toHaveBeenCalled();
                     })
                 )
@@ -68,9 +64,9 @@ describe('Component Tests', () => {
                 inject([],
                     fakeAsync(() => {
                         // GIVEN
-                        const entity = new VipOrder();
+                        const entity = new Product();
                         spyOn(service, 'create').and.returnValue(Observable.of(new HttpResponse({body: entity})));
-                        comp.vipOrder = entity;
+                        comp.product = entity;
                         // WHEN
                         comp.save();
                         tick(); // simulate async
@@ -78,7 +74,7 @@ describe('Component Tests', () => {
                         // THEN
                         expect(service.create).toHaveBeenCalledWith(entity);
                         expect(comp.isSaving).toEqual(false);
-                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'vipOrderListModification', content: 'OK'});
+                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'productListModification', content: 'OK'});
                         expect(mockActiveModal.dismissSpy).toHaveBeenCalled();
                     })
                 )

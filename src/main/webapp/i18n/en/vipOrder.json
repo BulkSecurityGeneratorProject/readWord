@@ -27,6 +27,7 @@
             "paymentResult": "Payment Result",
             "status": "Status",
             "openId": "Open Id",
+            "product": "Product",
             "user": "User"
         }
     }

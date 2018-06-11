@@ -18,6 +18,7 @@
                 "slide": "Slide",
                 "question": "Question",
                 "vipOrder": "Vip Order",
+                "product": "Product",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

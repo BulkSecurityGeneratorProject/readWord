@@ -11,6 +11,7 @@ import { ReadWordMessageStatusModule } from './message-status/message-status.mod
 import { ReadWordSlideModule } from './slide/slide.module';
 import { ReadWordQuestionModule } from './question/question.module';
 import { ReadWordVipOrderModule } from './vip-order/vip-order.module';
+import { ReadWordProductModule } from './product/product.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ReadWordVipOrderModule } from './vip-order/vip-order.module';
         ReadWordSlideModule,
         ReadWordQuestionModule,
         ReadWordVipOrderModule,
+        ReadWordProductModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

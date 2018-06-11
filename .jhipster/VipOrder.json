@@ -2,6 +2,14 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "one-to-one",
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "vipOrder"
+        },
+        {
             "relationshipType": "many-to-one",
             "relationshipName": "user",
             "otherEntityName": "user",
@@ -53,8 +61,8 @@
         },
         {
             "fieldName": "status",
-            "fieldType": "OrderStatus",
-            "fieldValues": "NOPAY,PAYED",
+            "fieldType": "VipOrderStatus",
+            "fieldValues": "NOPAY,PAYED,CLOSED",
             "fieldValidateRules": [
                 "required"
             ]

@@ -9,6 +9,7 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { VipOrder } from './vip-order.model';
 import { VipOrderPopupService } from './vip-order-popup.service';
 import { VipOrderService } from './vip-order.service';
+import { Product, ProductService } from '../product';
 import { User, UserService } from '../../shared';
 
 @Component({
@@ -20,6 +21,8 @@ export class VipOrderDialogComponent implements OnInit {
     vipOrder: VipOrder;
     isSaving: boolean;
 
+    products: Product[];
+
     users: User[];
 
     constructor(
@@ -27,6 +30,7 @@ export class VipOrderDialogComponent implements OnInit {
         private dataUtils: JhiDataUtils,
         private jhiAlertService: JhiAlertService,
         private vipOrderService: VipOrderService,
+        private productService: ProductService,
         private userService: UserService,
         private eventManager: JhiEventManager
     ) {
@@ -34,6 +38,19 @@ export class VipOrderDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
+        this.productService
+            .query({filter: 'viporder-is-null'})
+            .subscribe((res: HttpResponse<Product[]>) => {
+                if (!this.vipOrder.productId) {
+                    this.products = res.body;
+                } else {
+                    this.productService
+                        .find(this.vipOrder.productId)
+                        .subscribe((subRes: HttpResponse<Product>) => {
+                            this.products = [subRes.body].concat(res.body);
+                        }, (subRes: HttpErrorResponse) => this.onError(subRes.message));
+                }
+            }, (res: HttpErrorResponse) => this.onError(res.message));
         this.userService.query()
             .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
@@ -82,6 +99,10 @@ export class VipOrderDialogComponent implements OnInit {
 
     private onError(error: any) {
         this.jhiAlertService.error(error.message, null, null);
+    }
+
+    trackProductById(index: number, item: Product) {
+        return item.id;
     }
 
     trackUserById(index: number, item: User) {

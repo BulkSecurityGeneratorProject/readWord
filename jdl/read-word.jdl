@@ -62,12 +62,21 @@ entity VipOrder{
     outTradeNo String,
     tradeType String,
     paymentResult TextBlob,
-    status OrderStatus required,
+    status VipOrderStatus required,
     openId String required
 }
 
-enum OrderStatus{
-	NOPAY , PAYED
+entity Product{
+	name String required,
+	price Double required,
+	totalMonths Integer required,
+    rank Double,
+    desctription TextBlob,
+    lifeStatus LifeStatus
+}
+
+enum VipOrderStatus{
+	NOPAY , PAYED ,CLOSED
 }
 relationship ManyToOne {
   Word{user(login)} to User,
@@ -90,7 +99,8 @@ relationship OneToOne {
   Favorite{user(login)} to User,
   Question{user(login)} to User,
   Message{content(name)} to MessageContent,
-  Slide{img(name)}  to Image
+  Slide{img(name)}  to Image,
+  VipOrder{product(name)} to Product
 
 }
 

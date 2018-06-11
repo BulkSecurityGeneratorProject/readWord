@@ -1,7 +1,7 @@
 package com.qigu.readword.service.dto;
 
 import java.io.Serializable;
-import com.qigu.readword.domain.enumeration.OrderStatus;
+import com.qigu.readword.domain.enumeration.VipOrderStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -25,9 +25,9 @@ import io.github.jhipster.service.filter.InstantFilter;
  */
 public class VipOrderCriteria implements Serializable {
     /**
-     * Class for filtering OrderStatus
+     * Class for filtering VipOrderStatus
      */
-    public static class OrderStatusFilter extends Filter<OrderStatus> {
+    public static class VipOrderStatusFilter extends Filter<VipOrderStatus> {
     }
 
     private static final long serialVersionUID = 1L;
@@ -49,9 +49,11 @@ public class VipOrderCriteria implements Serializable {
 
     private StringFilter tradeType;
 
-    private OrderStatusFilter status;
+    private VipOrderStatusFilter status;
 
     private StringFilter openId;
+
+    private LongFilter productId;
 
     private LongFilter userId;
 
@@ -122,11 +124,11 @@ public class VipOrderCriteria implements Serializable {
         this.tradeType = tradeType;
     }
 
-    public OrderStatusFilter getStatus() {
+    public VipOrderStatusFilter getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatusFilter status) {
+    public void setStatus(VipOrderStatusFilter status) {
         this.status = status;
     }
 
@@ -136,6 +138,14 @@ public class VipOrderCriteria implements Serializable {
 
     public void setOpenId(StringFilter openId) {
         this.openId = openId;
+    }
+
+    public LongFilter getProductId() {
+        return productId;
+    }
+
+    public void setProductId(LongFilter productId) {
+        this.productId = productId;
     }
 
     public LongFilter getUserId() {
@@ -159,6 +169,7 @@ public class VipOrderCriteria implements Serializable {
                 (tradeType != null ? "tradeType=" + tradeType + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (openId != null ? "openId=" + openId + ", " : "") +
+                (productId != null ? "productId=" + productId + ", " : "") +
                 (userId != null ? "userId=" + userId + ", " : "") +
             "}";
     }

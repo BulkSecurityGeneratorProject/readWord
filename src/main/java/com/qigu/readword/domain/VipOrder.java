@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import com.qigu.readword.domain.enumeration.OrderStatus;
+import com.qigu.readword.domain.enumeration.VipOrderStatus;
 
 /**
  * A VipOrder.
@@ -56,11 +56,15 @@ public class VipOrder implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private OrderStatus status;
+    private VipOrderStatus status;
 
     @NotNull
     @Column(name = "open_id", nullable = false)
     private String openId;
+
+    @OneToOne
+    @JoinColumn()
+    private Product product;
 
     @ManyToOne
     private User user;
@@ -178,16 +182,16 @@ public class VipOrder implements Serializable {
         this.paymentResult = paymentResult;
     }
 
-    public OrderStatus getStatus() {
+    public VipOrderStatus getStatus() {
         return status;
     }
 
-    public VipOrder status(OrderStatus status) {
+    public VipOrder status(VipOrderStatus status) {
         this.status = status;
         return this;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(VipOrderStatus status) {
         this.status = status;
     }
 
@@ -202,6 +206,19 @@ public class VipOrder implements Serializable {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public VipOrder product(Product product) {
+        this.product = product;
+        return this;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public User getUser() {

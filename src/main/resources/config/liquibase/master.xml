@@ -16,6 +16,7 @@
     <include file="config/liquibase/changelog/20180418014512_added_entity_Slide.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180502024151_added_entity_Question.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180607085614_added_entity_VipOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180611010103_added_entity_Product.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20180416004603_added_entity_constraints_Word.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180416004604_added_entity_constraints_Favorite.xml" relativeToChangelogFile="false"/>
@@ -24,7 +25,6 @@
     <include file="config/liquibase/changelog/20180416004610_added_entity_constraints_MessageStatus.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180418014512_added_entity_constraints_Slide.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180502024151_added_entity_constraints_Question.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20180607085614_added_entity_constraints_VipOrder.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="config/liquibase/changelog/20180417100752_user_has_update_info.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180418015128_add_life_status.xml" relativeToChangelogFile="false"/>
@@ -33,5 +33,6 @@
     <include file="config/liquibase/changelog/20180428080432_add_one_speed_url.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180607091741_add_vip_end_date.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180608113855_add_vid_order_status.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180611011953_add_relation_product_vipOrder.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

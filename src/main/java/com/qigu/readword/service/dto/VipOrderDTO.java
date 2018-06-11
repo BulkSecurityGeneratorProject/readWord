@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Lob;
-import com.qigu.readword.domain.enumeration.OrderStatus;
+import com.qigu.readword.domain.enumeration.VipOrderStatus;
 
 /**
  * A DTO for the VipOrder entity.
@@ -38,10 +38,14 @@ public class VipOrderDTO implements Serializable {
     private String paymentResult;
 
     @NotNull
-    private OrderStatus status;
+    private VipOrderStatus status;
 
     @NotNull
     private String openId;
+
+    private Long productId;
+
+    private String productName;
 
     private Long userId;
 
@@ -119,11 +123,11 @@ public class VipOrderDTO implements Serializable {
         this.paymentResult = paymentResult;
     }
 
-    public OrderStatus getStatus() {
+    public VipOrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(VipOrderStatus status) {
         this.status = status;
     }
 
@@ -133,6 +137,22 @@ public class VipOrderDTO implements Serializable {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Long getUserId() {

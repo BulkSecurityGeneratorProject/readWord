@@ -1,0 +1,10 @@
+{
+    "readWordApp": {
+        "VipOrderStatus" : {
+            "null": "",
+            "NOPAY": "NOPAY",
+            "PAYED": "PAYED",
+            "CLOSED": "CLOSED"
+        }
+    }
+}
