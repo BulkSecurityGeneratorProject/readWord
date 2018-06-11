@@ -73,10 +73,11 @@ Page({
         let formValues = e.detail.value;
         console.log('form发生了submit事件，携带数据为：', formValues);
         let method = 'POST';
+        let url = '/questions';
         if (formValues.id) {
-            method = "PUT";
+            url = "/questions/update";
         }
-        fetch.loginAndFetch("/questions", formValues, method).then(res => {
+        fetch.loginAndFetch(url, formValues, method).then(res => {
             if (res.statusCode === 200) {
                 wx.showToast({
                     title: '提交成功,谢谢!',

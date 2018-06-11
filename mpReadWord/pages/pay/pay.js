@@ -76,7 +76,7 @@ Page({
         wx.login({
             success(res) {
                 wx.request({
-                    url: app.config.apiPay,
+                    url: app.config.apiPay + '/1',
                     method: method,
                     data: {
                         code: res.code,

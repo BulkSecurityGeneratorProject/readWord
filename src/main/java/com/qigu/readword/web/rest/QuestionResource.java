@@ -70,6 +70,20 @@ public class QuestionResource {
             .body(result);
     }
 
+    @PostMapping("/questions/update")
+    @Timed
+    public ResponseEntity<QuestionDTO> updateQuestionPost(@RequestBody QuestionDTO questionDTO) throws URISyntaxException {
+        log.debug("REST request to update Question : {}", questionDTO);
+        if (questionDTO.getId() == null) {
+            return createQuestion(questionDTO);
+        }
+        QuestionDTO result = questionService.save(questionDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, questionDTO.getId().toString()))
+            .body(result);
+    }
+
+
     /**
      * PUT  /questions : Updates an existing question.
      *
