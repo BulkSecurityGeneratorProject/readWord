@@ -55,6 +55,10 @@ public class UserDTO {
 
     private Boolean hasUpdateInfo;
 
+    private Boolean isVipExpired;
+
+    private String vipEndDate;
+
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -77,6 +81,16 @@ public class UserDTO {
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
+
+        Instant vipEndDate = user.getVipEndDate();
+        Boolean isVipExpired = false;
+        if (vipEndDate != null) {
+            this.setVipEndDate(vipEndDate.toString());
+            if (vipEndDate.isBefore(Instant.now())) {
+                isVipExpired = true;
+            }
+        }
+        this.setVipExpired(isVipExpired);
     }
 
     public Long getId() {
@@ -189,6 +203,22 @@ public class UserDTO {
 
     public void setHasUpdateInfo(Boolean hasUpdateInfo) {
         this.hasUpdateInfo = hasUpdateInfo;
+    }
+
+    public Boolean getVipExpired() {
+        return isVipExpired;
+    }
+
+    public void setVipExpired(Boolean vipExpired) {
+        isVipExpired = vipExpired;
+    }
+
+    public String getVipEndDate() {
+        return vipEndDate;
+    }
+
+    public void setVipEndDate(String vipEndDate) {
+        this.vipEndDate = vipEndDate;
     }
 
     @Override

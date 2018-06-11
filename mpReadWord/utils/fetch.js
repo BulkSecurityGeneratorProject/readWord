@@ -63,4 +63,32 @@ module.exports.loginAndFetch = (url, data, method = 'GET', header = {}) => {
 
 };
 
+module.exports.fromShare = (options) => {
+    let sharedUserId = options.sharedUserId;
+    return new Promise((resolve, reject) => {
+        if (sharedUserId) {
+            console.log("sharedUserId=", sharedUserId);
+            return login(sharedUserId);
+        } else {
+            console.log("no share");
+            return resolve({});
+        }
+    });
+};
 
+
+module.exports.onShare = (options, url, sharedUserId) => {
+    if (options.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(res.target)
+    }
+    return {
+        title: '新新看图识字',
+        path: url + '?sharedUserId=' + sharedUserId,
+        success: function (res) {
+        },
+        fail: function (res) {
+            // 转发失败
+        }
+    }
+};

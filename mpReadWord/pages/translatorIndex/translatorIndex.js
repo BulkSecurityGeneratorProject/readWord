@@ -11,6 +11,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 const app = getApp();
 
+const fetch = require('../../utils/fetch');
+
 const util = require('../../utils/util.js');
 
 const plugin = requirePlugin("WechatSI");
@@ -64,7 +66,11 @@ Page({
 
     },
 
+    onShareAppMessage: function (options) {
+        let id = this.data.userInfo.id;
+        return fetch.onShare(options, 'pages/translatorIndex/translatorIndex', id);
 
+    },
     /**
      * 按住按钮开始语音识别
      */
@@ -441,15 +447,18 @@ Page({
 
     },
 
-    onLoad: function () {
-        this.getHistory();
-        this.initRecord();
+    onLoad: function (options) {
+        let me = this;
+        fetch.fromShare(options).then(res => {
+            me.getHistory();
+            me.initRecord();
+            me.setData({toView: this.data.toView});
+            app.getRecordAuth();
+            fetch.loginAndFetch("/account").then(value => {
+                me.setData({userInfo: value.data});
+            });
+        })
 
-
-        this.setData({toView: this.data.toView});
-
-
-        app.getRecordAuth()
     },
 
     onHide: function () {

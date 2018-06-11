@@ -14,9 +14,8 @@ Page({
      */
     onLoad: function (options) {
         let that = this;
-        fetch.loginAndFetch("/questions/me").then(res => {
-            let {id, userId, contact, desctription} = res.data;
-            that.setData({id, userId, contact, desctription})
+        fetch.loginAndFetch("/products").then(res => {
+            this.setData({items: res.data});
         })
     },
 
@@ -72,11 +71,19 @@ Page({
     formSubmit: function (e) {
         let formValues = e.detail.value;
         console.log('form发生了submit事件，携带数据为：', formValues);
+        if(!formValues.productId){
+            wx.showToast({
+                title: '请选择会员!',
+                icon: 'success',
+                duration: 2000
+            });
+            return
+        }
         let method = 'GET';
         wx.login({
             success(res) {
                 wx.request({
-                    url: app.config.apiPay + '/1',
+                    url: app.config.apiPay + "/" + formValues.productId,
                     method: method,
                     data: {
                         code: res.code,

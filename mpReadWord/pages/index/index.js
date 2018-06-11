@@ -10,22 +10,9 @@ Page({
         slides: [],
         categories: []
     },
-    onShareAppMessage: function (res) {
-        if (res.from === 'button') {
-            // 来自页面内转发按钮
-            console.log(res.target)
-        }
+    onShareAppMessage: function (options) {
         let id = this.data.userInfo.id;
-        return {
-            title: '新新看图识字',
-            path: 'pages/index/index?sharedUserId=' + id,
-            success: function (res) {
-
-            },
-            fail: function (res) {
-                // 转发失败
-            }
-        }
+        return fetch.onShare(options, 'pages/index/index', id);
     },
 
     onPullDownRefresh() {
@@ -36,38 +23,8 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
- /*       var plugin = requirePlugin("WechatSI");
-        let manager = plugin.getRecordRecognitionManager();
-        manager.onRecognize = function (res) {
-            console.log("current result", res.result)
-        };
-        manager.onStop = function (res) {
-            console.log("record file path", res.tempFilePath);
-            console.log("result", res.result)
-        };
-        manager.onError = function (res) {
-            console.error("error msg", res.msg)
-        };
-        manager.start({duration: 30000, lang: "zh_CN"});*/
-
-        let sharedUserId = options.sharedUserId;
-        console.log("####sharedUserId->" + sharedUserId);
-        if (sharedUserId) {
-            login(sharedUserId).then(res => {
-                return fetch.fetchAvailable('/slides').then(res => {
-                    this.setData({slides: res.data})
-                }).then(res => {
-                    return fetch.fetchAvailable('/word-groups-mini', {sort: 'rank,asc'}).then(res => {
-                        if (res) this.setData({categories: res.data})
-                    });
-                }).then(res => {
-                    return fetch.loginAndFetch("/account").then(value => {
-                        this.setData({userInfo: value.data});
-                    });
-                });
-            });
-        } else {
-            fetch.fetchAvailable('/slides').then(res => {
+        fetch.fromShare(options).then(res => {
+            return fetch.fetchAvailable('/slides').then(res => {
                 this.setData({slides: res.data})
             }).then(res => {
                 return fetch.fetchAvailable('/word-groups-mini', {sort: 'rank,asc'}).then(res => {
@@ -78,7 +35,7 @@ Page({
                     this.setData({userInfo: value.data});
                 });
             });
-        }
+        })
 
 
     },
