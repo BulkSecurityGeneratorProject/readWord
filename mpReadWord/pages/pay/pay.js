@@ -16,6 +16,14 @@ Page({
         let that = this;
         fetch.loginAndFetch("/products").then(res => {
             this.setData({items: res.data});
+            if (options.vipExpired) {
+                wx.showModal({
+                    title: "购买时长",
+                    content: "您的使用时间已经过期,请购买时长,谢谢!",
+                    showCancel: false
+                });
+            }
+
         })
     },
 
@@ -69,17 +77,26 @@ Page({
 
     },
     formSubmit: function (e) {
+        let me = this;
         let formValues = e.detail.value;
         console.log('form发生了submit事件，携带数据为：', formValues);
-        if(!formValues.productId){
-            wx.showToast({
-                title: '请选择会员!',
-                icon: 'success',
-                duration: 2000
+        if (!formValues.productId) {
+            wx.showModal({
+                title: "购买时长",
+                content: '请选择会员!',
+                showCancel: false
             });
             return
         }
         let method = 'GET';
+        let productName = '';
+        for (let obj of me.data.items) {
+            if (formValues.productId.toString() === obj.id.toString()) {
+                productName = obj.name;
+                break;
+            }
+        }
+        let showMessage = productName + " 购买成功!";
         wx.login({
             success(res) {
                 wx.request({
@@ -99,13 +116,32 @@ Page({
                                     signType: res.data.signType,
                                     paySign: res.data.paySign,
                                     success: function (res) {
-                                        console.log("success->", res)
+                                        wx.showModal({
+                                            title: "购买时长",
+                                            content: showMessage,
+                                            showCancel: false
+                                        });
+                                        wx.switchTab({
+                                            url: '/pages/index/index'
+                                        });
                                     },
                                     fail: function (res) {
                                         console.log("fail->", res)
                                     },
                                     complete: function (res) {
-                                        console.log("complete->", res)
+                                        console.log("complete->", res);
+                                        console.log("complete errMsg->", res.errMsg);
+                                        if (res.errMsg === 'requestPayment:ok') {
+                                            wx.showModal({
+                                                title: "购买时长",
+                                                content: showMessage,
+                                                showCancel: false
+                                            });
+                                            wx.switchTab({
+                                                url: '/pages/index/index'
+                                            });
+                                        }
+
                                     }
                                 });
                         }

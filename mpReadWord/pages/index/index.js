@@ -33,6 +33,11 @@ Page({
             }).then(res => {
                 return fetch.loginAndFetch("/account").then(value => {
                     this.setData({userInfo: value.data});
+                    if (value.data.vipExpired) {
+                        wx.redirectTo({
+                            url: '/pages/pay/pay?vipExpired=true'
+                        });
+                    }
                 });
             });
         })

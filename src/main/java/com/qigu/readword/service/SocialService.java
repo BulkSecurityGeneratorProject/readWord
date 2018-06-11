@@ -9,6 +9,7 @@ import com.qigu.readword.repository.search.UserSearchRepository;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,10 +19,8 @@ import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import java.time.Instant;
+import java.util.*;
 
 @Service
 public class SocialService {
@@ -111,8 +110,7 @@ public class SocialService {
         newUser.setAuthorities(authorities);
         newUser.setLangKey(langKey);
         newUser.setImageUrl(imageUrl);
-
-//        userSearchRepository.save(newUser);
+        newUser.setVipEndDate( DateUtils.addWeeks(new Date(), 1).toInstant());
         return userRepository.save(newUser);
     }
 
