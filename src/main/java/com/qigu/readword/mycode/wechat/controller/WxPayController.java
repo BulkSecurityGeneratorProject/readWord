@@ -1,5 +1,7 @@
 package com.qigu.readword.mycode.wechat.controller;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult;
@@ -8,6 +10,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.qigu.readword.domain.SocialUserConnection;
 import com.qigu.readword.domain.User;
 import com.qigu.readword.domain.VipOrder;
+import com.qigu.readword.domain.enumeration.OrderStatus;
 import com.qigu.readword.mycode.util.ReadWordConstants;
 import com.qigu.readword.mycode.wechat.utils.MD5Utils;
 import com.qigu.readword.repository.SocialUserConnectionRepository;
@@ -23,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -58,67 +62,69 @@ public class WxPayController {
     private ExecutorService executorService = Executors.newCachedThreadPool();//不固定线程数量的线程池;
 
     @Resource
-    private SocialUserConnectionRepository socialUserConnectionRepository;
+    private WxMaService wxService;
 
 
     @RequestMapping("/unifiedOrder")
-    public String unifiedOrder(HttpServletRequest httpServletRequest) {
+    public String unifiedOrder(@RequestParam String code, HttpServletRequest httpServletRequest) {
         JSONObject json = new JSONObject();
         try {
-            Optional<User> userOptional = userService.getUserWithAuthorities();
+            json.put("success", false);
+            WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
+            String openid = session.getOpenid();
+            Optional<User> userOptional = userService.getUserWithAuthoritiesByLogin(openid.toLowerCase());
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                List<SocialUserConnection> socialUserConnections = socialUserConnectionRepository.findAllByUserIdAndProviderIdOrderByRankAsc(user.getLogin(), ReadWordConstants.Wxma);
-                if (socialUserConnections.size() > 0) {
-                    VipOrder vipOrder = new VipOrder();
-                    vipOrder.setMonths(1);
-                    vipOrder.setTotalPrice(0.05);
-                    vipOrder.setCreateTime(Instant.now());
-                    vipOrder.setUser(user);
+                VipOrder vipOrder = new VipOrder();
+                vipOrder.setMonths(1);
+                vipOrder.setTotalPrice(0.05);
+                vipOrder.setCreateTime(Instant.now());
+                vipOrder.setUser(user);
+                vipOrder.setTradeType("JSAPI");
+                vipOrder.setOpenId(openid);
+                vipOrder.setStatus(OrderStatus.NOPAY);
 
-                    vipOrder = vipOrderRepository.save(vipOrder);
-                    String outTradeNo = StringUtils.leftPad(vipOrder.getId().toString(), 10, '0');
-                    vipOrder.setOutTradeNo(outTradeNo);
-                    vipOrderRepository.save(vipOrder);
-                    logger.info("{}", vipOrder);
+                vipOrder = vipOrderRepository.save(vipOrder);
+                String outTradeNo = StringUtils.leftPad(vipOrder.getId().toString(), 10, '0');
+                vipOrder.setOutTradeNo(outTradeNo);
+                vipOrderRepository.save(vipOrder);
+                logger.info("{}", vipOrder);
 
-                    WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
-                    request.setOutTradeNo(vipOrder.getOutTradeNo());
-                    Double v = vipOrder.getTotalPrice() * 100;//单位是分
-                    request.setTotalFee(v.intValue());
-                    request.setBody("新新看图识字1年会员");
-                    request.setTradeType("JSAPI");
-                    String nonceStr = UUID.randomUUID().toString().replaceAll("-", "");
-                    request.setNonceStr(nonceStr);
+                WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+                request.setOutTradeNo(vipOrder.getOutTradeNo());
+                Double v = vipOrder.getTotalPrice() * 100;//单位是分
+                request.setTotalFee(v.intValue());
+                request.setBody("新新看图识字1年会员");
+                request.setTradeType("JSAPI");
+                String nonceStr = UUID.randomUUID().toString().replaceAll("-", "");
+                request.setNonceStr(nonceStr);
+                request.setOpenid(openid);
+                request.setNotifyUrl("http://ectest.nipponpaint.com.cn/wx-mp/wechat/pay/paynotice");
+                request.setSpbillCreateIp(getRemoteAddress(httpServletRequest));
+                logger.info("nonceStr ->{}", nonceStr);
+                WxPayUnifiedOrderResult wxPayUnifiedOrderResult = this.wxPayService.unifiedOrder(request);
 
-                    request.setOpenid(socialUserConnections.get(0).getProviderId());
-                    request.setNotifyUrl("http://ectest.nipponpaint.com.cn/wx-mp/wechat/pay/paynotice");
-                    request.setSpbillCreateIp(getRemoteAddress(httpServletRequest));
-                    logger.info("nonceStr ->{}", nonceStr);
-                    WxPayUnifiedOrderResult wxPayUnifiedOrderResult = this.wxPayService.unifiedOrder(request);
+                logger.info("wxPayUnifiedOrderResult ->{}", wxPayUnifiedOrderResult);
+                String nonceStr2 = UUID.randomUUID().toString().replaceAll("-", "");
+                long time = System.currentTimeMillis() / 1000;
 
-                    logger.info("wxPayUnifiedOrderResult ->{}", wxPayUnifiedOrderResult);
-                    String nonceStr2 = UUID.randomUUID().toString().replaceAll("-", "");
-                    long time = System.currentTimeMillis() / 1000;
-
-                    String stringBuilder = "appId=" + this.wxPayService.getConfig().getAppId() + "&" +
-                        "nonceStr=" + nonceStr2 + "&" +
-                        "package=" + "prepay_id=" + wxPayUnifiedOrderResult.getPrepayId() + "&" +
-                        "signType=" + "MD5" + "&" +
-                        "timeStamp=" + String.valueOf(time) + "&" +
-                        "key=" + this.wxPayService.getConfig().getMchKey();
-                    String sign = MD5Utils.md5(stringBuilder).toUpperCase();
+                String stringBuilder = "appId=" + this.wxPayService.getConfig().getAppId() + "&" +
+                    "nonceStr=" + nonceStr2 + "&" +
+                    "package=" + "prepay_id=" + wxPayUnifiedOrderResult.getPrepayId() + "&" +
+                    "signType=" + "MD5" + "&" +
+                    "timeStamp=" + String.valueOf(time) + "&" +
+                    "key=" + this.wxPayService.getConfig().getMchKey();
+                String sign = MD5Utils.md5(stringBuilder).toUpperCase();
 
 
-                    json.put("timeStamp", String.valueOf(time));
-                    json.put("nonceStr", nonceStr2);
-                    json.put("package", "prepay_id=" + wxPayUnifiedOrderResult.getPrepayId());
-                    json.put("signType", "MD5");
-                    json.put("paySign", sign);
-                    json.put("success", true);
-                    logger.info("-------再签名:" + json.toString());
-                    return json.toString();
-                }
+                json.put("timeStamp", String.valueOf(time));
+                json.put("nonceStr", nonceStr2);
+                json.put("package", "prepay_id=" + wxPayUnifiedOrderResult.getPrepayId());
+                json.put("signType", "MD5");
+                json.put("paySign", sign);
+                json.put("success", true);
+                logger.info("-------再签名:" + json.toString());
+                return json.toString();
 
             }
 
@@ -157,6 +163,11 @@ public class WxPayController {
             if ("SUCCESS".equals(resultCode)) {
                 String outTradeNo = wxPayOrderNotifyResult.getOutTradeNo();
                 VipOrder vipOrder = vipOrderRepository.findByOutTradeNoEquals(outTradeNo);
+                vipOrder.setStatus(OrderStatus.PAYED);
+                vipOrder.setPaymentTime(Instant.now());
+                vipOrder.setPaymentResult(stringbuffer.toString());
+                vipOrder.setTransactionId(wxPayOrderNotifyResult.getTransactionId());
+                vipOrderRepository.save(vipOrder);
                 User user = vipOrder.getUser();
                 Instant vipEndDate = user.getVipEndDate();
                 Instant now = Instant.now();
