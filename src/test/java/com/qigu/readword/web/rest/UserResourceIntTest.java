@@ -3,6 +3,7 @@ package com.qigu.readword.web.rest;
 import com.qigu.readword.ReadWordApp;
 import com.qigu.readword.domain.Authority;
 import com.qigu.readword.domain.User;
+import com.qigu.readword.mycode.wechat.service.MyWxPayService;
 import com.qigu.readword.repository.UserRepository;
 import com.qigu.readword.repository.search.UserSearchRepository;
 import com.qigu.readword.security.AuthoritiesConstants;
@@ -81,6 +82,9 @@ public class UserResourceIntTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MyWxPayService myWxPayService;
 
     @Autowired
     private UserMapper userMapper;
