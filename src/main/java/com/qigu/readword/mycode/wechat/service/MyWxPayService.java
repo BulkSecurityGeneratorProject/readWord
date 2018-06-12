@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -90,17 +91,7 @@ public class MyWxPayService {
                 vipOrder.setPaymentResult(payNotice);
                 vipOrder.setTransactionId(wxPayOrderNotifyResult.getTransactionId());
                 vipOrderRepository.save(vipOrder);
-                User user = vipOrder.getUser();
-                Instant vipEndDate = user.getVipEndDate();
-                Instant now = Instant.now();
-                Date fromDate = new Date();
-                if (!Objects.isNull(vipEndDate) && vipEndDate.isAfter(now)) {
-                    fromDate = new Date(vipEndDate.toEpochMilli());
-                }
-                Date newEndDate = DateUtils.addMonths(fromDate, vipOrder.getMonths());
-                user.setVipEndDate(newEndDate.toInstant());
-                userRepository.save(user);
-                log.info("更新vip时间成功->{}", user);
+                addVip(vipOrder.getUser(), Calendar.MONTH, vipOrder.getMonths());
             } else {
                 vipOrder.setStatus(VipOrderStatus.CLOSED);
                 vipOrder.setPaymentTime(Instant.now());
@@ -111,4 +102,21 @@ public class MyWxPayService {
         }
 
     }
+
+    public void addVip(User user, int calendarField, int amount) {
+        Instant vipEndDate = user.getVipEndDate();
+        Instant now = Instant.now();
+        Date fromDate = new Date();
+        if (!Objects.isNull(vipEndDate) && vipEndDate.isAfter(now)) {
+            fromDate = new Date(vipEndDate.toEpochMilli());
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(fromDate);
+        c.add(calendarField, amount);
+        user.setVipEndDate(c.toInstant());
+        userRepository.save(user);
+        log.info("更新vip时间成功->{}", user);
+
+    }
+
 }

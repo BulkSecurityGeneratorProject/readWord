@@ -7,6 +7,7 @@ import com.qigu.readword.config.Constants;
 import com.qigu.readword.domain.SocialUserConnection;
 import com.qigu.readword.domain.User;
 import com.qigu.readword.mycode.util.ReadWordConstants;
+import com.qigu.readword.mycode.wechat.service.MyWxPayService;
 import com.qigu.readword.repository.SocialUserConnectionRepository;
 import com.qigu.readword.repository.UserRepository;
 import com.qigu.readword.security.jwt.JWTConfigurer;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +55,10 @@ public class WxMaUserController {
     private final UserDetailsService userDetailsService;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final MyWxPayService myWxPayService;
 
-    public WxMaUserController(TokenProvider tokenProvider, SocialService socialService, SocialUserConnectionRepository socialUserConnectionRepository, WxMaService wxService, UserDetailsService userDetailsService, UserService userService, UserRepository userRepository) {
+
+    public WxMaUserController(TokenProvider tokenProvider, SocialService socialService, SocialUserConnectionRepository socialUserConnectionRepository, WxMaService wxService, UserDetailsService userDetailsService, UserService userService, UserRepository userRepository, MyWxPayService myWxPayService) {
         this.tokenProvider = tokenProvider;
         this.socialService = socialService;
         this.socialUserConnectionRepository = socialUserConnectionRepository;
@@ -62,6 +66,7 @@ public class WxMaUserController {
         this.userDetailsService = userDetailsService;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.myWxPayService = myWxPayService;
     }
 
     /**
@@ -220,6 +225,7 @@ public class WxMaUserController {
                 User sharedUser = userRepository.findOne(sharedUserId);
                 user.setSharedUser(sharedUser);
                 userRepository.save(user);
+                myWxPayService.addVip(sharedUser, Calendar.DAY_OF_MONTH, Constants.SHARED_DAYS);
             }
             return userDetailsService.loadUserByUsername(openId);
         } catch (Exception e) {
