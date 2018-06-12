@@ -3,9 +3,14 @@
     <form bindsubmit='formSubmit' bindreset='formReset'>
         <radio-group class="radio-group" name="productId">
             <label class="radio row" wx:for="{{items}}">
-                <radio value="{{item.id}}" />{{item.name}}-{{item.price}}元
+                <radio value="{{item.id}}"/>
+                {{item.name}}-{{item.price}}元
             </label>
         </radio-group>
         <button type='primary' form-type='submit'>提交</button>
     </form>
+</view>
+
+<view class='container'>
+    <button type='primary' open-type="share" >分享好友获得时长</button>
 </view>

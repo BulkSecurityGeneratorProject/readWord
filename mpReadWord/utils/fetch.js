@@ -65,15 +65,16 @@ module.exports.loginAndFetch = (url, data, method = 'GET', header = {}) => {
 
 module.exports.fromShare = (options) => {
     let sharedUserId = options.sharedUserId;
-    return new Promise((resolve, reject) => {
-        if (sharedUserId) {
-            console.log("sharedUserId=", sharedUserId);
-            return login(sharedUserId);
-        } else {
+    if (sharedUserId) {
+        return module.exports.loginAndFetch("/fromShare", {sharedUserId}, 'POST');
+    } else {
+        return new Promise((resolve, reject) => {
             console.log("no share");
             return resolve({});
-        }
-    });
+        });
+    }
+
+
 };
 
 
@@ -86,9 +87,16 @@ module.exports.onShare = (options, url, sharedUserId) => {
         title: '新新看图识字',
         path: url + '?sharedUserId=' + sharedUserId,
         success: function (res) {
+            wx.showModal({
+                title: '本次分享结果:',
+                showCancel: false,
+                content: '分享成功,好友点击后您会获得5天的时长!',
+            })
         },
         fail: function (res) {
             // 转发失败
         }
     }
 };
+
+

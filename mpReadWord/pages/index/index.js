@@ -23,9 +23,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        fetch.fromShare(options).then(res => {
+        fetch.fromShare(options).then(() => {
             return fetch.fetchAvailable('/slides').then(res => {
-                this.setData({slides: res.data})
+                this.setData({slides: res.data});
             }).then(res => {
                 return fetch.fetchAvailable('/word-groups-mini', {sort: 'rank,asc'}).then(res => {
                     if (res) this.setData({categories: res.data})
@@ -42,8 +42,9 @@ Page({
             });
         })
 
-
     },
+
+
     loadMore() {
     },
     searchHandle() {

@@ -123,6 +123,7 @@ public class WxMaUserController {
 
     }
 
+
     @PostMapping("login")
     public ResponseEntity<UserJWTController.JWTToken> loginJhipster(String openid, String sessionKey, String expiresIn, HttpServletRequest request) {
         UserDetails user = null;
@@ -134,30 +135,8 @@ public class WxMaUserController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(ReadWordConstants.WX_SESSION_KEY, sessionKey);
         httpHeaders.add(ReadWordConstants.WX_EXPIRES_IN, expiresIn);
-        Long sharedUserId = null;
-        try {
-            sharedUserId = Long.valueOf(request.getParameter("sharedUserId"));
-            logger.info("###########openId -> sharedUserId -> " + sharedUserId);
-        } catch (Exception e) {
-            logger.info(e.getMessage());
-        }
         if (user == null) {
-            user = createUserByOpenId(openid, sharedUserId);
-        } else {
-            if (sharedUserId != null) {
-                Optional<User> oneByLogin = userRepository.findOneByLogin(user.getUsername());
-                if (oneByLogin.isPresent()) {
-                    User jhiUser = oneByLogin.get();
-                    if (jhiUser.getSharedUser() == null) {
-                        logger.info("###########openId -> sharedUserId -> start#####" + sharedUserId);
-                        User sharedUser = userRepository.findOne(sharedUserId);
-                        jhiUser.setSharedUser(sharedUser);
-                        userRepository.save(jhiUser);
-                        logger.info("###########openId -> sharedUserId -> end#####" + sharedUserId);
-                    }
-                }
-            }
-
+            user = createUserByOpenId(openid);
         }
         String jwt;
         try {
@@ -207,7 +186,7 @@ public class WxMaUserController {
 
     }
 
-    private UserDetails createUserByOpenId(String openId, Long sharedUserId) {
+    private UserDetails createUserByOpenId(String openId) {
         try {
             String nickName = ReadWordConstants.DEFAULT_NICKNAME_PRE + org.apache.commons.lang3.RandomStringUtils.random(5, true, true);
             UserProfile userProfile = new UserProfile(openId, nickName, nickName, nickName, openId + "@qq.com", openId);
@@ -221,12 +200,6 @@ public class WxMaUserController {
             wxMaConnection.setUserId(user.getLogin());
             wxMaConnection.setAccessToken(openId);
             socialUserConnectionRepository.save(wxMaConnection);
-            if (sharedUserId != null) {
-                User sharedUser = userRepository.findOne(sharedUserId);
-                user.setSharedUser(sharedUser);
-                userRepository.save(user);
-                myWxPayService.addVip(sharedUser, Calendar.DAY_OF_MONTH, Constants.SHARED_DAYS);
-            }
             return userDetailsService.loadUserByUsername(openId);
         } catch (Exception e) {
             logger.info(e.getMessage());

@@ -3,6 +3,7 @@ package com.qigu.readword.web.rest;
 import com.qigu.readword.config.Constants;
 import com.codahale.metrics.annotation.Timed;
 import com.qigu.readword.domain.User;
+import com.qigu.readword.mycode.wechat.service.MyWxPayService;
 import com.qigu.readword.repository.UserRepository;
 import com.qigu.readword.repository.search.UserSearchRepository;
 import com.qigu.readword.security.AuthoritiesConstants;
@@ -73,12 +74,15 @@ public class UserResource {
 
     private final UserSearchRepository userSearchRepository;
 
-    public UserResource(UserRepository userRepository, UserService userService, MailService mailService, UserSearchRepository userSearchRepository) {
+    private final MyWxPayService myWxPayService;
+
+    public UserResource(UserRepository userRepository, UserService userService, MailService mailService, UserSearchRepository userSearchRepository, MyWxPayService myWxPayService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
         this.userSearchRepository = userSearchRepository;
+        this.myWxPayService = myWxPayService;
     }
 
     /**
@@ -209,5 +213,19 @@ public class UserResource {
         return StreamSupport
             .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+
+    @PostMapping("/fromShare")
+    public void fromShare(Long sharedUserId){
+        userService.getUserWithAuthorities().ifPresent(user -> {
+            if (user.getSharedUser() == null) {
+                log.info("###########openId -> sharedUserId -> start#####" + sharedUserId);
+                User sharedUser = userRepository.findOne(sharedUserId);
+                user.setSharedUser(sharedUser);
+                userRepository.save(user);
+                myWxPayService.addVip(sharedUser,Calendar.DAY_OF_MONTH,Constants.SHARED_DAYS);
+                log.info("###########openId -> sharedUserId -> end#####" + sharedUserId);
+            }
+        });
     }
 }

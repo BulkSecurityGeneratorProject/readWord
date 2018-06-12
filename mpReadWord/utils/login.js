@@ -1,6 +1,6 @@
 const app = getApp();
 
-module.exports = (sharedUserId = '') => {
+module.exports = () => {
     let header = {};
     let jhipsterHeader = wx.getStorageSync(app.config.jhpsterHeader);
     if (jhipsterHeader) {
@@ -20,8 +20,7 @@ module.exports = (sharedUserId = '') => {
                 wx.request({
                     url: app.config.apiLogin,
                     data: {
-                        code: res.code,
-                        sharedUserId: sharedUserId
+                        code: res.code
                     }, success: function (jhipsterHeader) {
                         resolve(jhipsterHeader);
                     }, fail: function (error) {

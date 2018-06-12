@@ -1,4 +1,4 @@
-const apiBaseStr = 'http://ectest.nipponpaint.com.cn/wx-mp';
+const apiBaseStr = 'http://ectest.nipponpaint.com.cn';
 // const login = require('./utils/login');
 
 App({

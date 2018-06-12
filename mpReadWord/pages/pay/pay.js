@@ -24,7 +24,10 @@ Page({
                 });
             }
 
-        })
+        });
+        fetch.loginAndFetch("/account").then(value => {
+            this.setData({userInfo: value.data});
+        });
     },
 
     /**
@@ -69,80 +72,34 @@ Page({
     onReachBottom: function () {
 
     },
+    shareApp: function (res) {
+        return this.onShareAppMessage(res);
+    },
 
     /**
      * 用户点击右上角分享
      */
     onShareAppMessage: function (res) {
-      /*  const that = this;
-        wx.showShareMenu({
-            withShareTicket: true
-        });
+        const me = this;
         return {
             title: '新新看图识字!',
             desc: '快和熊猫一起学习吧！',
-            path: 'pages/index/index',
+            path: 'pages/index/index?sharedUserId=' + me.data.userInfo.id,
             imageUrl: '/assets/index.png',
-            success: function (res) {
-                if (res.shareTickets !== undefined && res.shareTickets[0]) {
-                    const sharetick = res.shareTickets[0];
-                    console.log(sharetick);
-                    wx.getShareInfo({
-                        shareTicket: res.shareTickets[0],
-                        success(shareres) {
-                            console.log(shareres);
-                            /!*  wx.request({
-                                  url: app.globalData.appUrl + '/api/shareReward',
-                                  method: 'POST',
-                                  header: {
-                                      Authorization: "Bearer " + app.globalData.token
-                                  },
-                                  data: {
-                                      openid: app.globalData.userInfo.openid,
-                                      baseproductname: 'anquanqi',
-                                      iv: shareres.iv,
-                                      encryptedData: shareres.encryptedData,
-                                      getShareInfo: shareres.errMsg,
-                                      sessionKey: app.globalData.userInfo.session_key,
-                                      shareticket: sharetick
-                                  },
-                                  success: function (restres) {
-                                      console.log("endDate==>" + restres.data.endDate);
-                                      wx.showModal({
-                                          title: '本次分享结果:',
-                                          showCancel: false,
-                                          content: restres.data.message,
-                                          success(shareresult) {
-                                              if (shareresult.confirm) {
-                                                  wx.redirectTo({
-                                                      url: '../caculator/caculator?openid=' + that.data.openid,
-                                                      fail: function () {
-                                                          console.log("导航到计算结果页面失败");
-                                                      }
-                                                  })
-                                              }
-                                          }
-                                      })
-                                  }
-                              })*!/
-                        },
-                        complete(res) {
-                            console.log(res)
-                        }
-                    })
-                }
-                else {
+            success:
+                function (res) {
                     wx.showModal({
                         title: '本次分享结果:',
                         showCancel: false,
-                        content: '要分享到群里才有效哦!',
+                        content: '分享成功,好友点击后您会获得5天的时长!',
                     })
                 }
-            },
+
+            ,
             fail: function (res) {
                 console.log("转发失败!");
             }
-        }*/
+        }
     },
     formSubmit: function (e) {
         let me = this;
