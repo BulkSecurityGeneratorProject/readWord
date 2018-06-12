@@ -64,6 +64,7 @@ module.exports.loginAndFetch = (url, data, method = 'GET', header = {}) => {
 };
 
 module.exports.fromShare = (options) => {
+    console.log("fromShare...", options);
     let sharedUserId = options.sharedUserId;
     if (sharedUserId) {
         return module.exports.loginAndFetch("/fromShare", {sharedUserId}, 'POST');

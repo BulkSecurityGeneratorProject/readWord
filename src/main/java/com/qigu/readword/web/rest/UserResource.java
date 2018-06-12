@@ -216,7 +216,7 @@ public class UserResource {
     }
 
     @PostMapping("/fromShare")
-    public void fromShare(Long sharedUserId){
+    public void fromShare(@RequestBody Long sharedUserId){
         userService.getUserWithAuthorities().ifPresent(user -> {
             if (user.getSharedUser() == null) {
                 log.info("###########openId -> sharedUserId -> start#####" + sharedUserId);
