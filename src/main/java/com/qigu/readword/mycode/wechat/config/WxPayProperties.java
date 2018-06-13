@@ -41,7 +41,18 @@ public class WxPayProperties {
    */
   private String keyPath;
 
-  public String getAppId() {
+
+  private String notifyUrl;
+
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public void setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
+    }
+
+    public String getAppId() {
     return this.appId;
   }
 

@@ -31,7 +31,7 @@ public class WxPayConfiguration {
     payConfig.setSubAppId(StringUtils.trimToNull(this.properties.getSubAppId()));
     payConfig.setSubMchId(StringUtils.trimToNull(this.properties.getSubMchId()));
     payConfig.setKeyPath(this.properties.getKeyPath());
-
+    payConfig.setNotifyUrl(this.properties.getNotifyUrl());
     return payConfig;
   }
 

@@ -30,20 +30,21 @@ Page({
                 return fetch.fetchAvailable('/word-groups-mini', {sort: 'rank,asc'}).then(res => {
                     if (res) this.setData({categories: res.data})
                 });
-            }).then(res => {
-                return fetch.loginAndFetch("/account").then(value => {
-                    this.setData({userInfo: value.data});
-                    if (value.data.vipExpired) {
-                        wx.redirectTo({
-                            url: '/pages/pay/pay?vipExpired=true'
-                        });
-                    }
-                });
-            });
+            })
         })
 
     },
 
+    onShow() {
+        fetch.loginAndFetch("/account").then(value => {
+            this.setData({userInfo: value.data});
+            if (value.data.vipExpired) {
+                wx.navigateTo({
+                    url: '/pages/pay/pay?vipExpired=true'
+                });
+            }
+        });
+    },
 
     loadMore() {
     },

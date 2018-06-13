@@ -68,10 +68,10 @@ public class MyWxPayService {
         String nonceStr = MyStringUtils.get32RandomString();
         request.setNonceStr(nonceStr);
         request.setOpenid(vipOrder.getOpenId());
-        request.setNotifyUrl("http://ectest.nipponpaint.com.cn/wx-mp/wechat/pay/paynotice");
+        request.setNotifyUrl(this.wxPayService.getConfig().getNotifyUrl());
         request.setSpbillCreateIp(ip);
         log.info("nonceStr ->{}", nonceStr);
-
+        log.info("request ->{}", request);
         return request;
     }
 

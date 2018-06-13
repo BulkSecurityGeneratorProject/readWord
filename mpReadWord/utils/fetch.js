@@ -67,7 +67,8 @@ module.exports.fromShare = (options) => {
     console.log("fromShare...", options);
     let sharedUserId = options.sharedUserId;
     if (sharedUserId) {
-        return module.exports.loginAndFetch("/fromShare", {sharedUserId}, 'POST');
+        console.log("#########loginAndFetch -> fromShare start");
+        return module.exports.loginAndFetch("/fromShare", {sharedUserId}, 'POST',{'content-type':'application/x-www-form-urlencoded'});
     } else {
         return new Promise((resolve, reject) => {
             console.log("no share");
