@@ -5,11 +5,14 @@ import com.qigu.readword.config.Constants;
 import com.qigu.readword.domain.Authority;
 import com.qigu.readword.domain.User;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.*;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,7 +86,7 @@ public class UserDTO {
             .collect(Collectors.toSet());
         Instant vipEndDate = user.getVipEndDate();
         if (vipEndDate != null) {
-            this.setVipEndDate(vipEndDate.toString());
+            this.setVipEndDate(DateFormatUtils.format(new Date(vipEndDate.toEpochMilli()),DateFormatUtils.ISO_DATE_FORMAT.getPattern()));
         }
         this.setVipExpired(user.isVipExpired());
     }

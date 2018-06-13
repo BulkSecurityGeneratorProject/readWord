@@ -124,6 +124,7 @@ Page({
         let showMessage = productName + " 购买成功!";
         wx.login({
             success(res) {
+                wx.showLoading({title: 'Loading...'});
                 wx.request({
                     url: app.config.apiPay + "/" + formValues.productId,
                     method: method,
@@ -172,7 +173,7 @@ Page({
                         }
                     }, fail: function (data) {
                         console.log(data);
-                    }
+                    }, complete: wx.hideLoading
                 })
             }
         });

@@ -145,7 +145,3 @@ application:
 baidu:
     audio:
         save-pre-path: E:\\audio\\
-
-wechat:
-      pay:
-        notifyUrl: http://ectest.nipponpaint.com.cn/wx-mp/pay/paynotice

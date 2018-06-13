@@ -1,5 +1,6 @@
 <!--pages/operation/operation.wxml-->
 <view class='container'>
+    <text>会员到期时间:{{userInfo.vipEndDate}}</text>
     <form bindsubmit='formSubmit' bindreset='formReset'>
         <radio-group class="radio-group" name="productId">
             <label class="radio row" wx:for="{{items}}">
