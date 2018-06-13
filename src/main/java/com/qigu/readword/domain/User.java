@@ -234,6 +234,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.vipEndDate = vipEndDate;
     }
 
+    public Boolean isVipExpired(){
+        Instant vipEndDate = this.getVipEndDate();
+        return !(vipEndDate == null || vipEndDate.isAfter(Instant.now()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

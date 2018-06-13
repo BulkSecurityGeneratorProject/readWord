@@ -5,6 +5,7 @@ import com.qigu.readword.mycode.vipsecurity.VipFilter;
 import com.qigu.readword.security.*;
 import com.qigu.readword.security.jwt.*;
 
+import com.qigu.readword.service.UserService;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 @Configuration
 @Import(SecurityProblemSupport.class)
@@ -41,6 +43,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CorsFilter corsFilter;
 
     private final SecurityProblemSupport problemSupport;
+
+    @Resource
+    private UserService userService;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter, SecurityProblemSupport problemSupport) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
@@ -111,7 +116,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
             .apply(securityConfigurerAdapter())
             .and()
-            .addFilter(new VipFilter());
+            .addFilterAfter(new VipFilter(userService),UsernamePasswordAuthenticationFilter.class);
 
     }
 

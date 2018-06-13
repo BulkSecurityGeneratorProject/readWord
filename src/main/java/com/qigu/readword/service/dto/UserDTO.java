@@ -81,16 +81,11 @@ public class UserDTO {
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
-
         Instant vipEndDate = user.getVipEndDate();
-        Boolean isVipExpired = false;
         if (vipEndDate != null) {
             this.setVipEndDate(vipEndDate.toString());
-            if (vipEndDate.isBefore(Instant.now())) {
-                isVipExpired = true;
-            }
         }
-        this.setVipExpired(isVipExpired);
+        this.setVipExpired(user.isVipExpired());
     }
 
     public Long getId() {
