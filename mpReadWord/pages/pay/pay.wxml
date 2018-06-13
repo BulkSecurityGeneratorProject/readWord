@@ -1,6 +1,6 @@
 <!--pages/operation/operation.wxml-->
 <view class='container'>
-    <text>会员到期时间:{{userInfo.vipEndDate}}</text>
+
     <form bindsubmit='formSubmit' bindreset='formReset'>
         <radio-group class="radio-group" name="productId">
             <label class="radio row" wx:for="{{items}}">
@@ -13,5 +13,8 @@
 </view>
 
 <view class='container'>
-    <button type='primary' open-type="share" >分享好友获得时长</button>
+    <button type='primary' open-type="share">分享好友获得时长</button>
+</view>
+<view class='container'>
+    <text wx:if="{{userInfo.vipEndDate}}">会员到期时间:{{userInfo.vipEndDate}}</text>
 </view>
