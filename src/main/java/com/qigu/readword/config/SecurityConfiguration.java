@@ -1,6 +1,7 @@
 package com.qigu.readword.config;
 
 import com.qigu.readword.mycode.util.ReadWordConstants;
+import com.qigu.readword.mycode.vipsecurity.VipFilter;
 import com.qigu.readword.security.*;
 import com.qigu.readword.security.jwt.*;
 
@@ -108,12 +109,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
             .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
             .and()
-            .apply(securityConfigurerAdapter());
+            .apply(securityConfigurerAdapter())
+            .and()
+            .addFilter(new VipFilter());
 
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(tokenProvider);
     }
+
 
 }
