@@ -17,6 +17,8 @@ import com.qigu.readword.web.rest.util.HeaderUtil;
 import com.qigu.readword.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -94,7 +96,7 @@ public class UserResource {
      *
      * @param userDTO the user to create
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws URISyntaxException       if the Location URI syntax is incorrect
      * @throws BadRequestAlertException 400 (Bad Request) if the login or email is already in use
      */
     @PostMapping("/users")
@@ -114,7 +116,7 @@ public class UserResource {
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
+                .headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin()))
                 .body(newUser);
         }
     }
@@ -197,7 +199,7 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
     }
 
     /**
@@ -216,14 +218,15 @@ public class UserResource {
     }
 
     @PostMapping("/fromShare")
-    public void fromShare(@RequestBody Long sharedUserId){
+    public void fromShare(final Long sharedUserId) {
+        log.info("fromShare:->{}", sharedUserId);
         userService.getUserWithAuthorities().ifPresent(user -> {
             if (user.getSharedUser() == null) {
                 log.info("###########openId -> sharedUserId -> start#####" + sharedUserId);
                 User sharedUser = userRepository.findOne(sharedUserId);
                 user.setSharedUser(sharedUser);
                 userRepository.save(user);
-                myWxPayService.addVip(sharedUser,Calendar.DAY_OF_MONTH,Constants.SHARED_DAYS);
+                myWxPayService.addVip(sharedUser, Calendar.DAY_OF_MONTH, Constants.SHARED_DAYS);
                 log.info("###########openId -> sharedUserId -> end#####" + sharedUserId);
             }
         });
